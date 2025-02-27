@@ -3,27 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+[System.Serializable]
+public struct ActionStateConfig
+{
+    public AnimationClip animationClip;
+    public float _timeBuffer;
+}
 public class ActionState :State
 {
-    float _duration = 2f;
-    float _duration_count;
-    public float _timeBuffer = 1f;
+    public float _timeBuffer = 0.6f;
     public bool AllowToChange = false;
-    Animator animator;
-    public ActionState(Player player ,string anim)
+    Player player;
+
+    private Animator animator;
+    public ActionState(Player player ,AnimationClip anim)
     {
-        this.anim_str = anim;
-        // animator = player.animator;
-    }   
+        this._duration = anim.length;
+        this.anim_str = anim.name;
+        this.player = player;
+    }  
 
     string anim_str;
+    float _duration;
+    float _duration_count;
 
     public override void Enter()
     {
         //Trigger Animation
-        Debug.Log("Do " +  anim_str);
         ResetState();
-        
+        player.PlayerMovement.playerAnimator.SetTrigger(anim_str);
     }
 
     public override void Update()
@@ -31,7 +39,6 @@ public class ActionState :State
         _duration_count -= Time.deltaTime;
         if(_duration_count <= 0f)
             AllowToChange = true;
-
     }
 
     private void ResetState()
@@ -41,43 +48,35 @@ public class ActionState :State
     }
 }
 
-public class MeleeWeaponStateMachine :StateMachine
+public class MeleeWeaponStateMachine : StateMachine
 {    
     List<ActionState> WeaponComboStates = new List<ActionState>();
     int maxCombo;
     string anim_str;
 
-    public MeleeWeaponStateMachine(WeaponCombo meleeCombo ,Player player)
+    public MeleeWeaponStateMachine(WeaponCombo meleeCombo ,Player player ,List<AnimationClip> clips)
     {
         maxCombo = meleeCombo.MaxCombo;
         anim_str = meleeCombo.WeaponAnimation;
 
-        SetUpActionChain(player);
+        SetUpActionChain(player ,clips);
     }
 
-
-    ActionState currentActionState = null;
+    private ActionState currentActionState;
     int currentIndex = -1;
     float _timeBuffer;
 
     public void TriggerNextCombo()
     {
-        
-
         if(currentActionState == null)
         {
             StateTransition();
         }
-        // else if(currentActionState.AllowToChange)
-        // {
-        //     StateTransition();
-        // }
         _timeBuffer = currentActionState._timeBuffer;
     }
 
     public void LogicUpdate()
     {
-        
         _timeBuffer -= Time.deltaTime;
 
         if(currentActionState == null) return;
@@ -98,10 +97,10 @@ public class MeleeWeaponStateMachine :StateMachine
         ChangeState(currentActionState);        
     }
 
-    public void SetUpActionChain(Player player)
+    public void SetUpActionChain(Player player ,List<AnimationClip> clips)
     {
         for(int i = 0; i < maxCombo; i++)
-            WeaponComboStates.Add(new ActionState(player ,anim_str + i));
+            WeaponComboStates.Add(new ActionState(player ,clips[i]));
     }
 
     public void ResetCombo()

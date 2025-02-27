@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "My Open World.sln"
+    "dotnet.defaultSolution": "My-3D-RPG-Game.sln"
 }

@@ -10,21 +10,21 @@ public class WeaponCombo : MonoBehaviour
     public string WeaponAnimation;
     public int MaxCombo;
 
-    MeleeWeaponStateMachine weaponStateMachine;
+    public MeleeWeaponStateMachine weaponStateMachine;
+
+    public List<AnimationClip> AttackAnimationClips = new();
 
     void Start()
     {
-        weaponStateMachine = new MeleeWeaponStateMachine(this ,playerRef);
+        weaponStateMachine = new MeleeWeaponStateMachine(this ,Player.Instance ,AttackAnimationClips);
     }
 
     void Update()
     {
-        weaponStateMachine.Update();
-        weaponStateMachine.LogicUpdate();
-        
-        if(Input.GetKeyDown(KeyCode.Return))
+        if(weaponStateMachine != null)
         {
-            weaponStateMachine.TriggerNextCombo();
+            weaponStateMachine.Update();
+            weaponStateMachine.LogicUpdate();            
         }
     }
 }

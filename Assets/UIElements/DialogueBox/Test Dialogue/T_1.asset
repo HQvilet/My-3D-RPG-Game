@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a983a3087605fc6449a559925ef3d84f, type: 3}
+  m_Name: T_1
+  m_EditorClassIdentifier: 
+  CharacterName: NPC
+  optionScript: bullu
+  contexts:
+  - Hello there, dev.
+  - How r u?
+  - This is my first script.
+  - Thanks for creating me.
+  nextDialogue: {fileID: 11400000, guid: c74474ba28d7c594489cb9d9ae60bc0d, type: 2}
