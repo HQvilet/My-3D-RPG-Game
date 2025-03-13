@@ -4,37 +4,67 @@ using UnityEngine;
 
 public class PlayerMovementHandler : MonoBehaviour
 {
-    public Rigidbody rb;
 
-    public InputDataHandler Input;
-    public PlayerStateMachine StateMachine;
+    [Header("Physic Layer")]
+    public Rigidbody rb;
     public ColliderDetection colliderDetection;
+    public PlayerMovementData movementData;
+    
+    
 
     public Animator playerAnimator;
-    public PlayerMovementData movementData;
+    public InputDataHandler Input;
 
+
+    public PlayerStateHandler stateHandler;
+    public PlayerStateMachine StateMachine;
+    public MovementUtilities movementUtilities;
     void Awake()
     {
         StateMachine = new PlayerStateMachine(this);
+        movementUtilities = new MovementUtilities(rb ,transform ,colliderDetection);
     }
 
     void FixedUpdate()
     {
+        
+        movementUtilities.Gravity(movementData.gravity * movementData.gravityMultiplier);
         StateMachine.PhysicUpdate();
-        if(!colliderDetection.IsGrounded)
-            rb.AddForce(Vector3.down * movementData.gravity ,ForceMode.Force);
     }
 
     void Update()
     {
         StateMachine.Update();
     }
+    
+}
 
-    public void DoMove(Vector3 move_direction ,float speed)
+public class MovementUtilities
+{
+    private Rigidbody rb;
+    private Transform transform;
+    private ColliderDetection colliderDetection;
+    public MovementUtilities(Rigidbody rigidbody ,Transform transform ,ColliderDetection colliderDetection)
+    {
+        this.rb = rigidbody;
+        this.transform = transform;
+        this.colliderDetection = colliderDetection;
+    }
+
+    public void DoMove(Vector3 move_direction ,float speed ,bool rotate_on_move = true)
     {
         speed *= colliderDetection.IsOnSlope ? 0.8f : 1f;
-        rb.AddForce(colliderDetection.GetSlopeDirection(move_direction) * speed  ,ForceMode.VelocityChange);
-        RotateTowardDirection(move_direction);
+        Vector3 currentVelocity = rb.velocity;
+        // rb.AddForce(colliderDetection.GetSlopeDirection(move_direction) * speed - currentVelocity  ,ForceMode.VelocityChange);
+        rb.velocity = colliderDetection.GetSlopeDirection(move_direction) * speed;
+        if(rotate_on_move)
+            RotateTowardDirection(move_direction);
+        
+    }
+
+    public void Dash(float force)
+    {
+        DoMove(transform.forward ,force);
     }
 
     void RotateTowardDirection(Vector3 direction)
@@ -49,7 +79,14 @@ public class PlayerMovementHandler : MonoBehaviour
 
     public void DoJump(float jumpPulse)
     {
-        rb.AddForce(Vector3.up * jumpPulse ,ForceMode.Impulse);
+        // rb.AddForce(Vector3.up * jumpPulse ,ForceMode.VelocityChange);
+
+        DoMove(Vector3.up ,jumpPulse);
     }
-    
+
+    public void Gravity(float gravity)
+    {
+        if(!colliderDetection.IsGrounded)
+            rb.AddForce(Vector3.down * gravity ,ForceMode.Force);
+    }
 }

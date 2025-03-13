@@ -6,7 +6,8 @@ public class TestHitBox : MonoBehaviour
 {
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.name == "Enemy")
+        if(other.gameObject.name == "TestNPC")
             Debug.Log("hit");
     }
+
 }

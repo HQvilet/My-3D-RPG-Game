@@ -31,6 +31,7 @@ public class InAirState : State
     public override void PhysicUpdate()
     {
         // player.rb.AddForce(Vector3.down * data.gravity ,ForceMode.Force);
+        player.movementUtilities.DoMove(player.Input.MoveDirection() ,data.walkSpeed);
     }
 
     public override void Update()
@@ -51,7 +52,6 @@ public class InAirState : State
                 stateMachine.ChangeState(stateMachine.idlingState);
             else
                 stateMachine.ChangeState(stateMachine.runningState);
-
         }
     }
 }

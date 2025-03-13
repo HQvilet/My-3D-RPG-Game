@@ -25,7 +25,7 @@ public class PlayerJumpState : State
     public override void Enter()
     {
         Debug.Log("Do Jump");
-        player.DoJump(player.movementData.JumpImpulse);
+        player.movementUtilities.DoJump(player.movementData.JumpImpulse);
         stateMachine.ChangeState(stateMachine.inAirState);
     }
 

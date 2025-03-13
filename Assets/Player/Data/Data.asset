@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 398669ccdffe28c4a8a7411be99cfd7b, type: 3}
   m_Name: Data
   m_EditorClassIdentifier: 
-  gravity: 100
+  gravity: 500
   gravityMultiplier: 1
-  walkSpeed: 0.3
-  runSpeed: 1.8
-  JumpImpulse: 37.6
+  walkSpeed: 1.69
+  runSpeed: 5.64
+  JumpImpulse: 40.3

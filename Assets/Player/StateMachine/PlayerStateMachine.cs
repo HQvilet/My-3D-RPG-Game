@@ -12,6 +12,8 @@ public class PlayerStateMachine :StateMachine
     public PlayerWalkState walkingState{ get; private set;}
 
     public PlayerJumpState jumpState{ get; private set;}
+    public PlayerDashState dashState{ get; private set;}
+    public PlayerAttackState attackState{ get; private set;}
 
     public InAirState inAirState{ get; private set;}
 
@@ -24,6 +26,11 @@ public class PlayerStateMachine :StateMachine
 
         jumpState = new PlayerJumpState(player ,this);
         inAirState = new InAirState(player ,this); 
+
+        dashState = new PlayerDashState(player ,this);
+        attackState = new PlayerAttackState(player ,this);
+
+        
 
         ChangeState(idlingState);
         

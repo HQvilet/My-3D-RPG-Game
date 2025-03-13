@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,7 +30,9 @@ public class InventoryUI : MonoBehaviour
             slot.index = i++;
             Slots.Add(slot);
         }
+        gameObject.SetActive(false);
     }
+
 
     public void Update()
     {

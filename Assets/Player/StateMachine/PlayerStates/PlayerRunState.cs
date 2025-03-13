@@ -14,6 +14,7 @@ public class PlayerRunState :GroundingState//: PlayerMovementState
     public override void Enter()
     {
         base.Enter();
+        player.stateHandler.CanAttack = true;
         Debug.Log("Enter Run");
         animator.SetBool("IsMoving" ,true);
         animator.SetBool("IsRunning" ,true);
@@ -28,7 +29,7 @@ public class PlayerRunState :GroundingState//: PlayerMovementState
     public override void PhysicUpdate()
     {
         base.PhysicUpdate();
-        player.DoMove(player.Input.MoveDirection() ,data.runSpeed);
+        player.movementUtilities.DoMove(player.Input.MoveDirection() ,data.runSpeed);
     }
 
     public override void Update()

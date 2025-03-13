@@ -224,4 +224,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMesh: {fileID: 1494355214333941942}
-  currentContext: {fileID: 11400000, guid: 9cd703e27b3720c4cb3e6855d4f2cee3, type: 2}

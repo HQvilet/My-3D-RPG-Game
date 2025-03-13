@@ -5,17 +5,22 @@ using UnityEngine;
 public class Dialogue : Singleton<Dialogue>
 {
 
-    public DialogueBox dialogue;
+    public StaticDialogueBox s_dialogue;
+    public DynamicDialogueBox d_dialogue;
     public void Activate(DialogueContext context)
     {
-        dialogue.SetContext(context);
-        dialogue.Activate();
+        s_dialogue.SetContext(context);
+        s_dialogue.Activate();
     }
+
+    // public void Activate()
+    // {
+
+    // }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.V)) dialogue.Activate();
-            
-
+        // if(Input.GetKeyDown(KeyCode.V))
+        //     dialogue.Activate();
     }
 }

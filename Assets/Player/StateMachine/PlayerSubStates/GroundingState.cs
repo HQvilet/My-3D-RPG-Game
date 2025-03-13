@@ -18,12 +18,12 @@ public class GroundingState : State
 
     public override void Enter()
     {
-
+        player.stateHandler.OnMeleePerformed += ChangeToAttackState;
     }
 
     public override void Exit()
     {
-
+        player.stateHandler.OnMeleePerformed -= ChangeToAttackState;
     }
 
     public override void PhysicUpdate()
@@ -38,12 +38,20 @@ public class GroundingState : State
 
     public override void UpdateLogic()
     {
-        if(player.Input.HasJumpInput || stateMachine.jumpState._jumpBufferCount > 0)
-            stateMachine.ChangeState(stateMachine.jumpState);
 
-        // if(!player.colliderDetection.IsGrounded)
-        // {
+        if(player.Input.PlayerInput.Dash.WasPerformedThisFrame())
+            stateMachine.ChangeState(stateMachine.dashState);
+            
+        // if(player.Input.HasJumpInput || stateMachine.jumpState._jumpBufferCount > 0)
+        //     stateMachine.ChangeState(stateMachine.jumpState);
 
-        // }
+        if(!player.colliderDetection.IsGrounded)
+            stateMachine.ChangeState(stateMachine.inAirState);
+
+    }
+
+    void ChangeToAttackState()
+    {
+        stateMachine.ChangeState(stateMachine.attackState);
     }
 }

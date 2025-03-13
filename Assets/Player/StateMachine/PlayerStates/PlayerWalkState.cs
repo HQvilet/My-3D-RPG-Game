@@ -13,19 +13,22 @@ public class PlayerWalkState :GroundingState//: PlayerMovementState
 
     public override void Enter()
     {
+        base.Enter();
         Debug.Log("Enter Run");
+        
         animator.SetBool("IsMoving" ,true);
         animator.SetBool("IsRunning" ,true);
     }
 
     public override void Exit()
     {
+        base.Exit();
         animator.SetBool("IsRunning" ,false);
     }
 
     public override void PhysicUpdate()
     {
-        player.DoMove(player.Input.MoveDirection() ,data.walkSpeed);
+        player.movementUtilities.DoMove(player.Input.MoveDirection() ,data.walkSpeed);
     }
 
     public override void Update()

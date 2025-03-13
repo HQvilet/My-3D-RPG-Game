@@ -2,32 +2,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponModelController : MonoBehaviour
+public class WeaponModelConfig : MonoBehaviour
 {
-    [SerializeField] private Transform RightHandWeapon;
-    [SerializeField] private Transform LeftHandWeapon;
+    [Header("Model")]
+    [SerializeField] private Transform rightHandWeapon;
+    [SerializeField] private Transform leftHandWeapon;
+    [SerializeField] private Transform shieldWeapon;
 
-    // [SerializeField] private 
+    [Header("Skills")]
+    public Transform rootVFX;
+    [SerializeField] private Transform colliderPool;
 
     public void SetLeftHandedWeapon(Transform weaponModel ,Vector3 offset = default(Vector3))
     {
-        weaponModel.SetParent(LeftHandWeapon);
-        weaponModel.localPosition = offset;
+        weaponModel.SetParent(leftHandWeapon);
+        // weaponModel.localPosition = offset;
         weaponModel.localPosition = Vector3.zero;
         weaponModel.localEulerAngles = Vector3.zero;
     }
 
     public void SetRightHandedWeapon(Transform weaponModel ,Vector3 offset = default(Vector3))
     {
-        weaponModel.SetParent(RightHandWeapon);
-        weaponModel.localPosition = offset;
+        weaponModel.SetParent(rightHandWeapon);
+        // weaponModel.localPosition = offset;
         weaponModel.localPosition = Vector3.zero;
         weaponModel.localEulerAngles = Vector3.zero;
     }
 
-    public void SetWeaponHandle()
+    public void SetShield(Transform weaponModel)
     {
-        //Set left or right arm weapon handle transform position.
+        weaponModel.SetParent(shieldWeapon);
+        // weaponModel.localPosition = offset;
+        weaponModel.localPosition = Vector3.zero;
+        weaponModel.localEulerAngles = Vector3.zero;
+    }
+
+    public void AddHitBoxCollider(Transform collider) // upper collider pool
+    {
+        collider.transform.SetParent(colliderPool);
+        collider.localPosition = Vector3.zero;
+        collider.localEulerAngles = Vector3.zero;
     }
 
 }

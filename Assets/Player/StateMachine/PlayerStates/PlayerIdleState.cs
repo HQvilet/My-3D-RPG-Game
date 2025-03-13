@@ -13,6 +13,8 @@ public class PlayerIdleState : GroundingState
 
     public override void Enter()
     {
+        base.Enter();
+        player.stateHandler.CanAttack = true;
         Debug.Log("Enter Idling");
         animator.SetBool("IsMoving" ,false);
     }
@@ -28,5 +30,10 @@ public class PlayerIdleState : GroundingState
         if(player.Input.HasMotionInput)
             stateMachine.ChangeState(stateMachine.runningState);
         
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
     }
 }

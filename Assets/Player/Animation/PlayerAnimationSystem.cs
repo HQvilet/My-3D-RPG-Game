@@ -4,10 +4,22 @@ using UnityEngine;
 
 public class PlayerAnimationSystem : MonoBehaviour
 {
-    [SerializeField] private PlayerSubSkillAnimation AnimationEvent;
+    // [SerializeField] private PlayerSubSkillAnimation AnimationEvent;
     [SerializeField] private Animator playerAnimator;
-    [SerializeField] private Animator rigAnimator;
+    public Animator rigAnimator;
 
-    //Set up constraint for every set of weapon
-    
+    public AnimationSystem animationSystem;
+
+    void Awake()
+    {
+        animationSystem = new AnimationSystem(playerAnimator ,playerAnimator.runtimeAnimatorController);
+        
+    }
+
+
+    void OnDestroy()
+    {
+        animationSystem.Destroy();        
+    }
+
 }

@@ -1,26 +1,31 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.UI;
 
-public class InputDataHandler : MonoBehaviour
+public class InputDataHandler : Singleton<InputDataHandler>
 {
-    [HideInInspector] public PlayerInputAction SystemInput;
     [HideInInspector] public PlayerInputAction.PlayerActions PlayerInput;
     [HideInInspector] public PlayerInputAction.UIInteractionActions PlayerUIInteraction;
+
+    public Action OnPerformedAnAttack;
+
 
     private Vector2 MovementInput;
     public bool HasMotionInput { get => PlayerInput.OnMove.ReadValue<Vector2>() != Vector2.zero; }
     public bool HasJumpInput { get => PlayerInput.Jump.WasPerformedThisFrame(); }
+    public bool PerformedAnInteract {get => PlayerInput.Interact.WasPerformedThisFrame(); }
+    // public bool PerformedAnAttack {get => PlayerInput.Attack.WasPerformedThisFrame(); }
 
-    void Awake()
+
+    protected override void Awake()
     {
-        SystemInput = new PlayerInputAction();
-        PlayerInput = SystemInput.Player;
+        base.Awake();
+        PlayerInput = SystemInputManager.Instance.SystemInput.Player;
 
-        PlayerUIInteraction = SystemInput.UIInteraction;
+        PlayerUIInteraction = SystemInputManager.Instance.SystemInput.UIInteraction;
 
-        // PlayerInput.Jump.WasPerformedThisFrame()
         EnablePlayerInput();
     }
 
@@ -39,7 +44,6 @@ public class InputDataHandler : MonoBehaviour
     public void LockMovement() => PlayerInput.OnMove.Disable();
     public void UnloclMovement() => PlayerInput.OnMove.Enable();
 
-// void Update() => Debug.Log(PlayerInput.OnMove.ReadValue<Vector2>());
     public Vector3 MoveDirection()
     {
         MovementInput = PlayerInput.OnMove.ReadValue<Vector2>();

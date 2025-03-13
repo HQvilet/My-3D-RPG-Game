@@ -8,6 +8,11 @@ public class SenseOfItems : MonoBehaviour
     [SerializeField] private float Radius = 10f;
     [SerializeField] private LayerMask layer;
 
+    void Awake()
+    {
+        
+    }
+
     void Update()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.parent.position ,Radius ,layer);
@@ -15,12 +20,23 @@ public class SenseOfItems : MonoBehaviour
         {
             if(collideInfo.TryGetComponent(out BasicItem item))
             {
-                InventoryManager.Instance.AddItem(item.ItemData.ID ,34);
-                Debug.Log("Add Item " + item.ItemData.Name);
-                Destroy(item.gameObject);
+                //Send Data to UI
+                if(InputDataHandler.Instance.PerformedAnInteract) //or UI selected
+                {
+                    OnPickUpItem(item);
+                    break;
+                }
+                
             }
             
         }
+    }
+
+    void OnPickUpItem(BasicItem item)
+    {
+        InventoryManager.Instance.AddItem(item.ItemData.ID ,34);
+        Debug.Log("Add Item " + item.ItemData.Name);
+        Destroy(item.gameObject);
     }
 
     void OnDrawGizmos()

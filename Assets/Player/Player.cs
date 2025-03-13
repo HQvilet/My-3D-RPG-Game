@@ -4,5 +4,7 @@ using UnityEngine.InputSystem;
 
 public class Player : Singleton<Player> 
 {
-    public PlayerMovementHandler PlayerMovement;
+    public PlayerMovementHandler PlayerMovementSystem;
+    public PlayerAnimationSystem AnimationSystem;
+    public PlayerStateHandler WeaponController;
 }
