@@ -29,7 +29,13 @@ public class ItemStack
 
     public void SetData(int itemID,int amount)
     {
-        ItemData = ItemRegistry.Instance.GetItemByID(itemID);
+        ItemData = ItemPoolManager.Instance.GetItemByID(itemID);
+        Amount = amount;
+    }
+
+    public void SetData(ItemData item,int amount)
+    {
+        ItemData = item;
         Amount = amount;
     }
 
@@ -68,6 +74,6 @@ public class ItemStack
         return o;
     }
 
-    public void Copy(ItemStack other) => SetData(other.ItemData.ID ,other.Amount);
+    public void Copy(ItemStack other) => SetData(other.ItemData ,other.Amount);
     
 }

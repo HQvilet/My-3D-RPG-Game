@@ -6,6 +6,9 @@ using UnityEngine;
 public class BaseEffectModifier : MonoBehaviour
 {
     // Debuff state handler
+    public bool isOnFire;
+    public bool isStunning;
+    public bool isGetKnockback;
 
     // On efffect target callbacks
     public Action<float> OnTakePhysicDamage;

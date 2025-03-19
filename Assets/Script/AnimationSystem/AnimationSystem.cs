@@ -164,23 +164,25 @@ public class AnimationSystem {
         
         BlendIn(blendDuration);
         BlendOut(blendDuration, oneShotClip.length - blendDuration);
+
+        //Interupt One shot animation.
     }
 
-    public void PlayOneShot(AnimationClip oneShotClip ,float blendTime) {
-        if (oneShotPlayable.IsValid() && oneShotPlayable.GetAnimationClip() == oneShotClip) return;
+    // public void PlayOneShot(AnimationClip oneShotClip ,float blendTime) {
+    //     if (oneShotPlayable.IsValid() && oneShotPlayable.GetAnimationClip() == oneShotClip) return;
         
-        InterruptOneShot();
-        oneShotPlayable = AnimationClipPlayable.Create(playableGraph, oneShotClip);
-        topLevelMixer.ConnectInput(1, oneShotPlayable, 0);
-        topLevelMixer.SetInputWeight(1, 1f);
+    //     InterruptOneShot();
+    //     oneShotPlayable = AnimationClipPlayable.Create(playableGraph, oneShotClip);
+    //     topLevelMixer.ConnectInput(1, oneShotPlayable, 0);
+    //     topLevelMixer.SetInputWeight(1, 1f);
         
-        // Calculate blendDuration as 10% of clip length,
-        // but ensure that it's not less than 0.1f or more than half the clip length
-        float blendDuration = Mathf.Clamp(oneShotClip.length * 0.1f, 0.1f, oneShotClip.length * 0.5f);
+    //     // Calculate blendDuration as 10% of clip length,
+    //     // but ensure that it's not less than 0.1f or more than half the clip length
+    //     float blendDuration = Mathf.Clamp(oneShotClip.length * 0.1f, 0.1f, oneShotClip.length * 0.5f);
         
-        BlendIn(blendDuration);
-        BlendOut(blendDuration, oneShotClip.length - blendDuration);
-    }
+    //     BlendIn(blendDuration);
+    //     BlendOut(blendDuration, oneShotClip.length - blendDuration);
+    // }
 
     void BlendIn(float duration) {
         blendInHandle = Timing.RunCoroutine(Blend(duration, blendTime => {

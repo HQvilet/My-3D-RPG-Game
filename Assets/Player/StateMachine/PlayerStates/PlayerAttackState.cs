@@ -23,7 +23,8 @@ public class PlayerAttackState : GroundingState
 
     public override void UpdateLogic()
     {
-        
+        // if(player.Input.HasMotionInput)
+        //     stateMachine.ChangeState(stateMachine.runningState);
     }
 
     void DoTransition()

@@ -1,8 +1,9 @@
-using System;
+// using System;
 using System.Threading.Tasks;
 using UnityEngine;
 public static class MyUtils
 {
+    static System.Random rnd = new();
     public static Vector3 VectorTranslate(Vector2 _vec2 ,float height = 0f)
     {
         return new Vector3(_vec2.x ,height ,_vec2.y);
@@ -21,6 +22,12 @@ public static class MyUtils
         angle = (angle + 90)*Mathf.Deg2Rad;
 
         return new Vector2(Mathf.Cos(angle) ,Mathf.Sin(angle));
+    }
+
+    public static Vector3 RandomizeVector3()
+    {
+        
+        return new Vector3(Random.Range(0 ,1f) ,Random.Range(0 ,1f) ,Random.Range(0 ,1f));
     }
 }
 

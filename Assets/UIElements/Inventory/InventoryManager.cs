@@ -49,16 +49,29 @@ public class InventoryManager : Singleton<InventoryManager> ,IInventoryUtilities
             {
                 itemStack.SetData(itemID ,amount);
                 return;
-            }
-                
+            }       
         }
-
-
     }
 
     public void AddItem(ItemData item ,int amount)
     {
         AddItem(item.ID ,amount);
+    }
+
+    public bool TryAddItem(ItemSlotUnit itemSlot ,ItemData item ,int amount)
+    {
+        if(itemSlot.itemSlotData.IsEmpty())
+        {
+            itemSlot.itemSlotData.SetData(item ,amount);
+            return true;
+        }
+        if(itemSlot.itemSlotData.ItemData == item && !itemSlot.itemSlotData.IsFull())
+        {
+            itemSlot.itemSlotData.Add(amount ,out int left);
+            return true;
+        }
+        return false;
+        
     }
 
     public void RemoveItemInSlot(int itemSlotIndex ,int amount)
@@ -74,7 +87,27 @@ public class InventoryManager : Singleton<InventoryManager> ,IInventoryUtilities
         ItemStack temp = i_1.Clone();
         i_1.Copy(i_2);
         i_2.Copy(temp);
+    }
 
+    public void ExchangeItem(ItemSlotUnit slot_1 ,ItemSlotUnit slot_2)
+    {
+        ItemStack i_1 = slot_1.itemSlotData;
+        ItemStack i_2 = slot_2.itemSlotData;
+
+        ItemStack temp = i_1.Clone();
+        i_1.Copy(i_2);
+        i_2.Copy(temp);
+    }
+
+    public void ExchangeItem(ArmourSlotUnit slot_1 ,ItemSlotUnit slot_2)
+    {
+        ItemStack i_1 = new ItemStack();
+        i_1.SetData(slot_1.armourItem,1);
+        ItemStack i_2 = slot_2.itemSlotData;
+
+        ItemStack temp = i_1.Clone();
+        i_1.Copy(i_2);
+        i_2.Copy(temp);
     }
 
     public void RemoveAllItemInSlot(int itemSlotIndex)    
@@ -82,10 +115,9 @@ public class InventoryManager : Singleton<InventoryManager> ,IInventoryUtilities
         inventoryData.Items[itemSlotIndex].Amount = 0;
     }
     
-    void Update()
+    public bool HasItem(ItemData _item ,out ItemStack itemStack)
     {
-        if(Input.GetKeyDown(KeyCode.R))
-            RemoveAllItemInSlot(2);
+        itemStack = inventoryData.Items.Find(item => item.ItemData == _item);
+        return itemStack != null;
     }
-
 }

@@ -34,7 +34,7 @@ public class SenseOfItems : MonoBehaviour
 
     void OnPickUpItem(BasicItem item)
     {
-        InventoryManager.Instance.AddItem(item.ItemData.ID ,34);
+        InventoryManager.Instance.AddItem(item.ItemData.ID ,1);
         Debug.Log("Add Item " + item.ItemData.Name);
         Destroy(item.gameObject);
     }

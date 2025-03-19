@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class InventoryData : MonoBehaviour
 {
-    public static int INVENTORY_CAPACITY = 25;
-    public static int MAX_SLOT = 15;
+    public static int INVENTORY_CAPACITY = 40;
+    public static int MAX_SLOT = 30;
 
     public static int MAX_STACK = 64; 
 
     public List<ItemStack> Items = new List<ItemStack>(INVENTORY_CAPACITY);
     void Awake()
     {
-        LoadInventoryData();
+        // LoadInventoryData();
     }
 
     private void LoadInventoryData()

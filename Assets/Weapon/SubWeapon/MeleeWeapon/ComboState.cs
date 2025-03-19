@@ -8,12 +8,13 @@ using UnityEngine;
 public struct ActionStateConfig
 {
     public AnimationClip animationClip;
-    public float _timeBuffer;
+    public float _timeBufferPercent;
+    public bool AllowToInterupt;
+
 }
 
 public class ActionState :State
 {
-
 
     private AnimationSystem animationSystem;
     private MeleeWeaponStateMachine stateMachine;
@@ -36,6 +37,7 @@ public class ActionState :State
     {
         ResetState();
         animationSystem.PlayOneShot(stateAnimation);
+        
     }
 
     public override void Update()

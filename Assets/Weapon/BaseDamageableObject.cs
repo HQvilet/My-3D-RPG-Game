@@ -49,6 +49,7 @@ public class BaseDamageableObject : MonoBehaviour
     public virtual void OnTakeDamage(float damage)
     {
         CurrentHealth -= damage;
+        DamageSpawner.Instance.VisualizeDamage(transform.position + Vector3.up * 0.1f + MyUtils.RandomizeVector3() * 1.9f ,damage);
     }
 
     protected virtual void OnDied()
@@ -60,7 +61,27 @@ public class BaseDamageableObject : MonoBehaviour
     void OnEnable()
     {
         effectModifier.OnTakePhysicDamage += test_1;
+        
+        effectModifier.OnTakeFireDamage += OnFire;
         effectModifier.OnGetKnockBack += test_2;
+    }
+
+    private void OnFire(float obj)
+    {
+        if(!effectModifier.isOnFire)
+            StartCoroutine(GetBurn());
+    }
+    IEnumerator GetBurn()
+    {
+        float time = 2.1f;
+        effectModifier.isOnFire = true;
+        while(time > 0)
+        {
+            time -= 0.2f;
+            OnTakeDamage(2f);
+            yield return new WaitForSeconds(0.2f);
+        }
+        effectModifier.isOnFire = false;
     }
 
     private void test_2(float damageFactor)

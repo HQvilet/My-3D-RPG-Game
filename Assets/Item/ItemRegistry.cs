@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ItemSystem.ItemConfiguration
 {
-    public class ItemRegistry : Singleton<ItemRegistry>
+    public class ItemPoolManager : Singleton<ItemPoolManager>
     {
         [SerializeField] List<ItemData> RegistryItems;
         [SerializeField] private string ITEM_DATA_PATH;

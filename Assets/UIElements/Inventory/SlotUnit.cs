@@ -7,27 +7,36 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Unity.VisualScripting;
 
-public class SlotUnit : MonoBehaviour
+public enum SlotType
 {
-    public ItemStack itemSlotData;
-    public int index;
+    Item ,
+    ARMOUR ,
+    WEAPON
+}
 
+public class SlotUnit : MonoBehaviour //,IDragHandler
+{
+    // public ItemStack itemSlotData;
+    // public int index;
+    public SlotType slotType;
     [SerializeField] private TextMeshProUGUI nameHolder;
     [SerializeField] private Image imageHolder;
     [SerializeField] private TextMeshProUGUI amountHolder;
 
-    public void SetSlotData(ItemStack item)
+    //place holder
+
+    // public void SetSlotData(ItemStack item)
+    // {
+    //     itemSlotData = item;
+
+    //     UpdateSlot();
+    // }
+
+    protected void SetAmount(ItemStack itemStack)
     {
-        itemSlotData = item;
+        int amount = itemStack.Amount;
 
-        UpdateSlot();
-    }
-
-    private void SetAmount()
-    {
-        int amount = itemSlotData.Amount;
-
-        if(itemSlotData.ItemData == null)
+        if(itemStack.ItemData == null)
         {
             amountHolder.text = string.Empty;
             return;
@@ -39,57 +48,82 @@ public class SlotUnit : MonoBehaviour
             amountHolder.text = string.Empty;
     }
 
-    private void SetSprite()
+    protected void SetSprite(ItemStack itemStack)
     {
         imageHolder.color = Color.white;
 
-        if(itemSlotData.ItemData == null)
+        if(itemStack.ItemData == null)
         {
             imageHolder.color = new Color(1 ,1 ,1 ,0);
             return;
         }
             
 
-        if(itemSlotData.Amount > 0)
-            imageHolder.sprite = itemSlotData.ItemData.Sprite;
+        if(!itemStack.IsEmpty())
+            imageHolder.sprite = itemStack.ItemData.Sprite;
         else
             imageHolder.color = new Color(1 ,1 ,1 ,0);
     }
 
-    private void SetName()
+    protected void SetSprite(ItemData item)
     {
-        if(itemSlotData.ItemData == null)
+        imageHolder.color = Color.white;
+
+        if(item == null)
+        {
+            imageHolder.color = new Color(1 ,1 ,1 ,0);
+        }
+        else
+        {
+            imageHolder.sprite = item.Sprite;
+        }
+            
+
+    }
+
+    protected void SetName(ItemStack itemStack)
+    {
+        if(itemStack.IsEmpty())
         {
             nameHolder.text = string.Empty;
             return;
         }
-            
-
-        nameHolder.text = itemSlotData.ItemData.Name;
+        nameHolder.text = itemStack.ItemData.Name;
     }
 
-    public void OnAmountChange()
+    protected void SetName(ItemData item)
     {
-        SetAmount();
+        if(item == null)
+        {
+            nameHolder.text = string.Empty;
+            return;
+        }
+        else
+        {
+            nameHolder.text = item.Name;
+        }
+        
     }
 
-    public void UpdateSlot()
-    {
-        SetName();
-        SetSprite();
-        SetAmount();
-    }
+    // public void OnAmountChange()
+    // {
+    //     SetAmount(itemSlotData);
+    // }
 
-    void Update()
-    {
-        UpdateSlot();
-    }
+    // public void UpdateSlot()
+    // {
+    //     SetName(itemSlotData.ItemData);
+    //     SetSprite(itemSlotData.ItemData);
+    //     SetAmount(itemSlotData);
+    // }
 
-    public void ColorTest()
-    {
-        imageHolder.color = new Color(255 ,0 ,0 ,255);
-    } 
+    // void Update()
+    // {
+    //     UpdateSlot();
+    // }
 
-
-
+    // public void OnDrag(PointerEventData eventData)
+    // {
+    //     InventoryManager.Instance.inventoryUI.DragSlot = this;
+    // }
 }

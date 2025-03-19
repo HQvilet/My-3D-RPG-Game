@@ -13,7 +13,7 @@ public class PlayerAnimationSystem : MonoBehaviour
     void Awake()
     {
         animationSystem = new AnimationSystem(playerAnimator ,playerAnimator.runtimeAnimatorController);
-        
+        // playerAnimator.CrossFade("Attack_1" ,1f);
     }
 
 
