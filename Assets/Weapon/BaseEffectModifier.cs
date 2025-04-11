@@ -15,13 +15,13 @@ public class BaseEffectModifier : MonoBehaviour
     public Action<float> OnTakeFireDamage;
     public Action<float> OnGetKnockBack;
 
-    public void SerilizeEffectSource(DamageStats stats)
+    public void SerilizeEffectSource(CalculatedDamage damage)
     {
-        if(stats.physicalDamage > 0) OnTakePhysicDamage?.Invoke(stats.physicalDamage);
+        if(damage.physicalDamage > 0) OnTakePhysicDamage?.Invoke(damage.physicalDamage);
 
-        if(stats.fireDamage > 0) OnTakeFireDamage?.Invoke(stats.fireDamage);
+        if(damage.fireDamage > 0) OnTakeFireDamage?.Invoke(damage.fireDamage);
 
-        if(stats.knockBack > 0) OnGetKnockBack?.Invoke(stats.knockBack);
+        if(damage.knockBack > 0) OnGetKnockBack?.Invoke(damage.knockBack);
     }
 
 

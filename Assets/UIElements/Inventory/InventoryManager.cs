@@ -21,7 +21,7 @@ public class InventoryManager : Singleton<InventoryManager> ,IInventoryUtilities
     {
         for(int i = 0; i < InventoryData.MAX_SLOT;i++)
         {
-            ItemStack itemStack = inventoryData.Items[i];                
+            ItemStack itemStack = inventoryData.itemStacks[i];                
             
             if(itemStack.IsEmpty())
                     continue;
@@ -44,7 +44,7 @@ public class InventoryManager : Singleton<InventoryManager> ,IInventoryUtilities
 
         for(int i = 0; i < InventoryData.MAX_SLOT;i++)
         {
-            ItemStack itemStack = inventoryData.Items[i];
+            ItemStack itemStack = inventoryData.itemStacks[i];
             if(itemStack.IsEmpty())
             {
                 itemStack.SetData(itemID ,amount);
@@ -76,13 +76,13 @@ public class InventoryManager : Singleton<InventoryManager> ,IInventoryUtilities
 
     public void RemoveItemInSlot(int itemSlotIndex ,int amount)
     {
-        inventoryData.Items[itemSlotIndex].Remove(amount);
+        inventoryData.itemStacks[itemSlotIndex].Remove(amount);
     }
 
     public void ExchangeItem(int itemSlotIndex_1 ,int itemSlotIndex_2)
     {
-        ItemStack i_1 = inventoryData.Items[itemSlotIndex_1];
-        ItemStack i_2 = inventoryData.Items[itemSlotIndex_2];
+        ItemStack i_1 = inventoryData.itemStacks[itemSlotIndex_1];
+        ItemStack i_2 = inventoryData.itemStacks[itemSlotIndex_2];
 
         ItemStack temp = i_1.Clone();
         i_1.Copy(i_2);
@@ -112,12 +112,12 @@ public class InventoryManager : Singleton<InventoryManager> ,IInventoryUtilities
 
     public void RemoveAllItemInSlot(int itemSlotIndex)    
     {
-        inventoryData.Items[itemSlotIndex].Amount = 0;
+        inventoryData.itemStacks[itemSlotIndex].Amount = 0;
     }
     
     public bool HasItem(ItemData _item ,out ItemStack itemStack)
     {
-        itemStack = inventoryData.Items.Find(item => item.ItemData == _item);
+        itemStack = inventoryData.itemStacks.Find(item => item.ItemData == _item);
         return itemStack != null;
     }
 }

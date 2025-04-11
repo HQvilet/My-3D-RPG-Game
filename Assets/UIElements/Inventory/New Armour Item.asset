@@ -18,3 +18,4 @@ MonoBehaviour:
   Description: adsasd
   IsStackable: 0
   armourType: 0
+  stats: {fileID: 11400000, guid: a536b7c15fa480445a0d87cb99c4767d, type: 2}

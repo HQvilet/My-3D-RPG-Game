@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class InventoryData : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class InventoryData : MonoBehaviour
 
     public static int MAX_STACK = 64; 
 
-    public List<ItemStack> Items = new List<ItemStack>(INVENTORY_CAPACITY);
+    public List<ItemStack> itemStacks = new List<ItemStack>(INVENTORY_CAPACITY);
     void Awake()
     {
         // LoadInventoryData();
@@ -17,11 +18,15 @@ public class InventoryData : MonoBehaviour
 
     private void LoadInventoryData()
     {
-
         // Resources.LoadAll<>
         for(int i = 0; i < MAX_SLOT; i++)
         {
-            Items.Add(new ItemStack());
+            itemStacks.Add(new ItemStack());
         }
+    }
+
+    private void LoadArmourSlotData()
+    {
+        
     }
 }

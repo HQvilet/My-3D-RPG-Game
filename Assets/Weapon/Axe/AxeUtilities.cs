@@ -11,6 +11,37 @@ public class AxeUtilities : BaseWeaponUtilities
     [SerializeField] private HitAndSlashData hitAndSlashes;
     [SerializeField] private DamageStats damageStats;
 
+    // private EnemyDetection senseOfEnemy;
+    public void SetEnemyEnvironment(EnemyDetection senseOfEnemy)
+    {
+        senseOfEnemy.OnDetectedEnemy += DetectNearestEnemy; 
+    }
+    private void DetectNearestEnemy(Transform t_transform)
+    {
+        target = t_transform;
+    }
+    Transform target;
+
+
+    CharacterStats stats;
+    public void SetStats(CharacterStats stats)
+    {
+        this.stats = stats; 
+    }
+    
+    public CalculatedDamage Processor(CharacterStats stats ,DamageStats damageStats)
+    {
+        CalculatedDamage dmg = new CalculatedDamage();
+
+        dmg.physicalDamage = stats.Atk * damageStats.physicalDamage;
+        dmg.fireDamage = stats.Atk * damageStats.fireDamage;
+        dmg.elementalDamage = stats.Atk * damageStats.elementalDamage;
+        dmg.knockBack = damageStats.knockBack;
+
+        return dmg;
+    }
+
+
     public BoxCollider hitCollider;
 
     private Transform rootVFX;
@@ -38,7 +69,10 @@ public class AxeUtilities : BaseWeaponUtilities
     {
         hitCollider.size = size;
         hitCollider.transform.localPosition = Vector3.forward * distance;
-        hitCollider.GetComponent<DamageHitbox>().SetAttackDamage(damageStats);
+
+        // Processor(stats ,damageStats);
+        // hitCollider.GetComponent<DamageHitbox>().SetAttackDamage(damageStats);
+        hitCollider.GetComponent<DamageHitbox>().SetAttackDamage(Processor(stats ,damageStats));
 
         hitCollider.gameObject.SetActive(true);
         
@@ -79,5 +113,10 @@ public class AxeUtilities : BaseWeaponUtilities
             Handles.DrawWireDisc(rootVFX.position ,normal ,1.1f);
         }
         
+    }
+
+    internal void AttackPerform()
+    {
+        playerMovementUtilities.RotateTowardTarget(target.position);
     }
 }

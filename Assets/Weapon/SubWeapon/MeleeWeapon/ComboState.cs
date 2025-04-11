@@ -17,6 +17,10 @@ public class ActionState :State
 {
 
     private AnimationSystem animationSystem;
+
+    private Animator animator;
+    private int animationName;
+
     private MeleeWeaponStateMachine stateMachine;
     AnimationClip stateAnimation;
     public ActionState(MeleeWeaponStateMachine stateMachine ,AnimationClip anim)
@@ -25,6 +29,8 @@ public class ActionState :State
         this._duration = anim.length;
         this.animationSystem = stateMachine.animator;
         this.stateAnimation = anim;
+        this.animationName = Animator.StringToHash(anim.name);
+        this.animator = stateMachine.animator.m_animator;
     }
 
     float _duration;
@@ -37,7 +43,7 @@ public class ActionState :State
     {
         ResetState();
         animationSystem.PlayOneShot(stateAnimation);
-        
+        // animator.CrossFade(animationName ,0.0f);
     }
 
     public override void Update()

@@ -7,8 +7,8 @@ public class WandUtilities : BaseWeaponUtilities
 {
 
     [SerializeField] private Transform AoE_VFX;
-    private SenseOfEnemy senseOfEnemy;
-    public void SetEnemyEnvironment(SenseOfEnemy senseOfEnemy)
+    private EnemyDetection senseOfEnemy;
+    public void SetEnemyEnvironment(EnemyDetection senseOfEnemy)
     {
         // this.senseOfEnemy = senseOfEnemy;
         senseOfEnemy.OnDetectedEnemy += DDD; 

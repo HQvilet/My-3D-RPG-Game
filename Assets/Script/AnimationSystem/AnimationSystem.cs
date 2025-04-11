@@ -130,8 +130,12 @@ public class AnimationSystem {
     CoroutineHandle blendInHandle;
     CoroutineHandle blendOutHandle;
 
+    public Animator m_animator;
+
     public AnimationSystem(Animator animator, RuntimeAnimatorController animatorController) {
         playableGraph = PlayableGraph.Create("AnimationSystem");
+
+        m_animator = animator;
         
         AnimationPlayableOutput playableOutput = AnimationPlayableOutput.Create(playableGraph, "Animation", animator);
         

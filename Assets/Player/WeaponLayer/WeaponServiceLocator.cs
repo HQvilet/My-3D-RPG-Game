@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// Player data that weapon required
 public class WeaponServiceLocator : MonoBehaviour
 {
     public PlayerStateHandler stateHandler;
@@ -12,6 +14,8 @@ public class WeaponServiceLocator : MonoBehaviour
         get => PMovement.movementUtilities;
     }
     public PlayerAnimationSystem animationSystem;
+    public CharacterStats stats;
 
-    public SenseOfEnemy enemyData;
+    public EnemyDetection enemyData;
+
 }

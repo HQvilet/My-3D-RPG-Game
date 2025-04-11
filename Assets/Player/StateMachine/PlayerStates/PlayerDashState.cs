@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using MEC;
 using UnityEngine;
 
@@ -75,6 +76,7 @@ public class PlayerDashState : State
         Debug.Log("Player Dashing");
         CanUpdateLogic = false;
         Timing.RunCoroutine(Dash());
+        
     }
 
     public override void Update()
@@ -92,7 +94,7 @@ public class PlayerDashState : State
     {
         player.movementUtilities.DoMove(player.transform.forward ,30);
         //player animation
-        yield return Timing.WaitForSeconds(0.5f);
+        yield return Timing.WaitForSeconds(0.4f);
         // yield return Timing.WaitUntilDone();
         CanUpdateLogic = true;
 

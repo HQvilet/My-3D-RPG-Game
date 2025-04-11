@@ -28,20 +28,20 @@ namespace ItemSystem.ItemConfiguration
         public WeaponRef weaponRef;
     }
 
-
     public enum ArmourType
     {
         HEAD_ARMOUR ,
         ARM_ARMOUR ,
         LEG_ARMOUR ,
-        ARTIFACT
+        BODY_ARMOUR ,
+        ARTIFACT ,
     }
 
     [CreateAssetMenu(menuName = "Item/ArmourItem")]
     public class ArmourItem : ItemData
     {
         public ArmourType armourType;
-        // public Stats
+        public BasicStats stats;
     }
 
 

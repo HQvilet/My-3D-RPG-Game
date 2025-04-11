@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.RenderGraphModule;
 
 public class BaseDamageableObject : MonoBehaviour
 {
 
     [SerializeField] HealthBar healthBar;
+    [SerializeField] CharacterStats _stats;
+    // [Serializable]
 
     [SerializeField] protected BaseEffectModifier effectModifier;
 
@@ -16,7 +18,6 @@ public class BaseDamageableObject : MonoBehaviour
         set 
         {
             //Callback method
-            
             if(value <= 0)
                 OnDied();
             _currentHealth = Mathf.Clamp(value ,0 ,MaxHealth); 
@@ -25,25 +26,33 @@ public class BaseDamageableObject : MonoBehaviour
     }
 
 
-    [SerializeField] protected float _maxHealth = 110f;
+    [SerializeField] protected float _maxHealth = 100f;
     public float MaxHealth
     {
-        get => _maxHealth;
+        get
+        {
+            if(_stats != null)
+                return _stats.Health;
+            return _maxHealth;
+        }
     }
-
+    [SerializeField] protected float _health;
     void Start()
     {
         InitObject();
     }
 
+    void Update()
+    {
+        _health = MaxHealth;
+    }
+
     protected virtual void InitObject() => CurrentHealth = MaxHealth;
 
-
-
-    public virtual void OnGetHit(DamageStats attackStats)
+    public virtual void OnGetHit(CalculatedDamage damageVerifier)
     {
         // OnTakeDamage(attackStats.physicalDamage);
-        effectModifier.SerilizeEffectSource(attackStats);
+        effectModifier.SerilizeEffectSource(damageVerifier);
     }
 
     public virtual void OnTakeDamage(float damage)
@@ -54,42 +63,47 @@ public class BaseDamageableObject : MonoBehaviour
 
     protected virtual void OnDied()
     {
-        Destroy(gameObject);
+        // transform.DOKill();
+        Destroy(gameObject ,0.11f);
         Debug.Log("Enemy died");
     }
 
     void OnEnable()
     {
-        effectModifier.OnTakePhysicDamage += test_1;
+        effectModifier.OnTakePhysicDamage += OnTakePhysicalDmg;
         
         effectModifier.OnTakeFireDamage += OnFire;
-        effectModifier.OnGetKnockBack += test_2;
+        effectModifier.OnGetKnockBack += OnGetKnockBack;
     }
 
-    private void OnFire(float obj)
+    private void OnFire(float damageFactor)
     {
         if(!effectModifier.isOnFire)
-            StartCoroutine(GetBurn());
+            StartCoroutine(GetBurn(damageFactor));
     }
-    IEnumerator GetBurn()
+    IEnumerator GetBurn(float damageFactor)
     {
         float time = 2.1f;
         effectModifier.isOnFire = true;
         while(time > 0)
         {
             time -= 0.2f;
-            OnTakeDamage(2f);
+            OnTakeDamage(damageFactor);
             yield return new WaitForSeconds(0.2f);
         }
         effectModifier.isOnFire = false;
     }
 
-    private void test_2(float damageFactor)
+    private void OnGetKnockBack(float damageFactor)
     {
-        OnTakeDamage(damageFactor);
+        // StartCoroutine(GetKnockBack());\
+        Debug.Log("Knock back");
+        Transform obj = transform;
+        if(obj != null)
+            obj.DOMove(obj.transform.position + obj.forward * -1 * damageFactor  ,0.1f).onKill += ()=>{};
     }
 
-    private void test_1(float damageFactor)
+    private void OnTakePhysicalDmg(float damageFactor)
     {
         OnTakeDamage(damageFactor);
     }

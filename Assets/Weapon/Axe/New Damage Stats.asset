@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: New Damage Stats
   m_EditorClassIdentifier: Assembly-CSharp::DamageStats
-  physicalDamage: 19
-  elementalDamage: 0
-  fireDamage: 0.87
-  knockBack: 2
+  physicalDamage: 1
+  elementalDamage: 2.9
+  fireDamage: 0.01
+  knockBack: 0.15

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -52,5 +53,9 @@ public class Axe : BaseWeapon
         utilities.SetPlayerUtilities(weaponService.playerMovementUtilities);
         weaponCombo.SetStateMachine(weaponService.animationSystem);
         weaponCombo.SetWeaponStateHandler(weaponService.stateHandler);
+
+        utilities.SetEnemyEnvironment(weaponService.enemyData);
+        utilities.SetStats(weaponService.stats);
+        weaponService.stateHandler.OnMeleePerformed += utilities.AttackPerform;
     }
 }

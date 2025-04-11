@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using ItemSystem.ItemConfiguration;
@@ -10,7 +11,12 @@ public class SenseOfItems : MonoBehaviour
 
     void Awake()
     {
-        
+        Bus<OnCollectEvent>.AddRegister(RES);
+    }
+
+    private void RES(OnCollectEvent @event)
+    {
+        Debug.Log(@event.item);
     }
 
     void Update()
@@ -24,6 +30,7 @@ public class SenseOfItems : MonoBehaviour
                 if(InputDataHandler.Instance.PerformedAnInteract) //or UI selected
                 {
                     OnPickUpItem(item);
+                    Bus<OnCollectEvent>.Raise(new OnCollectEvent("asd" ,1));
                     break;
                 }
                 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class PlayerMovementHandler : MonoBehaviour
@@ -67,14 +68,28 @@ public class MovementUtilities
         DoMove(transform.forward ,force);
     }
 
-    void RotateTowardDirection(Vector3 direction)
+    public void RotateTowardDirection(Vector3 direction)
     {
-        float target_angle = Mathf.Atan2(direction.x ,direction.z) * Mathf.Rad2Deg + 360 ;
+        // float target_angle = Mathf.Atan2(direction.x ,direction.z) * Mathf.Rad2Deg + 360 ;
 
-        float angle = transform.rotation.eulerAngles.y;
+        // float angle = transform.rotation.eulerAngles.y;
 
-        angle = Mathf.LerpAngle(angle ,target_angle ,0.3f);
-        transform.rotation = Quaternion.Euler(0 ,angle ,0);
+        transform.DOLookAt(direction + transform.position ,0.15f ,up : Vector3.up);
+
+        // angle = Mathf.LerpAngle(angle ,target_angle ,0.3f);
+        // transform.rotation = Quaternion.Euler(0 ,angle ,0);
+    }
+
+    public void RotateTowardTarget(Vector3 target)
+    {
+        // float target_angle = Mathf.Atan2(direction.x ,direction.z) * Mathf.Rad2Deg + 360 ;
+
+        // float angle = transform.rotation.eulerAngles.y;
+
+        transform.DOLookAt(new Vector3(target.x ,0 ,target.z) ,0.15f ,up : Vector3.up);
+
+        // angle = Mathf.LerpAngle(angle ,target_angle ,0.3f);
+        // transform.rotation = Quaternion.Euler(0 ,angle ,0);
     }
 
     public void DoJump(float jumpPulse)

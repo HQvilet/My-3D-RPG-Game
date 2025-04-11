@@ -23,27 +23,12 @@ public class InventoryUI : MonoBehaviour
 
     public void Start()
     {
-        openCloseButton.onClick.AddListener(() =>
-        {
-            gameObject.SetActive(!gameObject.activeSelf);
-            // Time.timeScale = gameObject.activeSelf ? 0 : 1;
-        });
         int i = 0;
-        // foreach(ItemStack item in InventoryManager.Instance.inventoryData.Items)
-        // {
-        //     var slot = Instantiate(SlotPref ,transform).GetComponent<SlotUnit>();
-        //     slot.SetSlotData(item);
-            
-        //     slot.index = i++;
-        //     Slots.Add(slot);
-        // }
-        // gameObject.SetActive(false);
-
         Slots = transform.GetComponentsInChildren<ItemSlotUnit>().ToList();
         foreach(ItemSlotUnit slot in Slots)
         {
             ItemStack item = new ItemStack();
-            InventoryManager.Instance.inventoryData.Items.Add(item);
+            InventoryManager.Instance.inventoryData.itemStacks.Add(item);
             slot.SetSlotData(item);
             slot.index = i++;
         }
@@ -68,19 +53,27 @@ public class InventoryUI : MonoBehaviour
             if(castInfo.gameObject.TryGetComponent(out ItemSlotUnit slot))
             {
                 ItemSlotUnit itemSlotUnit = DragSlot as ItemSlotUnit;
+
+                if(DragSlot.slotType == SlotType.ARMOUR)
+                {
+
+                    ArmourSlotUnit armourSlotUnit = DragSlot as ArmourSlotUnit;
+                    //Add item directly into slot
+                    if(InventoryManager.Instance.TryAddItem(slot ,armourSlotUnit.armourItem ,1))
+                    {
+                        armourSlotUnit.TryRemoveArmour();
+                        return;
+                    }
+                }              
+
                 if(itemSlotUnit.itemSlotData.IsEmpty())
                     return;
 
                 if(DragSlot.slotType == SlotType.Item)
-                    InventoryManager.Instance.ExchangeItem(itemSlotUnit,slot);
-
-                else if(DragSlot.slotType == SlotType.ARMOUR)
                 {
-                    ArmourSlotUnit armourSlotUnit = DragSlot as ArmourSlotUnit;
-                    //Add item directly into slot
-                    if(InventoryManager.Instance.TryAddItem(slot ,armourSlotUnit.armourItem ,1))
-                        armourSlotUnit.ClearSlot();
+                    InventoryManager.Instance.ExchangeItem(itemSlotUnit,slot);
                 }
+
             }
             if(castInfo.gameObject.TryGetComponent(out ArmourSlotUnit armourSlot))
             {

@@ -13,6 +13,7 @@ public class SimpleEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        transform.LookAt(Player.Instance.transform);
+        transform.rotation = Quaternion.Euler(0 ,transform.rotation.eulerAngles.y ,0);
     }
 }

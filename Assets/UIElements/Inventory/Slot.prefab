@@ -300,6 +300,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a29b544cbed9a84886d6344e667d954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotType: 0
   nameHolder: {fileID: 6949480264744853781}
   imageHolder: {fileID: 6662087617166753670}
   amountHolder: {fileID: 1995067469943494065}
