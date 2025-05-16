@@ -16,39 +16,39 @@ public class ArmourSlotEquipment : SlotUnit ,IDragHandler
     {
         if(assetData == null)
             return false;
-
+        
         if(assetData.IsEmpty())
             return false;
-
+        
         if(IsFull())
             return false;
-
+        
         if(assetData.ItemData.armourType == requiredType)
         {
-            // armourAsset.ItemData = assetData.ItemData;
-            Bus<EquipArmourEvent>.Raise(new EquipArmourEvent(assetData));
-            armourAsset.Copy(assetData);
-            // ArmourEquipmentMenu.OnEquip?.Invoke(item);
+            Bus<EquipArmourEvent>.Raise(new EquipArmourEvent(assetData.armourRef));
             return true;
         }
+        
         return false;
     }
 
-    public bool TryRemoveArmour()
+    public bool TryRemoveArmour(out ArmourAsset removedAsset)
     {
+        removedAsset = null;
+
         if(armourAsset == null)
             return false;
 
-        if(!IsFull())
+        if(armourAsset.IsEmpty())
             return false;
 
-        // if(item.armourType == requiredType)
-        // {
-        //     armourItem = null;
-        //     return true;
-        // }
-        // ArmourEquipmentMenu.OnUnequip?.Invoke(armourItem);
-        armourAsset = null;
+        // if(armourAsset != armourAsset)
+        //     return false;
+
+        removedAsset = armourAsset;
+        Bus<UnequipArmourEvent>.Raise(new UnequipArmourEvent(armourAsset.armourRef));
+        // armourAsset.armourRef = null;
+
         return true;
     }
 
@@ -57,13 +57,19 @@ public class ArmourSlotEquipment : SlotUnit ,IDragHandler
         armourAsset = null;
     }
 
+    public void UpdateSlot()
+    {
+        SetName(armourAsset);
+        SetSprite(armourAsset);
+    }
+
     void Update()
     {
-        SetSprite(armourAsset);
-        SetName(armourAsset);
+        UpdateSlot();
     }
 
     public bool IsFull() => armourAsset.IsFull();
+    public bool IsEmpty() => armourAsset.IsEmpty();
 
     public void OnDrag(PointerEventData eventData)
     {

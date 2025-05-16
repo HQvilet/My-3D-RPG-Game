@@ -26,6 +26,13 @@ namespace QuestSystem
             ItemCollectEvent += TestItemCollectEvent;
             QuestEvent += TestQuestEvent;
             NPCInteraction += TestNPCInteractionEvent;
+
+            Bus<OnCollectItemEvent>.AddRegister(CollectedItem);
+        }
+
+        private void CollectedItem(OnCollectItemEvent @event)
+        {
+            
         }
 
         private void TestNPCInteractionEvent(int obj)
@@ -53,6 +60,5 @@ namespace QuestSystem
             if(Input.GetKeyDown(KeyCode.T))
                 QuestDataTracking.Instance.ObjectCollectEvent?.Invoke("ObjectName1" ,3);
         }
-
     }
 }

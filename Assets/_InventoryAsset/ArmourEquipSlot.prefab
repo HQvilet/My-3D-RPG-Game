@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 4147120492500347642}
   - component: {fileID: 7085490426427478764}
   m_Layer: 5
-  m_Name: Head Armour
+  m_Name: ArmourEquipSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

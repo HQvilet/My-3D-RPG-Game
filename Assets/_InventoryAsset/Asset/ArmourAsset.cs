@@ -6,33 +6,37 @@ using UnityEngine;
 [System.Serializable]
 public class ArmourAsset : IInventorySlot
 {
-    public ArmourItem ItemData;
-
+    public ArmourItem ItemData => armourRef.GetItemData();
+    public ArmourReference armourRef = null;
     public int Amount
-    { 
-        get => (ItemData != null) ? 1 : 0; 
+    {
+        get => (IsFull()) ? 1 : 0; 
         set {}
     }
 
-    [SerializeField] private UpgradeAsset upgradeInfo;
-
     public ItemData GetItemData() => ItemData;
-    public void SetItemData(ArmourItem item) => ItemData = item;
+    // public void SetItemData(ArmourItem item) => ItemData = item;
 
-    public bool IsEmpty() => Amount <= 0 || ItemData == null;
-    public bool IsFull() => Amount != 0 && ItemData != null;
+    public void SetArmourRef(ArmourReference @ref)
+    {
+        armourRef = @ref;
+    }
 
-    public void Clear() => SetItemData(null);
+    // public bool IsEmpty() => Amount <= 0 || ItemData == null;
+    public bool IsEmpty() => armourRef == null;
+    // public bool IsFull() => Amount != 0 && ItemData != null;
+    public bool IsFull() => armourRef != null;
+
+    public void Clear() => armourRef = null;
 
     public void GetDescription(){}
 
-    public SlotType GetSlotType() => SlotType.ARMOUR;
+    public SlotType GetSlotType() => SlotType.ARMOUR_ITEM_SLOT;
 
     public ArmourAsset Clone(){return new ArmourAsset();}
 
     public void Copy(ArmourAsset other)
     {
-        ItemData = other.ItemData;
-
+        // ItemData = other.ItemData;
     }
 }

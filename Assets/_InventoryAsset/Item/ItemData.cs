@@ -44,11 +44,17 @@ namespace ItemSystem.ItemConfiguration
         ARTIFACT ,
     }
 
+    public enum Armour
+    {
+        // ARMOUR NAME FOR SPECIFIC ONES
+    }
+
     [CreateAssetMenu(menuName = "Item/ArmourItem")]
     public class ArmourItem : ItemData
     {
         public ArmourType armourType;
-        public BasicStatsConfig stats;
+        // public BasicStatsConfig stats;
+        // public ArmourUtils armourUtils;
 
         protected override void OnValidate() 
         {

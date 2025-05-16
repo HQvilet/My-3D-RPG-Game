@@ -13,8 +13,6 @@ namespace NPCSystem
     }
     public class NPCWorldData
     {
-        Dictionary<int ,NPCDataConfig> AllNPCData = new Dictionary<int, NPCDataConfig>();
-        
         
         void LoadAllNPC()
         {

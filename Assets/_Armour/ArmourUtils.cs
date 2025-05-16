@@ -1,36 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.SymbolStore;
 using UnityEngine;
 
-public interface IInventoryAction
+
+public abstract class ArmourUtils : IArmourUtilsAction 
 {
-    void OnEquipped();
-    void OnTriggerAbility();
-    void OnEquippedStay();
-    void OnUnequipped();
+    public virtual void OnEquipped(EntityComponent entity){}
+
+    public virtual void OnEquippedStay(EntityComponent entity){}
+
+    public virtual void OnTriggerAbility(EntityComponent entity){}
+
+    public virtual void OnUnequipped(EntityComponent entity){}
 }
 
-public class ArmourUtils : IInventoryAction
-{
-    public virtual void OnEquipped(){}
-
-    public virtual void OnEquippedStay(){}
-
-    public virtual void OnTriggerAbility(){}
-
-    public virtual void OnUnequipped(){}
-}
-
-public class TestArmourUtils : ArmourUtils
-{
-    public override void OnEquipped()
-    {
-        base.OnEquipped();
-        Debug.Log("Equipped");
-    }
-    public override void OnEquippedStay()
-    {
-        base.OnEquippedStay();
-        Debug.Log("Is Equipping");
-    }
-}

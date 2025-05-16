@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class PlayerMovementHandler : MonoBehaviour
 {
@@ -11,7 +12,6 @@ public class PlayerMovementHandler : MonoBehaviour
     public ColliderDetection colliderDetection;
     public PlayerMovementData movementData;
     
-    
 
     public Animator playerAnimator;
     public InputDataHandler Input;
@@ -20,10 +20,11 @@ public class PlayerMovementHandler : MonoBehaviour
     public PlayerStateHandler stateHandler;
     public PlayerStateMachine StateMachine;
     public MovementUtilities movementUtilities;
+    public CharacterController controller;
     void Awake()
     {
         StateMachine = new PlayerStateMachine(this);
-        movementUtilities = new MovementUtilities(rb ,transform ,colliderDetection);
+        movementUtilities = new MovementUtilities(rb ,transform ,colliderDetection ,controller);
     }
 
     void FixedUpdate()
@@ -45,22 +46,24 @@ public class MovementUtilities
     private Rigidbody rb;
     private Transform transform;
     private ColliderDetection colliderDetection;
-    public MovementUtilities(Rigidbody rigidbody ,Transform transform ,ColliderDetection colliderDetection)
+    public CharacterController controller;
+    public MovementUtilities(Rigidbody rigidbody, Transform transform, ColliderDetection colliderDetection, CharacterController controller)
     {
         this.rb = rigidbody;
         this.transform = transform;
         this.colliderDetection = colliderDetection;
+        this.controller = controller;
     }
 
-    public void DoMove(Vector3 move_direction ,float speed ,bool rotate_on_move = true)
+    public void DoMove(Vector3 move_direction, float speed, bool rotate_on_move = true)
     {
-        speed *= colliderDetection.IsOnSlope ? 0.8f : 1f;
-        Vector3 currentVelocity = rb.velocity;
-        // rb.AddForce(colliderDetection.GetSlopeDirection(move_direction) * speed - currentVelocity  ,ForceMode.VelocityChange);
-        rb.velocity = colliderDetection.GetSlopeDirection(move_direction) * speed;
-        if(rotate_on_move)
-            RotateTowardDirection(move_direction);
-        
+        // speed *= colliderDetection.IsOnSlope ? 0.8f : 1f;
+        // Vector3 currentVelocity = rb.velocity;
+        // // rb.AddForce(colliderDetection.GetSlopeDirection(move_direction) * speed - currentVelocity  ,ForceMode.VelocityChange);
+        // rb.velocity = colliderDetection.GetSlopeDirection(move_direction) * speed;
+        // if (rotate_on_move)
+        //     RotateTowardDirection(move_direction);
+        controller.Move(move_direction * speed);
     }
 
     public void Dash(float force)

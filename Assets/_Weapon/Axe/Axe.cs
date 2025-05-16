@@ -39,7 +39,7 @@ public class Axe : BaseWeapon
         config.SetRightHandedWeapon(this.transform);
         utilities.SetRootVFX(config.rootVFX);
 
-        config.AddHitBoxCollider(utilities.hitCollider.transform);
+        config.AddHitBoxCollider(utilities.hitbox.transform);
     }
 
     public override void WeaponServiceSetup(WeaponServiceLocator weaponService)

@@ -9,8 +9,9 @@ using Unity.VisualScripting;
 
 public enum SlotType
 {
-    ITEM ,
-    ARMOUR ,
+    ITEM_SLOT,
+    ARMOUR_EQUIP_SLOT,
+    ARMOUR_ITEM_SLOT,
     WEAPON
 }
 
@@ -69,7 +70,12 @@ public class SlotUnit : MonoBehaviour //,IDragHandler
 
     protected void SetAmount(IInventorySlot slotInfo)
     {
-        int amount = slotInfo.Amount;
+        
+        if(slotInfo == null)
+        {
+            amountHolder.text = string.Empty;
+            return;
+        }
 
         if(slotInfo.GetItemData() == null)
         {
@@ -77,8 +83,8 @@ public class SlotUnit : MonoBehaviour //,IDragHandler
             return;
         }
 
-        if(amount > 1)
-            amountHolder.text = amount.ToString();
+        if(slotInfo.Amount > 1)
+            amountHolder.text = slotInfo.Amount.ToString();
         else
             amountHolder.text = string.Empty;
     }
@@ -86,6 +92,11 @@ public class SlotUnit : MonoBehaviour //,IDragHandler
     protected void SetSprite(IInventorySlot slotInfo)
     {
         imageHolder.color = Color.white;
+        if(slotInfo == null)
+        {
+            imageHolder.color = new Color(1 ,1 ,1 ,0);
+            return;
+        }
 
         if(slotInfo.IsEmpty())
         {
@@ -102,6 +113,12 @@ public class SlotUnit : MonoBehaviour //,IDragHandler
 
     protected void SetName(IInventorySlot slotInfo)
     {
+        if(slotInfo == null)
+        {
+            nameHolder.text = string.Empty;
+            return;
+        }
+
         if(slotInfo.IsEmpty())
         {
             nameHolder.text = string.Empty;

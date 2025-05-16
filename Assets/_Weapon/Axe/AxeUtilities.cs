@@ -4,12 +4,21 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+
+// define slash quaternion vector
+[System.Serializable]
+public struct SlashVFX
+{
+    public Transform slash_vfx;
+    public Vector3 slashQuaternion;    
+}
+
 public class AxeUtilities : BaseWeaponUtilities
 {
-
     //Hit And Slash Data
-    [SerializeField] private HitAndSlashData hitAndSlashes;
-    [SerializeField] private DamageStats damageStats;
+    [SerializeField] private SlashVFX[] hitAndSlashes = new SlashVFX[3];
+    // List<SlashVFX> hitAndSlashes;
+    [SerializeField] private DamageModifier damageModifier;
 
     private EnemyDetection senseOfEnemy;
     public void SetEnemyEnvironment(EnemyDetection senseOfEnemy)
@@ -17,29 +26,20 @@ public class AxeUtilities : BaseWeaponUtilities
         this.senseOfEnemy = senseOfEnemy;
     }
 
-    CharacterStats playerStats;
+    private CharacterStats playerStats;
     public void SetStats(CharacterStats stats)
     {
-        this.playerStats = stats; 
+        this.playerStats = stats;
     }
     
-    public DamageModifier Processor(CharacterStats stats ,DamageStats damageStats)
-    {
-        DamageModifier dmg = new DamageModifier();
+    public DamageHitbox hitbox;
 
-        dmg.physicalDamage = stats.Atk * damageStats.physicalDamage;
-        dmg.fireDamage = stats.Atk * damageStats.fireDamage;
-        dmg.elementalDamage = stats.Atk * damageStats.elementalDamage;
-        dmg.knockBack = damageStats.knockBack;
-
-        return dmg;
-    }
-
-
-    public BoxCollider hitCollider;
     void Start()
     {
-        hitCollider.gameObject.SetActive(false);
+        hitbox.SetSourceDamage(EntityComponentSystem.Instance.GetPlayerComponent());
+        hitbox.gameObject.SetActive(false);
+        
+        hitbox.transform.localPosition = Vector3.forward * distance;
     }
 
     private Transform rootVFX;
@@ -56,37 +56,39 @@ public class AxeUtilities : BaseWeaponUtilities
     {
         playerMovementUtilities = movementUtilities;
     }
-    
-    IEnumerator ShowHitBox()
-    {
-        hitCollider.size = size;
-        hitCollider.transform.localPosition = Vector3.forward * distance;
 
-        // Processor(stats ,damageStats);
-        // hitCollider.GetComponent<DamageHitbox>().SetAttackDamage(damageStats);
-        hitCollider.GetComponent<DamageHitbox>().SetAttackDamage(Processor(playerStats ,damageStats));
-        hitCollider.gameObject.SetActive(true);
-        
+    private void SlashAttack()
+    {
+        hitbox.DoDamage(damageModifier);
+        // StartCoroutine(TriggerDamageCollider());
+    }
+
+    IEnumerator TriggerDamageCollider()
+    {
+        hitbox.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.1f);
-        hitCollider.gameObject.SetActive(false);
+        hitbox.gameObject.SetActive(false);
+    }
+
+    private void DoSlash(SlashVFX slash)
+    {
+        Instantiate<Transform>(slash.slash_vfx ,rootVFX).localRotation = Quaternion.Euler(slash.slashQuaternion);
+        SlashAttack();
     }
 
     public void Slash_1()
     {
-        Instantiate<Transform>(hitAndSlashes.SlashVFX[0].slash_vfx ,rootVFX).localRotation = hitAndSlashes.SlashVFX[0].slashQuaternion;
-        StartCoroutine(ShowHitBox());
+        DoSlash(hitAndSlashes[0]);
     }
 
     public void Slash_2()
     {
-        Instantiate<Transform>(hitAndSlashes.SlashVFX[1].slash_vfx ,rootVFX).localRotation = hitAndSlashes.SlashVFX[1].slashQuaternion;
-        StartCoroutine(ShowHitBox());
+        DoSlash(hitAndSlashes[1]);
     }
 
     public void Slash_3()
     {
-        Instantiate<Transform>(hitAndSlashes.SlashVFX[2].slash_vfx ,rootVFX).localRotation = hitAndSlashes.SlashVFX[2].slashQuaternion;
-        StartCoroutine(ShowHitBox());
+        DoSlash(hitAndSlashes[2]);
     }
 
 
@@ -105,13 +107,11 @@ public class AxeUtilities : BaseWeaponUtilities
     void OnDrawGizmos()
     {
         Handles.color = Color.yellow;
-        foreach(var a in hitAndSlashes.SlashVFX)
+        foreach(var a in hitAndSlashes)
         {
-            Vector3 normal = a.slashQuaternion * Vector3.up;
+            Vector3 normal = Quaternion.Euler(a.slashQuaternion) * Vector3.up;
             Handles.DrawWireDisc(rootVFX.position ,normal ,1.1f);
         }
         
     }
-
-
 }

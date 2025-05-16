@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
+
 //flexible inventory v
 //category inventory o
 
@@ -19,13 +20,14 @@ public class InventoryUI : MonoBehaviour
     List<RaycastResult> raycastResults = new List<RaycastResult>();
 
     public bool IsHoverUI;
-
+    
     public SlotUnit DragSlot;
     public SlotUnit DropSlot;
 
     public void Start()
     {
         gameObject.SetActive(false);
+        
     }
 
 
@@ -47,75 +49,37 @@ public class InventoryUI : MonoBehaviour
             {
                 ItemSlotUnit dragSlotUnit = DragSlot as ItemSlotUnit;
 
-                // if(DragSlot.slotType == SlotType.ARMOUR)
-                // {
-
-                //     ArmourSlotEquipment armourSlotUnit = DragSlot as ArmourSlotEquipment;
-                //     //Add item directly into slot
-                //     if(InventoryManager.Instance.TryAddItem(dropSlot ,armourSlotUnit.armourItem ,1))
-                //     {
-                //         armourSlotUnit.TryRemoveArmour();
-                //         return;
-                //     }
-                // }
-
                 if(dragSlotUnit.itemSlotData.IsEmpty())
                     return;
 
-                if(DragSlot.slotType == SlotType.ITEM)
+                if(DragSlot.slotType == SlotType.ITEM_SLOT)
                 {
                     InventoryManager.Instance.ExchangeItem(dragSlotUnit,dropSlot);
                 }
 
             }
-            if(castInfo.gameObject.TryGetComponent(out ArmourSlotEquipment armourEquipSlot))
+            else if(castInfo.gameObject.TryGetComponent(out ArmourSlotEquipment armourEquipSlot))
             {
-                ArmourSlotUnit dragSlotUnit = DragSlot as ArmourSlotUnit;
-                
-                // if(DragSlot.slotType == SlotType.ITEM)
-                // {
-                //     ItemSlotUnit itemSlotUnit = DragSlot as ItemSlotUnit;
-                //     if(armourSlot.TryEquipArmour(itemSlotUnit.itemSlotData.GetItemData() as ArmourItem))
-                        // itemSlotUnit.itemSlotData.Remove(1);
-                // }
-                if(dragSlotUnit != null)
+                if(DragSlot.slotType == SlotType.ARMOUR_ITEM_SLOT)
                 {
-                    InventoryManager.Instance.EquipItem(dragSlotUnit ,armourEquipSlot);
+                    InventoryManager.Instance.EquipItem(DragSlot as ArmourSlotUnit ,armourEquipSlot);
                 }
             }
-            // else if(castInfo.gameObject.TryGetComponent(out ArmourSlotUnit armourSlot))
-            // {
-            //     ArmourSlotUnit dragArmour = DragSlot as ArmourSlotUnit;
-                
-            //     // if(DragSlot.slotType == SlotType.ITEM)
-            //     // {
-            //     //     ItemSlotUnit itemSlotUnit = DragSlot as ItemSlotUnit;
-            //     //     if(armourSlot.TryEquipArmour(itemSlotUnit.itemSlotData.GetItemData() as ArmourItem))
-            //             // itemSlotUnit.itemSlotData.Remove(1);
-            //     // }
+            else if(castInfo.gameObject.TryGetComponent(out ArmourSlotUnit armourSlot))
+            {
 
-            //     if(dragArmour != null)
-            //     {
-
-            //     }
-            // }
+                if(DragSlot.slotType == SlotType.ARMOUR_ITEM_SLOT)
+                {
+                    InventoryManager.Instance.ExchangeItem(DragSlot as ArmourSlotUnit, armourSlot);
+                }
+                else if(DragSlot.slotType == SlotType.ARMOUR_EQUIP_SLOT)
+                {
+                    InventoryManager.Instance.RemoveArmour(armourSlot, DragSlot as ArmourSlotEquipment);
+                }
+            }
         }
         
-        // if(DragSlot != null && DropSlot != null)
-        // {
-        //     if(DragSlot.slotType == SlotType.Item && DropSlot.slotType == SlotType.Item)
-        //     {
-        //         InventoryManager.Instance.ExchangeItem(DragSlot as ItemSlotUnit,DropSlot as ItemSlotUnit);
-        //     }
-        //     if(DragSlot.slotType == SlotType.ARMOUR && DropSlot.slotType == SlotType.Item)
-        //     {
-        //         // if()
-        //         InventoryManager.Instance.ExchangeItem(DragSlot as ItemSlotUnit,DropSlot as ItemSlotUnit);
-        //     }
-        // }
-        // 
     }
-    
     
     public void GetHoveringUIElements()
     {
@@ -125,7 +89,5 @@ public class InventoryUI : MonoBehaviour
         EventSystem.current.RaycastAll(pointerEventData ,raycastResults);
 
     }
-
-
 
 }

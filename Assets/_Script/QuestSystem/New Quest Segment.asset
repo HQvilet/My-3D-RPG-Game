@@ -13,9 +13,13 @@ MonoBehaviour:
   m_Name: New Quest Segment
   m_EditorClassIdentifier: 
   Title: asd
-  ItemsRequirement: []
+  Description: 
+  ItemsRequirement:
+  - Item: {fileID: 0}
+    RequiredAmount: 0
+    CurrentAmount: 0
   TargetQuestPositions: []
   ObjectToCollect:
   - Obj: ObjectName1
     RequiredAmount: 2
-    CurrentAmount: 87
+    CurrentAmount: 99

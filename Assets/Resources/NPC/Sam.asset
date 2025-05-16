@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8370b7c3bf0e7e24f864a0a195a1a8bf, type: 3}
   m_Name: Sam
   m_EditorClassIdentifier: 
-  ID: 0
+  ID: 22
   characterName: Sam

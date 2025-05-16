@@ -11,19 +11,19 @@ public class SenseOfNPC : MonoBehaviour
 
     void Update()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.parent.position ,Radius ,layer);
-        if(colliders.Count() > 0)
+        if(InputDataHandler.Instance.PerformedAnInteract)
         {
-            Collider collideInfo = colliders[0];
-            if(collideInfo.TryGetComponent(out InteractableNPC _obj))
+            Collider[] colliders = Physics.OverlapSphere(transform.parent.position ,Radius ,layer);
+            if(colliders.Count() > 0)
             {
-                if(InputDataHandler.Instance.PerformedAnInteract)
-                    if(!_obj.HasInteracted)
-                        _obj.Interact();
+                Collider collideInfo = colliders[0];
+                if(collideInfo.TryGetComponent(out InteractableNPC _obj))
+                {
+                        if(!_obj.HasInteracted)
+                            _obj.Interact();
+                }
             }
-                
         }
-            
     }
 
     void OnDrawGizmos()

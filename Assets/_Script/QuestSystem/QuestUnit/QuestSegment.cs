@@ -9,6 +9,7 @@ using UnityEngine;
 public class QuestSegment : ScriptableObject
 {
     public string Title;
+    public string Description;
 
     // public QuestRequirement Tasks;
     [Header("Collecting Item Quest")]

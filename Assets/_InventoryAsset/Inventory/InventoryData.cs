@@ -32,13 +32,13 @@ public class InventoryData : MonoBehaviour
         MAX_SLOT = ItemSlots.Count();
         foreach(ItemSlotUnit slotUnit in ItemSlots)
         {
-            slotUnit.SetSlotData(new ItemStack());
+            // slotUnit.SetSlotData(new ItemStack());
         }
 
         ArmourSlots = p_armour_inventory.GetComponentsInChildren<ArmourSlotUnit>().ToList();
         foreach(ArmourSlotUnit slotUnit in ArmourSlots)
         {
-            slotUnit.SetSlotData(new ArmourAsset());
+            // slotUnit.SetSlotData(new ArmourAsset());
         }
     }
 

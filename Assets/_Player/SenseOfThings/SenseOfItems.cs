@@ -33,7 +33,14 @@ public class SenseOfItems : MonoBehaviour
                     Bus<OnCollectEvent>.Raise(new OnCollectEvent("asd" ,1));
                     break;
                 }
-                
+            }else if(collideInfo.TryGetComponent(out CustomItem c_item))
+            {
+                if(InputDataHandler.Instance.PerformedAnInteract) //or UI selected
+                {
+                    OnPickUpArmourItem(c_item);
+                    Bus<OnCollectEvent>.Raise(new OnCollectEvent("asd" ,1));
+                    break;
+                }
             }
             
         }
@@ -44,6 +51,12 @@ public class SenseOfItems : MonoBehaviour
         InventoryManager.Instance.AddItemByCategories(item.ItemData ,1);
         Debug.Log("Add Item " + item.ItemData.Name);
         Destroy(item.gameObject);
+    }
+
+    void OnPickUpArmourItem(CustomItem c_item)
+    {
+        InventoryManager.Instance.AddArmourItem(c_item.armourRef);
+        // Destroy(c_item.gameObject);
     }
 
     void OnDrawGizmos()

@@ -15,6 +15,8 @@ public class PlayerStateHandler : MonoBehaviour
 
     public Action<string> OnAnimationEvent;
 
+    public Action<EntityComponent> OnHitTarget;
+
 
     // [Header("Abilities")]
     // Abilities

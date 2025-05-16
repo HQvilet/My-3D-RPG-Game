@@ -21,10 +21,13 @@ public class ArmourSlotUnit : SlotUnit, IDragHandler
 
     void Update()
     {
-        UpdateSlot();
+       UpdateSlot();
     }
 
     public void ClearSlot() => armourAsset.Clear();
+
+    public bool IsFull() => armourAsset.IsFull();
+    public bool IsEmpty() => armourAsset.IsEmpty();
 
     public void OnDrag(PointerEventData eventData)
     {

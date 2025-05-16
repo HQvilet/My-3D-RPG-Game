@@ -11,24 +11,10 @@ public class ArmourEquipmentMenu : MonoBehaviour//Singleton<ArmourEquipmentMenu>
     public static Action<ArmourItem> OnEquip = delegate{};
     public static Action<ArmourItem> OnUnequip = delegate{};
 
-    void Awake()
-    {
-        OnEquip += Equip;
-        OnUnequip += Unequip;
-    }
 
     void Start()
     {
         gameObject.SetActive(false);
     }
 
-    private void Unequip(ArmourItem item)
-    {
-        equipment.Unequip(item);
-    }
-
-    private void Equip(ArmourItem item)
-    {
-        equipment.Equip(item);
-    }
 }

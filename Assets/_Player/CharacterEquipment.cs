@@ -6,46 +6,46 @@ using UnityEngine;
 
 public class CharacterEquipment : MonoBehaviour
 {
-    [SerializeField] StatMediator stats;
-    [SerializeField] List<ArmourUtils> armourUtils;
+    HashSet<ArmourUtils> armourUtils = new();
 
     void Start()
     {
         Bus<EquipArmourEvent>.AddRegister(DoEquip);
+        Bus<UnequipArmourEvent>.AddRegister(DoUnequip);
     }
+
 
     private void DoEquip(EquipArmourEvent @event)
     {
-        // Equip(@event.a.ItemData);
-        Debug.Log("Equip " + @event.armourInfo.ItemData.Name);
+        if(@event.armourInfo.GetArmourUtils() == null) 
+            return;
+        armourUtils.Add(@event.armourInfo.GetArmourUtils());
+        @event.armourInfo.GetArmourUtils().OnEquipped(EntityComponentSystem.Instance.GetPlayerComponent());
     }
 
-    public void Equip(ArmourItem item)
+    private void DoUnequip(UnequipArmourEvent @event)
     {
-        stats.AddStats(item.stats);
-        // armour utilities callbacks
-        // add utilities to list
+        if(@event.armourInfo.GetArmourUtils() == null) 
+            return;
+        armourUtils.Remove(@event.armourInfo.GetArmourUtils());
+        @event.armourInfo.GetArmourUtils().OnUnequipped(EntityComponentSystem.Instance.GetPlayerComponent());
     }
-
-    public void Unequip(ArmourItem item)
+    
+    void Update()
     {
-        stats.RemoveStats(item.stats);
+        // foreach(ArmourUtils utils in armourUtils)
+        //     utils.OnEquippedStay();
     }
-
-    // void Update()
-    // {
-    //     foreach(ArmourUtils utils in armourUtils)
-    //         utils.OnEquippedStay();
-    // }
 }
 
 public class EquipArmourEvent : IEvent
 {
-    public EquipArmourEvent(ArmourAsset asset){armourInfo = asset;}
-    public ArmourAsset armourInfo;
+    public EquipArmourEvent(ArmourReference asset) => armourInfo = asset;
+    public ArmourReference armourInfo;
 }
 
-public class SelectWeaponEvent : IEvent
+public class UnequipArmourEvent : IEvent
 {
-
+    public UnequipArmourEvent(ArmourReference asset) => armourInfo = asset;
+    public ArmourReference armourInfo;
 }

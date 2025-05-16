@@ -70,6 +70,6 @@ public class ItemStack : IInventorySlot
 
     public void Copy(ItemStack other) => SetItemData(other.ItemData ,other.Amount);
 
-    public SlotType GetSlotType() => SlotType.ITEM;
+    public SlotType GetSlotType() => SlotType.ITEM_SLOT;
     
 }

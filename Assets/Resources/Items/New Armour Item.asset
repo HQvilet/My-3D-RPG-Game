@@ -18,10 +18,3 @@ MonoBehaviour:
   Description: adsasd
   IsStackable: 0
   armourType: 0
-  stats:
-    flat_health: 100
-    perc_health: 1.1
-    mana: 100
-    resistance: 10
-    flat_atk: 20
-    perc_atk: 1

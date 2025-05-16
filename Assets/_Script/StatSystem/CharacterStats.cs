@@ -28,6 +28,8 @@ public class CharacterStats : MonoBehaviour
         get => mediator.Query(StatType.Flat_Atk);
     }
 
+    public void ForceUpdate() => mediator.CalculateStats();
+
     [SerializeField] float _attack;
 
     void OnStatsDebug()
