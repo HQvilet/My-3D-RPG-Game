@@ -10,6 +10,7 @@ public class Axe : BaseWeapon
 
     [SerializeField] private WeaponCombo weaponCombo;
     [SerializeField] private AxeUtilities utilities;
+    [SerializeField] private Transform model;
 
 
     void Start()
@@ -23,33 +24,30 @@ public class Axe : BaseWeapon
             weaponCombo.weaponStateMachine.TriggerAttack();
     }
 
-    public override void OnSelected()
+    void OnEnable()
     {
-        gameObject.SetActive(true);
-
+        model.gameObject.SetActive(true);
     }
 
-    public override void OnDeselected()
+    void OnDisable()
     {
-        gameObject.SetActive(false);
+        model.gameObject.SetActive(false);
     }
 
     public override void WeaponRiggingSetup(WeaponModelConfig config)
     {
-        config.SetRightHandedWeapon(this.transform);
-        utilities.SetRootVFX(config.rootVFX);
-
-        config.AddHitBoxCollider(utilities.hitbox.transform);
+        config.AddToPool(this.transform);
+        config.SetRightHandedWeapon(model);
     }
 
     public override void WeaponServiceSetup(WeaponServiceLocator weaponService)
     {
-        utilities.SetPlayerUtilities(weaponService.playerMovementUtilities);
         weaponCombo.SetStateMachine(weaponService.animationSystem);
-        weaponCombo.SetWeaponStateHandler(weaponService.stateHandler);
+        weaponCombo.SetWeaponStateHandler(weaponService.entityComponent.stateHandler);
 
+        utilities.SetPlayerUtilities(weaponService.playerMovementUtilities);
         utilities.SetEnemyEnvironment(weaponService.enemyData);
         utilities.SetStats(weaponService.GetCharacterStats());
-        weaponService.stateHandler.OnMeleePerformed += utilities.AttackPerform;
+
     }
 }

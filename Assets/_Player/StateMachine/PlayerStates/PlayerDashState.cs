@@ -75,7 +75,8 @@ public class PlayerDashState : State
         player.stateHandler.CanAttack = false;
         Debug.Log("Player Dashing");
         CanUpdateLogic = false;
-        Timing.RunCoroutine(Dash());
+        // Timing.RunCoroutine(Dash());
+        player.movementUtilities.DoDash(20f, () => CanUpdateLogic = true);
         
     }
 
@@ -88,18 +89,6 @@ public class PlayerDashState : State
     {
         if(CanUpdateLogic)
             DoTransition();
-    }
-
-    IEnumerator<float> Dash()
-    {
-        player.movementUtilities.DoMove(player.transform.forward ,30);
-        //player animation
-        yield return Timing.WaitForSeconds(0.4f);
-        // yield return Timing.WaitUntilDone();
-        CanUpdateLogic = true;
-
-
-        // DoTransition();
     }
 
     private void DoTransition()

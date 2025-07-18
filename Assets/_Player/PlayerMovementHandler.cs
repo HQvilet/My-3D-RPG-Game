@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using MEC;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
@@ -24,13 +26,14 @@ public class PlayerMovementHandler : MonoBehaviour
     void Awake()
     {
         StateMachine = new PlayerStateMachine(this);
-        movementUtilities = new MovementUtilities(rb ,transform ,colliderDetection ,controller);
+        movementUtilities = new MovementUtilities(rb, transform, colliderDetection, controller);
     }
 
     void FixedUpdate()
     {
         
         movementUtilities.Gravity(movementData.gravity * movementData.gravityMultiplier);
+        movementUtilities.PhysicUpdate();
         StateMachine.PhysicUpdate();
     }
 
@@ -55,20 +58,41 @@ public class MovementUtilities
         this.controller = controller;
     }
 
+    
     public void DoMove(Vector3 move_direction, float speed, bool rotate_on_move = true)
     {
         // speed *= colliderDetection.IsOnSlope ? 0.8f : 1f;
         // Vector3 currentVelocity = rb.velocity;
         // // rb.AddForce(colliderDetection.GetSlopeDirection(move_direction) * speed - currentVelocity  ,ForceMode.VelocityChange);
         // rb.velocity = colliderDetection.GetSlopeDirection(move_direction) * speed;
-        // if (rotate_on_move)
-        //     RotateTowardDirection(move_direction);
-        controller.Move(move_direction * speed);
+        if (rotate_on_move)
+            RotateTowardDirection(move_direction);
+        controller.Move(move_direction * speed * Time.fixedDeltaTime);
     }
 
-    public void Dash(float force)
+
+    float dash_time = 0;
+    Action OCD;
+    public void DoDash(float force, Action OnCompleteDashing)
     {
-        DoMove(transform.forward ,force);
+        // DoMove(transform.forward, force);
+        Timing.RunCoroutine(Dash(force, 0.2f, OnCompleteDashing));
+        // OCD += OnCompleteDashing;
+        // dash_time = 0.2f;
+    }
+
+    IEnumerator<float> Dash(float force, float time, Action OnCompleteDashing)
+    {
+        dash_time = time;
+        while (dash_time > 0)
+        {
+            dash_time -= Time.deltaTime;
+            // controller.Move(transform.forward * force * Time.deltaTime);
+            
+            yield return 0;
+        }
+        OnCompleteDashing.Invoke();
+
     }
 
     public void RotateTowardDirection(Vector3 direction)
@@ -77,7 +101,7 @@ public class MovementUtilities
 
         // float angle = transform.rotation.eulerAngles.y;
 
-        transform.DOLookAt(direction + transform.position ,0.15f ,up : Vector3.up);
+        transform.DOLookAt(direction + transform.position, 0.15f, up: Vector3.up);
 
         // angle = Mathf.LerpAngle(angle ,target_angle ,0.3f);
         // transform.rotation = Quaternion.Euler(0 ,angle ,0);
@@ -89,7 +113,7 @@ public class MovementUtilities
 
         // float angle = transform.rotation.eulerAngles.y;
 
-        transform.DOLookAt(new Vector3(target.x ,0 ,target.z) ,0.15f ,up : Vector3.up);
+        transform.DOLookAt(new Vector3(target.x, 0, target.z), 0.15f, up: Vector3.up);
 
         // angle = Mathf.LerpAngle(angle ,target_angle ,0.3f);
         // transform.rotation = Quaternion.Euler(0 ,angle ,0);
@@ -99,12 +123,22 @@ public class MovementUtilities
     {
         // rb.AddForce(Vector3.up * jumpPulse ,ForceMode.VelocityChange);
 
-        DoMove(Vector3.up ,jumpPulse);
+        DoMove(Vector3.up, jumpPulse);
     }
 
     public void Gravity(float gravity)
     {
-        if(!colliderDetection.IsGrounded)
-            rb.AddForce(Vector3.down * gravity ,ForceMode.Force);
+        // if(!colliderDetection.IsGrounded)
+        //     rb.AddForce(Vector3.down * gravity ,ForceMode.Force);
+        // if(!controller.IsGrounded())
+            controller.Move(Vector3.down * gravity * Time.fixedDeltaTime);
+    }
+
+    public void PhysicUpdate()
+    {
+
+        if (dash_time > 0)
+            DoMove(transform.forward, 20f, false);
+        
     }
 }

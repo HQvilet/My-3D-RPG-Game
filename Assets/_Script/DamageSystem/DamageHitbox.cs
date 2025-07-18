@@ -20,12 +20,13 @@ public class DamageHitbox : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.TryGetComponent(out BaseDamageableObject damageableObject))
+        if (other.TryGetComponent(out BaseDamageableObject damageableObject))
         {
             damageableObject.OnGetHit(DamageHandler.Processor(sourceEntity.characterStats, calculatedDamage));
             // sourceEntity.stateHandler.OnHitTarget?.Invoke(damageableObject.GetComponent<EntityComponent>());
         }
     }
+
 
     public void DoDamage(DamageModifier damage)
     {

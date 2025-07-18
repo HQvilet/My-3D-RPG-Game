@@ -6,7 +6,7 @@ using UnityEngine;
 // Player data that weapon required
 public class WeaponServiceLocator : MonoBehaviour
 {
-    public PlayerStateHandler stateHandler;
+    public EntityComponent entityComponent;
 
     [SerializeField] PlayerMovementHandler PMovement;
     public MovementUtilities playerMovementUtilities

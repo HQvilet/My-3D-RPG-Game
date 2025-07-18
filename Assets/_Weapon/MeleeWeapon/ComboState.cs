@@ -10,7 +10,6 @@ public struct ActionStateConfig
     public AnimationClip animationClip;
     public float _timeBufferPercent;
     public bool AllowToInterupt;
-
 }
 
 public class ActionState : State
@@ -19,7 +18,7 @@ public class ActionState : State
     private AnimationSystem animationSystem;
 
     private Animator animator;
-    private int animationName;
+    
 
     private MeleeWeaponStateMachine stateMachine;
     AnimationClip stateAnimation;
@@ -27,32 +26,33 @@ public class ActionState : State
     {
         this.stateMachine = stateMachine;
         this._duration = anim.length;
-        this.animationSystem = stateMachine.animator;
+        // this.animationSystem = stateMachine.animator;
         this.stateAnimation = anim;
         this.animationName = Animator.StringToHash(anim.name);
-        this.animator = stateMachine.animator.m_animator;
+        // this.animator = stateMachine.animator.m_animator;
     }
 
+    private int animationName;
     float _duration;
     float _duration_count;
     // public float _timeBuffer = 0.6f;
-    public bool AllowToChange = false;
-    bool CallbackOnce = true;
+    public bool allowToChange = false;
+    bool callbackOnce = true;
 
     public override void Enter()
     {
         ResetState();
-        animationSystem.PlayOneShot(stateAnimation);
+        stateMachine.animator.PlayOneShot(stateAnimation);
         // animator.CrossFade(animationName ,0.0f);
     }
 
     public override void Update()
     {
         _duration_count -= Time.deltaTime;
-        if(_duration_count <= 0.25f && CallbackOnce)
+        if(_duration_count <= 0.25f && callbackOnce)
         {
-            AllowToChange = true;
-            CallbackOnce = false;
+            allowToChange = true;
+            callbackOnce = false;
             stateMachine.stateHandler.OnMeleeCompletedState?.Invoke();
         }
     }
@@ -64,8 +64,8 @@ public class ActionState : State
 
     private void ResetState()
     {
-        AllowToChange = false;
-        CallbackOnce = true;
+        allowToChange = false;
+        callbackOnce = true;
         _duration_count = _duration;
     }
 }
@@ -73,16 +73,15 @@ public class ActionState : State
 public class MeleeWeaponStateMachine : StateMachine
 {    
     List<ActionState> WeaponComboStates = new List<ActionState>();
-    private int MaxCombo;
+    private int maxCombo;
 
     //Event
     public PlayerStateHandler stateHandler;
-
     public AnimationSystem animator;
 
     public MeleeWeaponStateMachine(WeaponCombo meleeCombo ,AnimationSystem animationSystem ,List<AnimationClip> clips)
     {
-        MaxCombo = clips.Count;
+        maxCombo = clips.Count;
         animator = animationSystem;
         SetUpActionChain(clips);
     }
@@ -95,7 +94,6 @@ public class MeleeWeaponStateMachine : StateMachine
 
     private ActionState currentActionState;
     private int currentIndex = -1;
-    // private float _timeBuffer;
     private float _resetStateBuffer = 4f;
     private float _currentResetStateTime;
 
@@ -106,7 +104,7 @@ public class MeleeWeaponStateMachine : StateMachine
             PerformAttack();
             return;
         }
-        if(currentActionState.AllowToChange)
+        if(currentActionState.allowToChange)
         {
             PerformAttack();
             return;
@@ -116,12 +114,14 @@ public class MeleeWeaponStateMachine : StateMachine
     public void LogicUpdate()
     {
         _currentResetStateTime -= Time.deltaTime;
+        
+        
 
-        if(currentActionState == null) return;
+        if (currentActionState == null)
+            return;
 
         if(_currentResetStateTime <= 0)
             ResetCombo();
-
     }
 
     void PerformAttack()
@@ -131,10 +131,11 @@ public class MeleeWeaponStateMachine : StateMachine
 
         _currentResetStateTime = _resetStateBuffer;
         currentIndex++;
-        if(currentIndex >= MaxCombo)
+        if(currentIndex >= maxCombo)
         {
             stateHandler.OnMeleeFinishedCombo?.Invoke();
             ResetCombo();
+            PerformAttack();
             return;
         }
         currentActionState = WeaponComboStates[currentIndex];
@@ -142,7 +143,6 @@ public class MeleeWeaponStateMachine : StateMachine
         stateHandler.OnMeleePerformed?.Invoke();
         
     }
-
 
     public void ResetCombo()
     {

@@ -12,7 +12,7 @@ public class PlayerAttackState : GroundingState
 
     public override void Enter()
     {
-        Debug.Log("Attack Trigger");
+        // Debug.Log("Attack Trigger");
         player.stateHandler.OnMeleeCompletedState += DoTransition;
     }
 
@@ -29,7 +29,8 @@ public class PlayerAttackState : GroundingState
 
     void DoTransition()
     {
-        if(player.colliderDetection.IsGrounded)
+        // if(player.colliderDetection.IsGrounded)
+        if(player.controller.isGrounded)
         {
             if(!player.Input.HasMotionInput)
                 stateMachine.ChangeState(stateMachine.idlingState);

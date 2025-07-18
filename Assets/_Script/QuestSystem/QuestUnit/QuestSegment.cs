@@ -1,10 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using QuestSystem;
 using UnityEngine;
 
-
+// Framework for basic quest segment
 [CreateAssetMenu(menuName = "Quest/New Quest Segment")]
 public class QuestSegment : ScriptableObject
 {
@@ -13,7 +14,7 @@ public class QuestSegment : ScriptableObject
 
     // public QuestRequirement Tasks;
     [Header("Collecting Item Quest")]
-    public List<ItemCollectingQuest> ItemsRequirement;
+    public List<ItemCollectingQuest> ItemsToCollect;
 
     // Move to specific position
     [Header("Move To Quest")]
@@ -31,19 +32,40 @@ public class QuestSegment : ScriptableObject
 
     public bool HasFinished()
     {
-        return ObjectToCollect.All(o => o.MeetRequirement()) || ItemsRequirement.Count() == 0;
+        return (ObjectToCollect.All(o => o.MeetRequirement()) || ObjectToCollect.Count() == 0)
+            && (ItemsToCollect.All(o => o.MeetRequirement()) || ItemsToCollect.Count() == 0);
     }
 
     public void OnStartQuestSegment()
     {
-        QuestDataTracking.Instance.ObjectCollectEvent += AddItem;
+        Bus<OnCollectItemEvent>.AddRegister(OnCollectedItem);
     }
 
-    public void Update(){}
+    private void OnCollectedItem(OnCollectItemEvent @event)
+    {
+        foreach (ItemCollectingQuest itemQuest in ItemsToCollect)
+        {
+            if (itemQuest.Item.ID == @event.itemID)
+            {
+                itemQuest.CurrentAmount += @event.amount;
+                break;
+            }
+        }
+        CheckFinished();
+    }
+
+    private void CheckFinished()
+    {
+        if (HasFinished())
+        {
+            OnFinishQuestSegment();
+        }
+    }
 
     public void OnFinishQuestSegment()
     {
-        QuestDataTracking.Instance.ObjectCollectEvent -= AddItem;
+        Debug.Log("Quest complete");
+        Bus<OnCollectItemEvent>.RemoveRegister(OnCollectedItem);
     }
 
 }

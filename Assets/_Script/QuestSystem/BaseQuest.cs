@@ -43,15 +43,13 @@ namespace QuestSystem
             CurrentQuestIndex++;
             if(CurrentQuestIndex < questSegments.Count())
             {
-                CurrentQuest.OnStartQuestSegment();
                 CurrentQuest = questSegments[CurrentQuestIndex];
+                CurrentQuest.OnStartQuestSegment();
             }
             else
             {
                 OnFinishedQuest();
             }
-
-            
         }
 
         public virtual void OnStartQuest()

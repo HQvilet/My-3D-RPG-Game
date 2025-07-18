@@ -15,69 +15,44 @@ public struct SlashVFX
 
 public class AxeUtilities : BaseWeaponUtilities
 {
-    //Hit And Slash Data
     [SerializeField] private SlashVFX[] hitAndSlashes = new SlashVFX[3];
-    // List<SlashVFX> hitAndSlashes;
     [SerializeField] private DamageModifier damageModifier;
-
-    private EnemyDetection senseOfEnemy;
-    public void SetEnemyEnvironment(EnemyDetection senseOfEnemy)
-    {
-        this.senseOfEnemy = senseOfEnemy;
-    }
-
-    private CharacterStats playerStats;
-    public void SetStats(CharacterStats stats)
-    {
-        this.playerStats = stats;
-    }
-    
-    public DamageHitbox hitbox;
+    [SerializeField] private Transform _vfx;
+    [SerializeField] private DamageHitbox hitbox;
 
     void Start()
     {
+        EntityComponentSystem.Instance.GetPlayerComponent().stateHandler.OnMeleePerformed += AttackPerform;
         hitbox.SetSourceDamage(EntityComponentSystem.Instance.GetPlayerComponent());
         hitbox.gameObject.SetActive(false);
-        
-        hitbox.transform.localPosition = Vector3.forward * distance;
     }
-
-    private Transform rootVFX;
-    public void SetRootVFX(Transform rootTransform)
-    {
-        rootVFX = rootTransform;
-    }
-
-    public Vector3 size;
-    public float distance;
 
     private MovementUtilities playerMovementUtilities;
-    public void SetPlayerUtilities(MovementUtilities movementUtilities)
-    {
-        playerMovementUtilities = movementUtilities;
-    }
+    public void SetPlayerUtilities(MovementUtilities movementUtilities) => playerMovementUtilities = movementUtilities;
 
+    private EnemyDetection senseOfEnemy;
+    public void SetEnemyEnvironment(EnemyDetection senseOfEnemy) => this.senseOfEnemy = senseOfEnemy;
+
+    private CharacterStats playerStats;
+    public void SetStats(CharacterStats stats) => this.playerStats = stats;
+
+
+    // WEAPON UTILITIES HANDLER
     private void SlashAttack()
     {
         hitbox.DoDamage(damageModifier);
-        // StartCoroutine(TriggerDamageCollider());
     }
 
-    IEnumerator TriggerDamageCollider()
-    {
-        hitbox.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.1f);
-        hitbox.gameObject.SetActive(false);
-    }
 
     private void DoSlash(SlashVFX slash)
     {
-        Instantiate<Transform>(slash.slash_vfx ,rootVFX).localRotation = Quaternion.Euler(slash.slashQuaternion);
+        Instantiate<Transform>(slash.slash_vfx, _vfx).localRotation = Quaternion.Euler(slash.slashQuaternion);
         SlashAttack();
     }
 
     public void Slash_1()
     {
+        Debug.Log("Slasheded");
         DoSlash(hitAndSlashes[0]);
     }
 
@@ -91,18 +66,15 @@ public class AxeUtilities : BaseWeaponUtilities
         DoSlash(hitAndSlashes[2]);
     }
 
-
-    public void BackStab()
+    public void BackStab(){}
+    
+    public void AttackPerform()
     {
-        
-    }
-
-    internal void AttackPerform()
-    {
-        senseOfEnemy.QueryEnemyInRange(1f ,out Transform nearest_obj);
-        if(nearest_obj != null)
+        senseOfEnemy.QueryEnemyInRange(0.8f, out Transform nearest_obj);
+        if (nearest_obj != null)
             playerMovementUtilities.RotateTowardTarget(nearest_obj.position);
     }
+
 
     void OnDrawGizmos()
     {
@@ -110,8 +82,7 @@ public class AxeUtilities : BaseWeaponUtilities
         foreach(var a in hitAndSlashes)
         {
             Vector3 normal = Quaternion.Euler(a.slashQuaternion) * Vector3.up;
-            Handles.DrawWireDisc(rootVFX.position ,normal ,1.1f);
+            Handles.DrawWireDisc(_vfx.position ,normal ,1.1f);
         }
-        
     }
 }

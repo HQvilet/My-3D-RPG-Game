@@ -8,12 +8,20 @@ public class WeaponModelConfig : MonoBehaviour
     [SerializeField] private Transform rightHandWeapon;
     [SerializeField] private Transform leftHandWeapon;
     [SerializeField] private Transform shieldWeapon;
+    [SerializeField] private Transform weaponPool;
 
     [Header("Skills")]
     public Transform rootVFX;
     [SerializeField] private Transform colliderPool;
 
-    public void SetLeftHandedWeapon(Transform weaponModel ,Vector3 offset = default(Vector3))
+    public void AddToPool(Transform weapon)
+    {
+        weapon.SetParent(weaponPool);
+        weapon.localPosition = Vector3.zero;
+        weapon.localEulerAngles = Vector3.zero;
+    }
+
+    public void SetLeftHandedWeapon(Transform weaponModel, Vector3 offset = default(Vector3))
     {
         weaponModel.SetParent(leftHandWeapon);
         // weaponModel.localPosition = offset;
