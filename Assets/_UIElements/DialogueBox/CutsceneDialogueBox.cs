@@ -60,6 +60,8 @@ public class DynamicDialogueBox : MonoBehaviour
 
     public void SetWeight(float weight)
     {
-        textMesh.color = new Color(1 ,1 ,1 ,weight);
+        textMesh.color = new Color(1, 1, 1, weight);
+        // if(weight > 0)
+        // gameObject.SetActive(weight > 0);
     }
 }

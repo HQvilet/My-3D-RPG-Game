@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/Editor/DialogueGraphNodeEditor/node.uss?fileID=7433441132597879392&amp;guid=a643575ff41600b4087339fe6affdc80&amp;type=3#node" />
+    <ui:VisualElement class="background" style="flex-grow: 0; flex-direction: row; flex-wrap: wrap; flex-shrink: 0; margin-top: 1px; margin-right: 1px; margin-bottom: 1px; margin-left: 1px; padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px; width: 280px;">
+        <ui:VisualElement name="InputPort" style="flex-grow: 0; flex-direction: column; flex-wrap: nowrap; align-items: center; flex-basis: auto; width: auto; align-self: flex-start; -unity-text-align: upper-left; white-space: normal; text-overflow: clip; justify-content: flex-start; flex-shrink: 0;" />
+        <ui:VisualElement style="flex-grow: 0; height: 152px; flex-shrink: 0; width: 99%;">
+            <ui:TextField picking-mode="Ignore" label="Name" name="Name" />
+            <ui:TextField picking-mode="Ignore" label="Content" password="false" is-delayed="true" multiline="true" name="Content" value="sdansda sjasf asjfa sf a sf as f as fa fs a s fa s fa sf a sf a sf a sf as f asf a s fa sf a sf " style="text-overflow: clip; align-self: auto; flex-direction: column; width: auto; height: 125px; white-space: normal; -unity-text-align: upper-left; -unity-font-style: normal; -unity-text-outline-width: 0; letter-spacing: 0; flex-wrap: wrap-reverse;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="OutputPort" style="flex-grow: 0; flex-shrink: 0; width: 100%;" />
+        <ui:VisualElement name="OptionContentContainer" class="listViewBackground" style="width: 98%;">
+            <ui:IntegerField label="Option Number" value="0" name="OptionNumberField" readonly="false" style="-unity-background-image-tint-color: rgb(255, 255, 255); background-image: none;" />
+            <ui:VisualElement name="OptionContainer" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-basis: auto; flex-wrap: wrap; flex-direction: row; height: auto; flex-shrink: 0; bottom: auto; align-items: flex-start; justify-content: flex-end; align-self: flex-end;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

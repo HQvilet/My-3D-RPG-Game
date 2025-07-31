@@ -17,10 +17,10 @@ public class SenseOfNPC : MonoBehaviour
             if(colliders.Count() > 0)
             {
                 Collider collideInfo = colliders[0];
-                if(collideInfo.TryGetComponent(out InteractableNPC _obj))
+                if(collideInfo.TryGetComponent(out IInteractable _obj))
                 {
-                        if(!_obj.HasInteracted)
-                            _obj.Interact();
+                    // if(!_obj.HasInteracted)
+                        _obj.Interact();
                 }
             }
         }

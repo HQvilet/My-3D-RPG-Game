@@ -1,0 +1,15 @@
+.background {
+    background-color: rgb(42, 42, 42);
+    margin-top: 3px;
+    margin-right: 3px;
+    margin-bottom: 3px;
+    margin-left: 3px;
+    padding-top: 3px;
+    padding-right: 3px;
+    padding-bottom: 3px;
+    padding-left: 3px;
+}
+
+.listViewBackground {
+    background-color: rgba(34, 34, 34, 0);
+}

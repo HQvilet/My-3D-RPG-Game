@@ -10,7 +10,6 @@ public class PlayerMovementHandler : MonoBehaviour
 {
 
     [Header("Physic Layer")]
-    public Rigidbody rb;
     public ColliderDetection colliderDetection;
     public PlayerMovementData movementData;
     
@@ -22,6 +21,8 @@ public class PlayerMovementHandler : MonoBehaviour
     public PlayerStateHandler stateHandler;
     public PlayerStateMachine StateMachine;
     public MovementUtilities movementUtilities;
+
+    public Rigidbody rb;
     public CharacterController controller;
     void Awake()
     {
@@ -41,7 +42,6 @@ public class PlayerMovementHandler : MonoBehaviour
     {
         StateMachine.Update();
     }
-    
 }
 
 public class MovementUtilities
@@ -58,16 +58,25 @@ public class MovementUtilities
         this.controller = controller;
     }
 
-    
+
     public void DoMove(Vector3 move_direction, float speed, bool rotate_on_move = true)
     {
-        // speed *= colliderDetection.IsOnSlope ? 0.8f : 1f;
-        // Vector3 currentVelocity = rb.velocity;
-        // // rb.AddForce(colliderDetection.GetSlopeDirection(move_direction) * speed - currentVelocity  ,ForceMode.VelocityChange);
-        // rb.velocity = colliderDetection.GetSlopeDirection(move_direction) * speed;
+        // if (rotate_on_move)
+        //     RotateTowardDirection(move_direction);
+        // controller.Move(move_direction * speed * Time.fixedDeltaTime);
+
+        Vector3 look_direction = transform.position - CameraCaching.mainCamera.transform.position;
+
+        look_direction = MyUtils.ModifiyVector(look_direction, y : 0);
+
+        Quaternion t = Quaternion.LookRotation(look_direction);
+
+        Vector3 move_orientation = t * move_direction;
+
+        move_orientation.Normalize();
+        controller.Move(move_orientation * speed * Time.fixedDeltaTime);
         if (rotate_on_move)
-            RotateTowardDirection(move_direction);
-        controller.Move(move_direction * speed * Time.fixedDeltaTime);
+            RotateTowardDirection(move_orientation);
     }
 
 
@@ -75,10 +84,7 @@ public class MovementUtilities
     Action OCD;
     public void DoDash(float force, Action OnCompleteDashing)
     {
-        // DoMove(transform.forward, force);
         Timing.RunCoroutine(Dash(force, 0.2f, OnCompleteDashing));
-        // OCD += OnCompleteDashing;
-        // dash_time = 0.2f;
     }
 
     IEnumerator<float> Dash(float force, float time, Action OnCompleteDashing)
@@ -87,8 +93,6 @@ public class MovementUtilities
         while (dash_time > 0)
         {
             dash_time -= Time.deltaTime;
-            // controller.Move(transform.forward * force * Time.deltaTime);
-            
             yield return 0;
         }
         OnCompleteDashing.Invoke();
@@ -139,6 +143,5 @@ public class MovementUtilities
 
         if (dash_time > 0)
             DoMove(transform.forward, 20f, false);
-        
     }
 }

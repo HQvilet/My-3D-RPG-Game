@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1740ad67b32574d4a8a26015f2b16003, type: 3}
+  m_Name: Test Quest 2
+  m_EditorClassIdentifier: 
+  ID: 12314
+  Title: Sybau
+  questSegments: []
+  CurrentState: 0
+  CurrentQuestIndex: 4

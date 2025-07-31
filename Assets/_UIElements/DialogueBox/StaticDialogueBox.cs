@@ -13,8 +13,6 @@ public class StaticDialogueBox : MonoBehaviour
     public IEnumerator Show()
     {
         DialogueBoxPopUp();
-        
-        
         // yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.F));
         nameTag.text = currentContext.CharacterName;
         

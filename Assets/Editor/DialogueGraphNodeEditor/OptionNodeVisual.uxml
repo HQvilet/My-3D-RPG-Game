@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement name="OutputPortContainer" style="flex-grow: 1; height: 36%; position: relative; width: auto; flex-direction: row; flex-basis: auto; flex-wrap: nowrap; margin-top: 1px; margin-right: 1px; margin-bottom: 1px; margin-left: 1px; padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px;">
+        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="OptionName" style="width: auto; -unity-text-align: middle-center; white-space: normal;" />
+        <ui:VisualElement name="Port" style="flex-grow: 1; width: auto; height: auto;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="OptionContentContainer" style="flex-grow: 1; height: 71px;">
+        <ui:TextField picking-mode="Ignore" value="filler text" max-length="-1" multiline="true" name="OptionContentTextField" style="height: 96%;" />
+    </ui:VisualElement>
+</ui:UXML>

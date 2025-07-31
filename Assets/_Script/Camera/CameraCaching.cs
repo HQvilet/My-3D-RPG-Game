@@ -9,5 +9,7 @@ public class CameraCaching : MonoBehaviour
     void Awake()
     {
         mainCamera = Camera.main;
+        // Cursor.visible = false;
+        // Cursor.lockState = CursorLockMode.Locked;
     }
 }

@@ -13,14 +13,4 @@ public class Dialogue : Singleton<Dialogue>
         s_dialogue.Activate();
     }
 
-    // public void Activate()
-    // {
-
-    // }
-
-    void Update()
-    {
-        // if(Input.GetKeyDown(KeyCode.V))
-        //     dialogue.Activate();
-    }
 }
