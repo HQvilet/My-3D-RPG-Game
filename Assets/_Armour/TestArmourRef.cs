@@ -4,29 +4,22 @@ using ItemSystem.ItemConfiguration;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-
-
-
-[CreateAssetMenu(menuName = "ArmourAsset/Test Asset")]
+[CreateAssetMenu(menuName = "Armour Asset/Test Asset")]
 public class TestArmourRef : ArmourReference //,IArmourRef
 {
     public ArmourItem item;
     public TestArmourUtils utils;
-    // public BasicStatsConfig basicStats;
     public TestArmourConfig config;
-
-    public TestArmourRef Set(TestArmourRef assetFile)
+    
+    public override void Set(ArmourReference reference)
     {
+        TestArmourRef assetFile = reference as TestArmourRef;
         item = assetFile.item;
 
         config = assetFile.config;
         utils = new TestArmourUtils();
         utils.SetConfigFile(config);
-        
-        // basicStats = assetFile.basicStats;
 
-        return this;
     }
 
     public override ArmourUtils GetArmourUtils() => utils;
@@ -44,7 +37,7 @@ public class TestArmourUtils : ArmourUtils
     {
         entity.characterStats.mediator.AddStats(config.stats);
     }
-    
+
     public override void OnEquippedStay(EntityComponent entity)
     {
         Debug.Log("Is Equipping");

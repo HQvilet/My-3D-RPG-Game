@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Wooden Leg Armour
+  m_EditorClassIdentifier: Assembly-CSharp:ItemSystem.ItemConfiguration:ArmourItem
+  ID: 1992992620
+  Name: Wooden Leg Armour
+  Sprite: {fileID: -742557733, guid: 83bf93558b0ec514a95bd6edcd67f7ac, type: 3}
+  Description: 
+  IsStackable: 0
+  armourType: 2

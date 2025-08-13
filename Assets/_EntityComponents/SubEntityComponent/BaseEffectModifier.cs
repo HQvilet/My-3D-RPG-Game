@@ -12,14 +12,14 @@ public class BaseEffectModifier : MonoBehaviour
 
     // On efffect target callbacks
     public Action<float> OnTakePhysicDamage;
-    public Action<float> OnTakeFireDamage;
+    public Action<float, float> OnTakeFireDamage;
     public Action<float> OnGetKnockBack;
 
     public void SerilizeEffectSource(DamageModifier damage)
     {
         if(damage.physicalDamage > 0) OnTakePhysicDamage?.Invoke(damage.physicalDamage);
 
-        if(damage.fireDamage > 0) OnTakeFireDamage?.Invoke(damage.fireDamage);
+        if(damage.fireDamage > 0) OnTakeFireDamage?.Invoke(damage.fireDamage, 2);
 
         if(damage.knockBack > 0) OnGetKnockBack?.Invoke(damage.knockBack);
     }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace ItemSystem.ItemConfiguration
@@ -53,8 +54,6 @@ namespace ItemSystem.ItemConfiguration
     public class ArmourItem : ItemData
     {
         public ArmourType armourType;
-        // public BasicStatsConfig stats;
-        // public ArmourUtils armourUtils;
 
         protected override void OnValidate() 
         {

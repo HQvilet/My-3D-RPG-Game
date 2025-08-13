@@ -11,7 +11,6 @@ public class WeaponAsset// : IInventorySlot
     public bool IsStackable{get => false;}
 
     [SerializeField] private BasicStatsConfig upgradeStats;
-    private UpgradeAsset upgradeInfo;
 
     public ItemData GetItemData()
     {

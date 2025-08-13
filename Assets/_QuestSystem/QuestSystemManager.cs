@@ -18,6 +18,11 @@ namespace QuestSystem
             // questUI.AddQuest();
         }
 
+        public void AddPriorityQuest(BaseQuest quest)
+        {
+
+        }
+
     }
 
 }

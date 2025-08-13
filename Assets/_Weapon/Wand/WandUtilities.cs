@@ -7,44 +7,31 @@ public class WandUtilities : BaseWeaponUtilities
 {
 
     [SerializeField] private Transform AoE_VFX;
+
     private EnemyDetection senseOfEnemy;
-    public void SetEnemyEnvironment(EnemyDetection senseOfEnemy)
+    public void SetEnemyEnvironment(EnemyDetection senseOfEnemy) => this.senseOfEnemy = senseOfEnemy;
+
+    public void AttackPerform()
     {
-        // this.senseOfEnemy = senseOfEnemy;
-        senseOfEnemy.OnDetectedEnemy += DDD; 
+        senseOfEnemy.QueryEnemyInRange(5f, out Transform nearest_obj);
+        if (nearest_obj != null)
+        {
+            var _obj = Instantiate(AoE_VFX, MyUtils.ModifyVector(nearest_obj.position, y : 0), Quaternion.identity);
+            _obj.GetComponent<DamageHitbox>().SetSourceDamage(EntityComponentSystem.Instance.GetPlayerComponent());
+        }
     }
-
-    private void DDD(Transform t_transform)
-    {
-        target = t_transform;
-    }
-
-    [SerializeField] private Transform target;
-
-    void Start()
-    {
-        
-    }
-
-
 
     public void SkillSet_1()
     {
-        //play animation
-
-        //Spawn vfx
-        Instantiate(AoE_VFX ,target.position ,Quaternion.identity);
-        //Attack hit box
+        AttackPerform();
     }
 
-    public void SkillSet_2()
+    void DoAttack()
     {
-        
-    }
+        var _obj = Instantiate(AoE_VFX, Vector3.zero, Quaternion.identity);
+        _obj.GetComponent<DamageHitbox>().SetSourceDamage(EntityComponentSystem.Instance.GetPlayerComponent());
 
-    public void SkillSet_3()
-    {
-        
     }
+    
 
 }

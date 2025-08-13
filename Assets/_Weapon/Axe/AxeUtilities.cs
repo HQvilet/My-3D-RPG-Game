@@ -52,7 +52,6 @@ public class AxeUtilities : BaseWeaponUtilities
 
     public void Slash_1()
     {
-        Debug.Log("Slasheded");
         DoSlash(hitAndSlashes[0]);
     }
 

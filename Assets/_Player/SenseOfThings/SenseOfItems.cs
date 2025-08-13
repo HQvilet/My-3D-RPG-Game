@@ -21,29 +21,27 @@ public class SenseOfItems : MonoBehaviour
 
     void Update()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.parent.position ,Radius ,layer);
-        foreach(Collider collideInfo in colliders)
+        if (InputDataHandler.Instance.PerformedAnInteract)
         {
-            if(collideInfo.TryGetComponent(out BasicItem item))
+            Collider[] colliders = Physics.OverlapSphere(transform.parent.position ,Radius ,layer);
+            foreach(Collider collideInfo in colliders)
             {
-                //Send Data to UI
-                if(InputDataHandler.Instance.PerformedAnInteract) //or UI selected
+                if(collideInfo.TryGetComponent(out BasicItem item))
                 {
+                    //Send Data to UI
                     OnPickUpItem(item);
-                    Bus<OnCollectEvent>.Raise(new OnCollectEvent("asd" ,1));
                     break;
-                }
-            }else if(collideInfo.TryGetComponent(out CustomItem c_item))
-            {
-                if(InputDataHandler.Instance.PerformedAnInteract) //or UI selected
+                    
+                }else if(collideInfo.TryGetComponent(out CustomItem c_item))
                 {
                     OnPickUpArmourItem(c_item);
-                    Bus<OnCollectEvent>.Raise(new OnCollectEvent("asd" ,1));
                     break;
+                    
                 }
+                
             }
-            
         }
+        
     }
 
     void OnPickUpItem(BasicItem item)
@@ -53,10 +51,10 @@ public class SenseOfItems : MonoBehaviour
         Destroy(item.gameObject);
     }
 
-    void OnPickUpArmourItem(CustomItem c_item)
+    void OnPickUpArmourItem(CustomItem item)
     {
-        InventoryManager.Instance.AddArmourItem(c_item.armourRef);
-        // Destroy(c_item.gameObject);
+        InventoryManager.Instance.AddArmourItem(item.armourRef);
+        Destroy(item.gameObject);
     }
 
     void OnDrawGizmos()

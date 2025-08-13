@@ -10,7 +10,7 @@ public class InteractableObject : MonoBehaviour
     {
         if(other.transform.parent.gameObject.name == "Player")
         {
-            Dialogue.Instance.Activate(dialogueContext);
+            // Dialogue.Instance.Activate(dialogueContext);
             Debug.Log("Interact");
         }
     }

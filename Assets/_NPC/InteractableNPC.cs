@@ -5,21 +5,19 @@ using QuestSystem;
 using TMPro;
 using UnityEngine;
 
-public class InteractableNPC : MonoBehaviour ,IInteractable
+public class InteractableNPC : MonoBehaviour, IInteractable
 {
     private IInteractAction interact;
 
     public TextMeshProUGUI nameTag;
     public NPCData Data;
     public bool HasInteracted = false;
-    [SerializeField] private List<DialogueContext> NPCContexts = new List<DialogueContext>();
 
-    public QuestSegment quest;
-
-    void Awake()
+    void Start()
     {
         nameTag.text = Data.characterName;
         interact = GetComponent<IInteractAction>();
+        NPCManager.Instance.AddWorldDataNPC(this);
     }
 
     public void Interact()
@@ -34,4 +32,6 @@ public class InteractableNPC : MonoBehaviour ,IInteractable
         // }
         interact.OnInteract();
     }
+
+    public IInteractAction GetInteractAction() => interact;
 }

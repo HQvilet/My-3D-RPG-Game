@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement style="flex-grow: 1; width: 250px; height: 100px;">
+        <ui:VisualElement name="InputPort" style="flex-grow: 1;" />
+        <ui:VisualElement style="flex-grow: 1;">
+            <ui:TextField picking-mode="Ignore" label="Package Name" name="PackageNameField" style="height: 54px; align-self: auto; flex-direction: column; white-space: normal;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="OutputPortContainer" style="flex-grow: 1;" />
+    </ui:VisualElement>
+</ui:UXML>

@@ -173,6 +173,7 @@ MonoBehaviour:
   characterStats: {fileID: 0}
   stateHandler: {fileID: 0}
   damageableObject: {fileID: 6331465005699688478}
+  effectModifier: {fileID: 4913332859314793860}
 --- !u!54 &678899002168344279
 Rigidbody:
   m_ObjectHideFlags: 0

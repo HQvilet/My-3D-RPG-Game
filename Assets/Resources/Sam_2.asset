@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da9864b1bab645c429eb5d3da52c6fab, type: 3}
+  m_Name: Sam_2
+  m_EditorClassIdentifier: 
+  nodes:
+  - rid: 7804688956363374592
+  - rid: 7804688956363374593
+  - rid: 7804688956363374594
+  startNode:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 7804688956363374592
+      type: {class: DialogueNode, ns: DialogueGraph, asm: DialogueGraph}
+      data:
+        m_guid: bc14dba9-9219-4954-b8c8-73628f358ff1
+        typeName: DialogueGraph.DialogueNode, DialogueGraph, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        rect:
+          serializedVersion: 2
+          x: 256.80002
+          y: 132.8
+          width: 286.4
+          height: 247.20001
+        _name: 
+        _content: 
+        p_nextGraphID: d9e91e30-c757-4f1d-8e88-af95a29bbc40
+    - rid: 7804688956363374593
+      type: {class: DialogueNode, ns: DialogueGraph, asm: DialogueGraph}
+      data:
+        m_guid: d9e91e30-c757-4f1d-8e88-af95a29bbc40
+        typeName: DialogueGraph.DialogueNode, DialogueGraph, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        rect:
+          serializedVersion: 2
+          x: 628
+          y: 155.2
+          width: 286.40002
+          height: 247.20001
+        _name: 
+        _content: 
+        p_nextGraphID: b1e29c2d-b26a-40a7-b5e3-cb098fce20b5
+    - rid: 7804688956363374594
+      type: {class: DialogueNode, ns: DialogueGraph, asm: DialogueGraph}
+      data:
+        m_guid: b1e29c2d-b26a-40a7-b5e3-cb098fce20b5
+        typeName: DialogueGraph.DialogueNode, DialogueGraph, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        rect:
+          serializedVersion: 2
+          x: 1015.2
+          y: 152.8
+          width: 286.40002
+          height: 247.20001
+        _name: 
+        _content: 
+        p_nextGraphID: 

@@ -72,24 +72,24 @@ public class BaseDamageableObject : MonoBehaviour
     {
         effectModifier.OnTakePhysicDamage += OnTakePhysicalDmg;
         
-        effectModifier.OnTakeFireDamage += OnFire;
+        effectModifier.OnTakeFireDamage += OnTakeFireDamage;
         effectModifier.OnGetKnockBack += OnGetKnockBack;
     }
 
-    private void OnFire(float damageFactor)
+    private void OnTakeFireDamage(float damageFactor, float time)
     {
-        if(!effectModifier.isOnFire)
-            StartCoroutine(GetBurn(damageFactor));
+        // if(!effectModifier.isOnFire)
+            StartCoroutine(GetBurn(damageFactor, time));
     }
-    IEnumerator GetBurn(float damageFactor)
+    IEnumerator GetBurn(float dmg, float time)
     {
-        float time = 2.1f;
+        // float time = 2.1f;
         effectModifier.isOnFire = true;
         while(time > 0)
         {
             time -= 0.2f;
-            OnTakeDamage(damageFactor);
-            yield return new WaitForSeconds(0.2f);
+            OnTakeDamage(dmg);
+            yield return new WaitForSeconds(0.1f);
         }
         effectModifier.isOnFire = false;
     }

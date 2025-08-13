@@ -59,8 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87e940f62b45a5242855bc2bfd2746b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AoE_VFX: {fileID: 4984980826245493072, guid: 0e5709a7ddb77924090c112cf73bb98a, type: 3}
-  target: {fileID: 0}
+  AoE_VFX: {fileID: 3074529939533758317, guid: 974405c3ce3bcb748ab94aa069791281, type: 3}
 --- !u!1001 &5294045684563734594
 PrefabInstance:
   m_ObjectHideFlags: 0

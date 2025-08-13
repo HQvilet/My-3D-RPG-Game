@@ -3,17 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NodeInfoAttribute : Attribute
+
+namespace DialogueGraph
 {
-    private string m_nodeTitle;
-    private string m_menuItem;
-
-    public string Title => m_nodeTitle;
-    public string MenuItem => m_menuItem;
-
-    public NodeInfoAttribute(string title, string menuItem = "")
+    public class NodeInfoAttribute : Attribute
     {
-        m_nodeTitle = title;
-        m_menuItem = menuItem;
+        private string m_nodeTitle;
+        private string m_menuItem;
+
+        public string Title => m_nodeTitle;
+        public string MenuItem => m_menuItem;
+
+        public NodeInfoAttribute(string title, string menuItem = "")
+        {
+            m_nodeTitle = title;
+            m_menuItem = menuItem;
+        }
     }
 }

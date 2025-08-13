@@ -101,8 +101,11 @@ public class InventoryManager : Singleton<InventoryManager> ,IInventoryUtilities
         {
             case(ArmourAssetType.TEST_ARMOUR):
                 // _obj = new TArmourRef(armour as TArmourRef);
-                _obj = ScriptableObject.CreateInstance<TestArmourRef>()
-                                        .Set(armour as TestArmourRef);
+                _obj = ScriptableObject.CreateInstance(armour.assetName) as ArmourReference;
+                if (_obj == null)
+                    return;
+                _obj.Set(armour);
+                // ScriptableObject.CreateInstance("TestArmourRef")
                 break;
 
             default:

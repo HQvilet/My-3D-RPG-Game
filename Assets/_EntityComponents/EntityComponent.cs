@@ -7,5 +7,7 @@ public class EntityComponent : MonoBehaviour
     public CharacterStats characterStats;
     public PlayerStateHandler stateHandler;
     public BaseDamageableObject damageableObject;
+    public BaseEffectModifier effectModifier;
+    //public void GetAccessToDamageAbility
     
 }

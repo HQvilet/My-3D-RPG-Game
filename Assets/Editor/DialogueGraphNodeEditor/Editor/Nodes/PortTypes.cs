@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class PortType
+namespace DialogueGraph.Editor
 {
-    public class FlowPort{}
+    public class PortType
+    {
+        public class FlowPort { }
+    }
 }

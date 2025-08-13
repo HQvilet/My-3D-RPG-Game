@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using MEC;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.TextCore.Text;
 
 public class PlayerMovementHandler : MonoBehaviour
@@ -26,21 +27,74 @@ public class PlayerMovementHandler : MonoBehaviour
     public CharacterController controller;
     void Awake()
     {
-        StateMachine = new PlayerStateMachine(this);
+        // StateMachine = new PlayerStateMachine(this);
         movementUtilities = new MovementUtilities(rb, transform, colliderDetection, controller);
+        stateHandler.OnMeleePerformed += OnMeleeAttackPerformed;
+        stateHandler.OnMeleeCompletedState += OnFinishAttackState;
+        // Input.PlayerInput.Dash.performed += OnDashingPerform;
     }
+
 
     void FixedUpdate()
     {
-        
+        if (stateHandler.IsMoving)
+        {
+            movementUtilities.DoMove(Input.MoveDirection(), movementData.runSpeed, true);
+        }
+
         movementUtilities.Gravity(movementData.gravity * movementData.gravityMultiplier);
         movementUtilities.PhysicUpdate();
-        StateMachine.PhysicUpdate();
     }
 
     void Update()
     {
-        StateMachine.Update();
+        if (Input.HasMotionInput && stateHandler.CanMove)
+        {
+            stateHandler.IsMoving = true;
+            stateHandler.IsIdling = false;
+
+            playerAnimator.SetBool("IsMoving", true);
+            playerAnimator.SetBool("IsRunning", true);
+        }
+        else
+        {
+            stateHandler.IsMoving = false;
+            playerAnimator.SetBool("IsMoving", false);
+        }
+
+        if (Input.PlayerInput.Dash.WasPerformedThisFrame() && stateHandler.CanDash)
+        {
+            stateHandler.CanMove = false;
+            Debug.Log("Dash");
+            if (Input.HasMotionInput)
+                movementUtilities.DoDash(Input.MoveDirection(), 20f, OnFinishDashing);
+            else
+                movementUtilities.DoDash(transform.forward, 20f, OnFinishDashing);
+        }
+    }
+
+    private void OnDashingPerform(InputAction.CallbackContext context)
+    {
+        if (stateHandler.CanDash)
+        {
+            stateHandler.CanMove = false;
+            movementUtilities.DoDash(Input.MoveDirection(), 20f, OnFinishDashing);
+        }
+    }
+
+    private void OnFinishDashing()
+    {
+        stateHandler.CanMove = true;
+    }
+
+    private void OnFinishAttackState()
+    {
+        stateHandler.CanMove = true;
+    }
+
+    private void OnMeleeAttackPerformed()
+    {
+        stateHandler.CanMove = false;
     }
 }
 
@@ -67,7 +121,7 @@ public class MovementUtilities
 
         Vector3 look_direction = transform.position - CameraCaching.mainCamera.transform.position;
 
-        look_direction = MyUtils.ModifiyVector(look_direction, y : 0);
+        look_direction = MyUtils.ModifyVector(look_direction, y : 0);
 
         Quaternion t = Quaternion.LookRotation(look_direction);
 
@@ -79,12 +133,24 @@ public class MovementUtilities
             RotateTowardDirection(move_orientation);
     }
 
+    public void DoSimpleMove(Vector3 move_direction, float speed, bool rotate_on_move = true)
+    {
+        if (rotate_on_move)
+            RotateTowardDirection(move_direction);
+        controller.Move(move_direction * speed * Time.fixedDeltaTime);
+    }
+
 
     float dash_time = 0;
-    Action OCD;
-    public void DoDash(float force, Action OnCompleteDashing)
+    Vector3 dash_direction;
+    float dash_force;
+    public void DoDash(Vector3 move_direction, float force, Action OnCompleteDashing)
     {
         Timing.RunCoroutine(Dash(force, 0.2f, OnCompleteDashing));
+        dash_force = force;
+        // Vector3 look_direction = transform.position - CameraCaching.mainCamera.transform.position;
+        // dash_direction = MyUtils.ModifyVector(look_direction, y: 0).normalized;
+        dash_direction = move_direction;
     }
 
     IEnumerator<float> Dash(float force, float time, Action OnCompleteDashing)
@@ -140,8 +206,7 @@ public class MovementUtilities
 
     public void PhysicUpdate()
     {
-
         if (dash_time > 0)
-            DoMove(transform.forward, 20f, false);
+            DoMove(dash_direction, dash_force, true);
     }
 }

@@ -7,10 +7,6 @@ public class Wand : BaseWeapon
 
     [SerializeField] private WandUtilities wandUtilities;
     Animator rigAnimator;
-    public override void OnSelected()
-    {
-        gameObject.SetActive(true);
-    }
 
     void Update()
     {
@@ -20,14 +16,6 @@ public class Wand : BaseWeapon
             wandUtilities.SkillSet_1();
         }
     }
-
-
-    public override void OnDeselected()
-    {
-        gameObject.SetActive(false);
-    }
-    
-
 
     public override void WeaponRiggingSetup(WeaponModelConfig config)
     {

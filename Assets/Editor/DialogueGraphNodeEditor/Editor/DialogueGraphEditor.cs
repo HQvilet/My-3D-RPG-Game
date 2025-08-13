@@ -4,27 +4,32 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
-[CustomEditor(typeof(DialogueGraphAsset))]
-public class DialogueGraphEditor : Editor
+namespace DialogueGraph.Editor
 {
-    [OnOpenAsset]
-    public static bool OnOpenAsset(int instanceID, int index)
+    [CustomEditor(typeof(DialogueGraphAsset))]
+    public class DialogueGraphEditor : UnityEditor.Editor
     {
-        Object asset = EditorUtility.InstanceIDToObject(instanceID);
-        if (asset.GetType() == typeof(DialogueGraphEditor))
+        [OnOpenAsset]
+        public static bool OnOpenAsset(int instanceID, int index)
         {
-            DialogueGraphEditorWindow.Open((DialogueGraphAsset)asset);
-            return true;
+            Object asset = EditorUtility.InstanceIDToObject(instanceID);
+            if (asset == null)
+                return false;
+            if (asset.GetType() == typeof(DialogueGraphAsset))
+                {
+                    DialogueGraphEditorWindow.Open((DialogueGraphAsset)asset);
+                    return true;
+                }
+            return false;
         }
-        return false;
-    }
 
 
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-        if (GUILayout.Button("Open"))
-            DialogueGraphEditorWindow.Open((DialogueGraphAsset)target);
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            if (GUILayout.Button("Open"))
+                DialogueGraphEditorWindow.Open((DialogueGraphAsset)target); 
 
+        }
     }
 }

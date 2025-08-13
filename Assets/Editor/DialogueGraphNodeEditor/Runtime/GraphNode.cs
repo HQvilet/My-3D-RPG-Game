@@ -3,36 +3,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum DialogueType
+namespace DialogueGraph
 {
-    NONE,
-    NORMAL,
-    OPTIONAL
-}
-
-[Serializable]
-public class DialogueGraphNode
-{
-    [SerializeField] string m_guid;
-    public string ID => m_guid;
-    [SerializeField] string typeName;
-    public string TypeName
+    public enum DialogueType
     {
-        get => typeName;
-        set => typeName = value;
+        NONE,
+        NORMAL,
+        OPTIONAL,
+        EVENT,
     }
 
-    [SerializeField] Rect rect;
-    public Rect Rect
+    [Serializable]
+    public class GraphNodeData
     {
-        get => rect;
-        set => rect = value;
-    }
+        [SerializeField] string m_guid;
+        public string ID => m_guid;
+        [SerializeField] string typeName;
+        public string TypeName
+        {
+            get => typeName;
+            set => typeName = value;
+        }
 
-    public DialogueGraphNode()
-    {
-        m_guid = Guid.NewGuid().ToString();
-    }
+        [SerializeField] Rect rect;
+        public Rect Rect
+        {
+            get => rect;
+            set => rect = value;
+        }
 
-    public virtual DialogueType GetNodeType() => DialogueType.NONE;
+        public GraphNodeData()
+        {
+            m_guid = Guid.NewGuid().ToString();
+        }
+
+        // public virtual 
+        public virtual DialogueType GetNodeType() => DialogueType.NONE;
+        public virtual string GetNextGraphID(int index = 0) => null;
+    }
 }

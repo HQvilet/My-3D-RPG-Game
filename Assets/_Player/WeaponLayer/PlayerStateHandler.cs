@@ -16,11 +16,15 @@ public class PlayerStateHandler : MonoBehaviour
     public Action<string> OnAnimationEvent;
 
     public Action<EntityComponent> OnHitTarget;
+    public Action<EntityComponent> OnGetHit;
 
 
     // [Header("Abilities")]
     // Abilities
     public bool CanJump;
-    public bool CanAttack;
+    public bool CanAttack = true;
     public bool CanDash;
+    public bool IsMoving;
+    public bool CanMove = true;
+    public bool IsIdling;
 }

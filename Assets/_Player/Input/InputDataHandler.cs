@@ -12,7 +12,7 @@ public class InputDataHandler : Singleton<InputDataHandler>
     public Action OnPerformedAnAttack;
 
 
-    private Vector2 MovementInput;
+    private Vector2 _movementInput;
     public bool HasMotionInput { get => PlayerInput.OnMove.ReadValue<Vector2>() != Vector2.zero; }
     public bool HasJumpInput { get => PlayerInput.Jump.WasPerformedThisFrame(); }
     public bool PerformedAnInteract {get => PlayerInput.Interact.WasPerformedThisFrame(); }
@@ -22,6 +22,10 @@ public class InputDataHandler : Singleton<InputDataHandler>
     protected override void Awake()
     {
         base.Awake();
+        GameStateManager.Instance.OnGamePaused += () => { DisablePlayerInput(); };
+        GameStateManager.Instance.OnGameResumed += () => { EnablePlayerInput(); };
+
+
         PlayerInput = SystemInputManager.Instance.SystemInput.Player;
 
         PlayerUIInteraction = SystemInputManager.Instance.SystemInput.UIInteraction;
@@ -46,8 +50,8 @@ public class InputDataHandler : Singleton<InputDataHandler>
 
     public Vector3 MoveDirection()
     {
-        MovementInput = PlayerInput.OnMove.ReadValue<Vector2>();
-        return MyUtils.VectorTranslate(MovementInput);
+        _movementInput = PlayerInput.OnMove.ReadValue<Vector2>();
+        return MyUtils.VectorTranslate(_movementInput);
     }
 
 }

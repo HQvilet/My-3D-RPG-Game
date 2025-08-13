@@ -1,0 +1,152 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da9864b1bab645c429eb5d3da52c6fab, type: 3}
+  m_Name: Sam_1
+  m_EditorClassIdentifier: 
+  nodes:
+  - rid: 7804688910394064896
+  - rid: 7804688910394064897
+  - rid: 7804688910394064898
+  - rid: 7804688910394064899
+  - rid: 7804688910394064900
+  - rid: 7804688910394064901
+  - rid: 7804688932376150017
+  - rid: 7804688932376150019
+  startNode:
+    rid: 7804688910394064896
+  references:
+    version: 2
+    RefIds:
+    - rid: 7804688910394064896
+      type: {class: DialogueNode, ns: DialogueGraph, asm: DialogueGraph}
+      data:
+        m_guid: fd462669-2ed2-4a78-88af-64950437b26a
+        typeName: DialogueGraph.DialogueNode, DialogueGraph, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        rect:
+          serializedVersion: 2
+          x: 303.2
+          y: 88.8
+          width: 286.40002
+          height: 247.20001
+        _name: 
+        _content: 
+        p_nextGraphID: ebd048b1-750c-4d08-8d46-dd2ef5e19a96
+    - rid: 7804688910394064897
+      type: {class: DialogueNode, ns: DialogueGraph, asm: DialogueGraph}
+      data:
+        m_guid: ebd048b1-750c-4d08-8d46-dd2ef5e19a96
+        typeName: DialogueGraph.DialogueNode, DialogueGraph, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        rect:
+          serializedVersion: 2
+          x: 645.60004
+          y: 83.2
+          width: 286.39996
+          height: 247.20001
+        _name: 
+        _content: 
+        p_nextGraphID: 9b1b021d-9ed1-48da-9bf5-387000d47228
+    - rid: 7804688910394064898
+      type: {class: OptionalDialogueNode, ns: DialogueGraph, asm: DialogueGraph}
+      data:
+        m_guid: 9b1b021d-9ed1-48da-9bf5-387000d47228
+        typeName: DialogueGraph.OptionalDialogueNode, DialogueGraph, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        rect:
+          serializedVersion: 2
+          x: 1020
+          y: 96
+          width: 286.39996
+          height: 240.8
+        _name: 
+        _content: 
+        _optionCount: 2
+        _options:
+        - _optionContent: 
+          p_nextGraphID: db1b2ac0-3b00-441a-a51b-7291effef8ef
+        - _optionContent: 
+          p_nextGraphID: a9bd2ee5-d14f-43c8-a507-1786b62a89e5
+    - rid: 7804688910394064899
+      type: {class: DialogueNode, ns: DialogueGraph, asm: DialogueGraph}
+      data:
+        m_guid: db1b2ac0-3b00-441a-a51b-7291effef8ef
+        typeName: DialogueGraph.DialogueNode, DialogueGraph, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        rect:
+          serializedVersion: 2
+          x: 1455.2
+          y: 104
+          width: 286.40002
+          height: 247.2
+        _name: 
+        _content: 
+        p_nextGraphID: 
+    - rid: 7804688910394064900
+      type: {class: DialogueNode, ns: DialogueGraph, asm: DialogueGraph}
+      data:
+        m_guid: a9bd2ee5-d14f-43c8-a507-1786b62a89e5
+        typeName: DialogueGraph.DialogueNode, DialogueGraph, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        rect:
+          serializedVersion: 2
+          x: 1395.2
+          y: 435.19998
+          width: 286.40002
+          height: 247.19998
+        _name: 
+        _content: 
+        p_nextGraphID: c0843ad3-475d-49f6-85ea-63423f6c538e
+    - rid: 7804688910394064901
+      type: {class: DialogueNode, ns: DialogueGraph, asm: DialogueGraph}
+      data:
+        m_guid: c0843ad3-475d-49f6-85ea-63423f6c538e
+        typeName: DialogueGraph.DialogueNode, DialogueGraph, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        rect:
+          serializedVersion: 2
+          x: 1862.3999
+          y: 451.19998
+          width: 286.40015
+          height: 247.19998
+        _name: asdasd
+        _content: 
+        p_nextGraphID: 89a97469-4b22-46e8-a8ca-7d1ea097d9e1
+    - rid: 7804688932376150017
+      type: {class: EventNode, ns: DialogueGraph, asm: DialogueGraph}
+      data:
+        m_guid: 89a97469-4b22-46e8-a8ca-7d1ea097d9e1
+        typeName: DialogueGraph.EventNode, DialogueGraph, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        rect:
+          serializedVersion: 2
+          x: 2287.2
+          y: 476.8
+          width: 255.19995
+          height: 144
+        assetToLoad: Sam_Pkg_1
+        p_nextGraphID: 3305e100-1fcc-483e-b256-5bf0ead0b24f
+    - rid: 7804688932376150019
+      type: {class: DialogueNode, ns: DialogueGraph, asm: DialogueGraph}
+      data:
+        m_guid: 3305e100-1fcc-483e-b256-5bf0ead0b24f
+        typeName: DialogueGraph.DialogueNode, DialogueGraph, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        rect:
+          serializedVersion: 2
+          x: 2640
+          y: 443.19998
+          width: 286.3999
+          height: 247.19998
+        _name: 
+        _content: asdasd
+        p_nextGraphID: 

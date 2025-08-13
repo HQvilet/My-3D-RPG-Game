@@ -76,7 +76,7 @@ public class PlayerDashState : State
         Debug.Log("Player Dashing");
         CanUpdateLogic = false;
         // Timing.RunCoroutine(Dash());
-        player.movementUtilities.DoDash(20f, () => CanUpdateLogic = true);
+        // player.movementUtilities.DoDash(20f, () => CanUpdateLogic = true);
         
     }
 

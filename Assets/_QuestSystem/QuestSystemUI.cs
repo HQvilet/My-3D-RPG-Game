@@ -16,7 +16,7 @@ public class QuestSystemUI : MonoBehaviour
         
         button.onClick.AddListener(() =>
         {
-            questPanel.SetActive(!questPanel.activeSelf);
+            questPanel.transform.parent.gameObject.SetActive(!questPanel.transform.parent.gameObject.activeSelf);
         });
 
         foreach (var a in QuestSystemManager.Instance.quests)

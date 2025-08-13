@@ -277,8 +277,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 5048c204ee8605c46920ac591af3c87b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -303,6 +303,6 @@ MonoBehaviour:
   nameHolder: {fileID: 7303869451429632327}
   imageHolder: {fileID: 1287776543555490048}
   amountHolder: {fileID: 0}
-  equipment: {fileID: 0}
-  armourItem: {fileID: 0}
+  armourAsset:
+    armourRef: {fileID: 0}
   requiredType: 0

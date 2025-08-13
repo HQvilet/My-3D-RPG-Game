@@ -31,7 +31,7 @@ public static class MyUtils
         return new Vector3(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
     }
 
-    public static Vector3 ModifiyVector(Vector3 vector, float? x = null, float? y = null, float? z = null)
+    public static Vector3 ModifyVector(Vector3 vector, float? x = null, float? y = null, float? z = null)
     {
         return new Vector3(x ?? vector.x, y ?? vector.y, z ?? vector.z);
     }

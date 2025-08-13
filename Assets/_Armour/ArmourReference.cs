@@ -5,20 +5,11 @@ using ItemSystem.ItemConfiguration;
 using UnityEngine;
 
 
-// //passing data from .asset file to armour references class
-// [CreateAssetMenu(menuName = "ArmourAsset/Armour Reference Data")]
-// public class ArmourAssetFile : ScriptableObject //where Utils : ArmourUtils where ConfigType : ArmourConfigAsset
-// {
-//     public ArmourItem item;
-//     public ArmourUtils utils;
-//     public BasicStatsConfig basicStats;
-//     // public ArmourAssetFile(ArmourAssetFile other)
-//     // {
-//     //     item = other.item;
-//     //     utils = other.utils;
-//     //     basicStats = other.basicStats;
-//     // }
-// }
+public interface IArmourRef
+{
+    public ArmourItem GetItemData();
+    public ArmourUtils GetArmourUtils();
+}
 
 public enum ArmourAssetType
 {
@@ -30,16 +21,13 @@ public enum ArmourAssetType
 public class ArmourReference : ScriptableObject ,IArmourRef
 {
     public ArmourAssetType assetType;
+    public string assetName;
+
+    public virtual void Set(ArmourReference reference) { }
 
     public virtual ArmourUtils GetArmourUtils() => null;
     public virtual ArmourItem GetItemData() => null;
     
-}
-
-public interface IArmourRef
-{
-    public ArmourItem GetItemData();
-    public ArmourUtils GetArmourUtils();
 }
 
 public interface IArmourUtilsAction

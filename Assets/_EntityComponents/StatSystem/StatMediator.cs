@@ -76,19 +76,4 @@ public class StatMediator : MonoBehaviour
         _stats[StatType.Perc_Atk] = 0;
     }
 
-    // public void AddStats(BasicStatsConfig stats)
-    // {
-    //     foreach(StatComponent stat in stats.stats)
-    //     {
-    //         _stats[stat.type] += stat.value;
-    //     }
-    // }
-
-    // public void RemoveStats(BasicStatsConfig stats)
-    // {
-    //     foreach(StatComponent stat in stats.stats)
-    //     {
-    //         _stats[stat.type] -= stat.value;
-    //     }
-    // }
 }

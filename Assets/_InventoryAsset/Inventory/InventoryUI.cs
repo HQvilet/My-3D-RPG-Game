@@ -45,34 +45,34 @@ public class InventoryUI : MonoBehaviour
 
         foreach(RaycastResult castInfo in raycastResults)
         {
-            if(castInfo.gameObject.TryGetComponent(out ItemSlotUnit dropSlot))
+            if (castInfo.gameObject.TryGetComponent(out ItemSlotUnit dropSlot))
             {
                 ItemSlotUnit dragSlotUnit = DragSlot as ItemSlotUnit;
 
-                if(dragSlotUnit.itemSlotData.IsEmpty())
+                if (dragSlotUnit.itemSlotData.IsEmpty())
                     return;
 
-                if(DragSlot.slotType == SlotType.ITEM_SLOT)
+                if (DragSlot.slotType == SlotType.ITEM_SLOT)
                 {
-                    InventoryManager.Instance.ExchangeItem(dragSlotUnit,dropSlot);
+                    InventoryManager.Instance.ExchangeItem(dragSlotUnit, dropSlot);
                 }
 
             }
-            else if(castInfo.gameObject.TryGetComponent(out ArmourSlotEquipment armourEquipSlot))
+            else if (castInfo.gameObject.TryGetComponent(out ArmourSlotEquipment armourEquipSlot))
             {
-                if(DragSlot.slotType == SlotType.ARMOUR_ITEM_SLOT)
+                if (DragSlot.slotType == SlotType.ARMOUR_ITEM_SLOT)
                 {
-                    InventoryManager.Instance.EquipItem(DragSlot as ArmourSlotUnit ,armourEquipSlot);
+                    InventoryManager.Instance.EquipItem(DragSlot as ArmourSlotUnit, armourEquipSlot);
                 }
             }
-            else if(castInfo.gameObject.TryGetComponent(out ArmourSlotUnit armourSlot))
+            else if (castInfo.gameObject.TryGetComponent(out ArmourSlotUnit armourSlot))
             {
 
-                if(DragSlot.slotType == SlotType.ARMOUR_ITEM_SLOT)
+                if (DragSlot.slotType == SlotType.ARMOUR_ITEM_SLOT)
                 {
                     InventoryManager.Instance.ExchangeItem(DragSlot as ArmourSlotUnit, armourSlot);
                 }
-                else if(DragSlot.slotType == SlotType.ARMOUR_EQUIP_SLOT)
+                else if (DragSlot.slotType == SlotType.ARMOUR_EQUIP_SLOT)
                 {
                     InventoryManager.Instance.RemoveArmour(armourSlot, DragSlot as ArmourSlotEquipment);
                 }
