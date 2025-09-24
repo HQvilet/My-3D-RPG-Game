@@ -1,39 +1,58 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Shield : BaseWeapon
 {
+    Animator animator;
 
-    Animator rigAnimator;
+    bool canStop;
 
     public override void OnSelected()
     {
-        gameObject.SetActive(true);
-    }
-
-    void Update()
-    {
-        if(InputDataHandler.Instance.PlayerInput.Parry.WasPressedThisFrame())
-            rigAnimator.Play("Parrying");
-        else if(InputDataHandler.Instance.PlayerInput.Parry.WasReleasedThisFrame())
-            rigAnimator.Play("Parrying Reverse");
-        
-    }
-
-    private void ParryAction()
-    { 
-        Debug.Log("Is Parrying");
+        base.OnSelected();
+        authenticatedOwner.stateHandler.OnAnimationEvent += RelyActionOnEvent;
     }
 
     public override void OnDeselected()
     {
-        gameObject.SetActive(false);
+        base.OnDeselected();
+        authenticatedOwner.stateHandler.OnAnimationEvent -= RelyActionOnEvent;
     }
-    void OnDisable()
+
+    void Update()
     {
-        
+        if (!AllowProcess())
+            return;
+            
+        if (authenticatedOwner.TryGetEntityInput().Parry.WasPerformedThisFrame())
+        {
+            animator.CrossFade("Shield Block", 0.08f);
+            canStop = true;
+        }
+
+        if (authenticatedOwner.TryGetEntityInput().Parry.WasReleasedThisFrame())
+        {
+            animator.SetFloat("ParrySpeed", 1f);
+            if (animator.GetFloat("ParrySpeed") > 0.05f)
+            {
+                canStop = false;
+            }
+        }
+    }
+
+    public void LockMovement() => authenticatedOwner.stateHandler.CanMove = false;
+
+    public void UnlockMovement() => authenticatedOwner.stateHandler.CanMove = true;
+    
+
+    public void Stop()
+    {
+        if(canStop)
+            animator.SetFloat("ParrySpeed", 0f);
     }
 
 
@@ -44,6 +63,7 @@ public class Shield : BaseWeapon
 
     public override void WeaponServiceSetup(WeaponServiceLocator weaponService)
     {
-        rigAnimator = weaponService.animationSystem.rigAnimator;
+        animator = authenticatedOwner.GetModifiableAnimator().characterAnimator;
+
     }
 }

@@ -7,13 +7,7 @@ public class WeaponCombo : MonoBehaviour
 {
 
     public MeleeWeaponStateMachine weaponStateMachine;
-    public List<AnimationClip> AttackAnimationClips;
-
-    void Awake()
-    {
-        // weaponStateMachine = new MeleeWeaponStateMachine(this ,Player.Instance.AnimationSystem.animationSystem ,AttackAnimationClips);
-        // SetWeaponStateHandler(null);
-    }
+    public List<AnimationClip> attackAnimationClips;
 
     void Update()
     {
@@ -24,11 +18,11 @@ public class WeaponCombo : MonoBehaviour
         }
     }
 
-    public void SetWeaponStateHandler(PlayerStateHandler stateHandler) => weaponStateMachine.stateHandler = stateHandler;
+    public void SetWeaponStateHandler(CharacterStateHandler stateHandler) => weaponStateMachine.stateHandler = stateHandler;
 
     public void SetStateMachine(PlayerAnimationSystem animator)
     {
-        weaponStateMachine = new MeleeWeaponStateMachine(this ,animator.animationSystem ,AttackAnimationClips);
+        weaponStateMachine = new MeleeWeaponStateMachine(this ,animator.animationSystem ,attackAnimationClips);
     }
 
     public void SetEntityComponent(EntityComponent entity)

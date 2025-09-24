@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -8,22 +9,36 @@ namespace ItemSystem.ItemConfiguration
     [CreateAssetMenu(menuName = "Item/ItemData")]
     public class ItemData : ScriptableObject
     {
-        public int ID;
+        
+        [ReadOnly] [SerializeField] private string _id;
+        public string ID => _id;
         public string Name;
 
         public Sprite Sprite;
 
-        [TextArea(15,10)]
+        [TextArea(15,7)]
         public string Description;
         public bool IsStackable;
 
         protected virtual void OnValidate()
         {
-            ID = Name.GetHashCode();
+#if UNITY_EDITOR
+            if (string.IsNullOrEmpty(_id))
+            {
+                _id = Guid.NewGuid().ToString();
+                EditorUtility.SetDirty(this);
+            }
+#endif
         }
     }
 
-    [CreateAssetMenu(menuName = "Item/WeaponItem")]
+    [CreateAssetMenu(menuName = "Item/Consumable Item")]
+    public class ConsumableItem : ItemData
+    {
+        public ConsumEffect util;
+    }
+
+    [CreateAssetMenu(menuName = "Item/Weapon Item")]
     public class WeaponItem : ItemData
     {
         public WeaponRef weaponRef;
@@ -36,14 +51,7 @@ namespace ItemSystem.ItemConfiguration
         }
     }
 
-    public enum ArmourType
-    {
-        HEAD_ARMOUR ,
-        ARM_ARMOUR ,
-        LEG_ARMOUR ,
-        BODY_ARMOUR ,
-        ARTIFACT ,
-    }
+
 
     public enum Armour
     {

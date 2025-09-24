@@ -1,9 +1,17 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.SymbolStore;
 using ItemSystem.ItemConfiguration;
+using UnityEditor;
 using UnityEngine;
 
+public enum ArmourType
+{
+    HEAD_ARMOUR ,
+    ARM_ARMOUR ,
+    LEG_ARMOUR ,
+    BODY_ARMOUR ,
+    ARTIFACT ,
+}
 
 public interface IArmourRef
 {
@@ -11,23 +19,27 @@ public interface IArmourRef
     public ArmourUtils GetArmourUtils();
 }
 
-public enum ArmourAssetType
-{
-    //specific name config
-    TEST_ARMOUR,
-    TEST_ARMOUR_2,
-}
-
 public class ArmourReference : ScriptableObject ,IArmourRef
 {
-    public ArmourAssetType assetType;
-    public string assetName;
+    [ReadOnly] [SerializeField] private string _id;
+    public string ID => _id;
+    public void SetUniqueID(string id) => this._id = id;
 
     public virtual void Set(ArmourReference reference) { }
 
     public virtual ArmourUtils GetArmourUtils() => null;
+
     public virtual ArmourItem GetItemData() => null;
-    
+        protected virtual void OnValidate()
+        {
+#if UNITY_EDITOR
+            if (string.IsNullOrEmpty(_id))
+            {
+                _id = Guid.NewGuid().ToString();
+                EditorUtility.SetDirty(this);
+            }
+#endif
+        }
 }
 
 public interface IArmourUtilsAction

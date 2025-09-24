@@ -17,21 +17,19 @@ public class ItemStack : IInventorySlot
             _amount = Mathf.Max(value ,0);
         }
     }
-    public bool IsStackable{get => ItemData.IsStackable;}
+    public bool IsStackable => ItemData.IsStackable;
+    public int MaxStack => IsStackable ? InventoryData.MAX_STACK : 1;
+    
 
-    // [SerializeField] private int _maxStack = 64;
-    public int MaxStack{
-        get => IsStackable ? InventoryData.MAX_STACK : 1;
-        // set{ _maxStack = value; }
-    }
-
-    public void SetItemData(int itemID ,int amount)
+    public void SetItemData(string itemID, int amount)
     {
+        if (string.IsNullOrEmpty(itemID))
+            return;
         ItemData = ItemPoolManager.Instance.GetItemByID(itemID);
         Amount = amount;
     }
 
-    public void SetItemData(ItemData item,int amount)
+    public void SetItemData(ItemData item, int amount)
     {
         ItemData = item;
         Amount = amount;

@@ -13,10 +13,6 @@ public class EntityComponentSystem : Singleton<EntityComponentSystem>
         
     }
 
-    void Start()
-    {
-        playerComponent = Player.Instance.GetComponent<EntityComponent>();
-    }
 
 
 

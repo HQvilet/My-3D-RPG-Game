@@ -3,6 +3,13 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
+public enum DmgType
+{
+    NONE,
+    FIRE
+
+}
+
 public class BaseDamageableObject : MonoBehaviour
 {
 
@@ -13,16 +20,17 @@ public class BaseDamageableObject : MonoBehaviour
     [SerializeField] protected BaseEffectModifier effectModifier;
 
     [SerializeField] protected float _currentHealth;
-    public float CurrentHealth{
+    public float CurrentHealth
+    {
         get => _currentHealth;
-        set 
+        set
         {
             //Callback method
-            if(value <= 0)
+            if (value <= 0)
                 OnDied();
-            _currentHealth = Mathf.Clamp(value ,0 ,MaxHealth); 
-            healthBar.SetProgress(_currentHealth/MaxHealth);
-        } 
+            _currentHealth = Mathf.Clamp(value, 0, MaxHealth);
+            healthBar.SetProgress(_currentHealth / MaxHealth);
+        }
     }
 
 
@@ -31,7 +39,7 @@ public class BaseDamageableObject : MonoBehaviour
     {
         get
         {
-            if(_stats != null)
+            if (_stats != null)
                 return _stats.Health;
             return _maxHealth;
         }
@@ -51,27 +59,29 @@ public class BaseDamageableObject : MonoBehaviour
 
     public virtual void OnGetHit(DamageModifier damageVerifier)
     {
-        // OnTakeDamage(attackStats.physicalDamage);
         effectModifier.SerilizeEffectSource(damageVerifier);
     }
 
-    public virtual void OnTakeDamage(float damage)
+    public virtual void OnTakeDamage(float damage, DmgType type = 0)
     {
         CurrentHealth -= damage;
-        DamageSpawner.Instance.VisualizeDamage(transform.position + Vector3.up * 0.1f + MyUtils.RandomizeVector3() * 1.9f ,damage);
+        DamageSpawner.Instance.VisualizeDamage(transform.position + Vector3.up * 0.1f + MyUtils.RandomizeVector3() * 1.9f, damage);
     }
 
     protected virtual void OnDied()
     {
-        // transform.DOKill();
-        Destroy(gameObject ,0.11f);
-        Debug.Log("Enemy died");
+        Destroy(gameObject);
+        // Debug.Log("Enemy died");
+    }
+
+    void OnDestroy()
+    {
+        transform.DOKill();
     }
 
     void OnEnable()
     {
         effectModifier.OnTakePhysicDamage += OnTakePhysicalDmg;
-        
         effectModifier.OnTakeFireDamage += OnTakeFireDamage;
         effectModifier.OnGetKnockBack += OnGetKnockBack;
     }
@@ -79,13 +89,13 @@ public class BaseDamageableObject : MonoBehaviour
     private void OnTakeFireDamage(float damageFactor, float time)
     {
         // if(!effectModifier.isOnFire)
-            StartCoroutine(GetBurn(damageFactor, time));
+        StartCoroutine(GetBurn(damageFactor, time));
     }
     IEnumerator GetBurn(float dmg, float time)
     {
         // float time = 2.1f;
         effectModifier.isOnFire = true;
-        while(time > 0)
+        while (time > 0)
         {
             time -= 0.2f;
             OnTakeDamage(dmg);
@@ -96,11 +106,9 @@ public class BaseDamageableObject : MonoBehaviour
 
     private void OnGetKnockBack(float damageFactor)
     {
-        // StartCoroutine(GetKnockBack());\
-        Debug.Log("Knock back");
         Transform obj = transform;
-        if(obj != null)
-            obj.DOMove(obj.transform.position + obj.forward * -1 * damageFactor  ,0.1f).onKill += ()=>{};
+        if (obj != null)
+            obj.DOMove(obj.transform.position + obj.forward * -1 * damageFactor, 0.1f).onKill += () => { };
     }
 
     private void OnTakePhysicalDmg(float damageFactor)

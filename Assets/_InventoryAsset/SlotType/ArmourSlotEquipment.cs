@@ -28,7 +28,6 @@ public class ArmourSlotEquipment : SlotUnit ,IDragHandler
             Bus<EquipArmourEvent>.Raise(new EquipArmourEvent(assetData.armourRef));
             return true;
         }
-        
         return false;
     }
 
@@ -47,7 +46,6 @@ public class ArmourSlotEquipment : SlotUnit ,IDragHandler
 
         removedAsset = armourAsset;
         Bus<UnequipArmourEvent>.Raise(new UnequipArmourEvent(armourAsset.armourRef));
-        // armourAsset.armourRef = null;
 
         return true;
     }

@@ -25,7 +25,6 @@ public class SlotUnit : MonoBehaviour //,IDragHandler
 
     protected void SetAmount(IInventorySlot slotInfo)
     {
-        
         if(slotInfo == null)
         {
             amountHolder.text = string.Empty;

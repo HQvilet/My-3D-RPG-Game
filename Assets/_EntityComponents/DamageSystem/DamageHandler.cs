@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public static class DamageHandler
 {
-    public static DamageModifier Processor(CharacterStats stats ,DamageModifier damageStats)
+    public static DamageModifier Processor(CharacterStats stats, DamageModifier damageStats)
     {
         DamageModifier dmg = new DamageModifier();
 
@@ -14,5 +14,10 @@ public static class DamageHandler
         dmg.knockBack = damageStats.knockBack;
 
         return dmg;
+    }
+
+    public static float Processor(CharacterStats stats, float dmgToModify)
+    {
+        return 0;
     }
 }

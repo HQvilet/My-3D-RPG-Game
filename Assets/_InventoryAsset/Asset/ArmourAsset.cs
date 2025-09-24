@@ -6,11 +6,11 @@ using UnityEngine;
 [System.Serializable]
 public class ArmourAsset : IInventorySlot
 {
-    public ArmourItem ItemData => armourRef.GetItemData();
+    public ArmourItem ItemData => armourRef?.GetItemData();
     public ArmourReference armourRef = null;
     public int Amount
     {
-        get => (IsFull()) ? 1 : 0; 
+        get => (IsFull()) ? 1 : 0;
         set {}
     }
 
@@ -22,9 +22,7 @@ public class ArmourAsset : IInventorySlot
         armourRef = @ref;
     }
 
-    // public bool IsEmpty() => Amount <= 0 || ItemData == null;
     public bool IsEmpty() => armourRef == null;
-    // public bool IsFull() => Amount != 0 && ItemData != null;
     public bool IsFull() => armourRef != null;
 
     public void Clear() => armourRef = null;
@@ -33,10 +31,10 @@ public class ArmourAsset : IInventorySlot
 
     public SlotType GetSlotType() => SlotType.ARMOUR_ITEM_SLOT;
 
-    public ArmourAsset Clone(){return new ArmourAsset();}
+    // public ArmourAsset Clone(){return new ArmourAsset();}
 
-    public void Copy(ArmourAsset other)
-    {
-        // ItemData = other.ItemData;
-    }
+    // public void Copy(ArmourAsset other)
+    // {
+    //     // ItemData = other.ItemData;
+    // }
 }

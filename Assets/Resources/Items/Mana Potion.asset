@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e0a34b56e357774cbe8cfe894f7bed7, type: 3}
   m_Name: Mana Potion
   m_EditorClassIdentifier: 
-  ID: -1870939660
+  _id: d0dfa9db-c041-446b-8394-170d7eaee5af
   Name: Mana Potion
   Sprite: {fileID: -793935592, guid: ba00d2cc9cfe3aa4dbabe584112b29a8, type: 3}
   Description: 'Add health '

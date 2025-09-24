@@ -43,6 +43,6 @@ public class Bow : BaseWeapon
 
     public override void WeaponServiceSetup(WeaponServiceLocator weaponService)
     {
-        rigAnimator = weaponService.animationSystem.rigAnimator;
+        // rigAnimator = weaponService.animationSystem.rigAnimator;
     }
 }

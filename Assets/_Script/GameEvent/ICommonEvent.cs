@@ -12,12 +12,12 @@ public class OnEventOccured : IEvent
 
 public class OnCollectItemEvent : IEvent
 {
-    public OnCollectItemEvent(int ID, int amount)
+    public OnCollectItemEvent(string ID, int amount)
     {
         this.itemID = ID;
         this.amount = amount;
     }
-    public int itemID;
+    public string itemID;
     public int amount;
 }
 

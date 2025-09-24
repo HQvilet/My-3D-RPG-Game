@@ -6,5 +6,5 @@ public class Player : Singleton<Player>
 {
     public PlayerMovementHandler PlayerMovementSystem;
     public PlayerAnimationSystem AnimationSystem;
-    public PlayerStateHandler WeaponController;
+    public CharacterStateHandler WeaponController;
 }

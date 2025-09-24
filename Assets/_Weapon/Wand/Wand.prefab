@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8100886390359145199}
   - component: {fileID: 2746606518555427832}
-  - component: {fileID: -3966030081689137382}
   m_Layer: 0
   m_Name: Wand
   m_TagString: Untagged
@@ -46,20 +45,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca47c55b8bca44e4f9f502c5eb64c880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wandUtilities: {fileID: -3966030081689137382}
---- !u!114 &-3966030081689137382
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2568131548225696817}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87e940f62b45a5242855bc2bfd2746b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AoE_VFX: {fileID: 3074529939533758317, guid: 974405c3ce3bcb748ab94aa069791281, type: 3}
+  authenticatedOwner: {fileID: 0}
+  damageModifier:
+    physicalDamage: 0.1
+    elementalDamage: 0
+    fireDamage: 0
+    knockBack: 0
+  AoE_VFX: {fileID: 4623928371729356058, guid: a2ae207b77ffe5047bb3553a0d2d1c95, type: 3}
 --- !u!1001 &5294045684563734594
 PrefabInstance:
   m_ObjectHideFlags: 0

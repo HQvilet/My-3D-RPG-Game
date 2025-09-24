@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -14,12 +15,8 @@ public struct ActionStateConfig
 
 public class ActionState : State
 {
-
     private AnimationSystem animationSystem;
-
     private Animator animator;
-    
-
     private MeleeWeaponStateMachine stateMachine;
     AnimationClip stateAnimation;
     public ActionState(MeleeWeaponStateMachine stateMachine ,AnimationClip anim)
@@ -72,11 +69,11 @@ public class ActionState : State
 
 public class MeleeWeaponStateMachine : StateMachine
 {    
-    List<ActionState> WeaponComboStates = new List<ActionState>();
+    List<ActionState> WeaponComboStates = new();
     private int maxCombo;
 
     //Event
-    public PlayerStateHandler stateHandler;
+    public CharacterStateHandler stateHandler;
     public AnimationSystem animator;
 
     public MeleeWeaponStateMachine(WeaponCombo meleeCombo ,AnimationSystem animationSystem ,List<AnimationClip> clips)
@@ -88,8 +85,9 @@ public class MeleeWeaponStateMachine : StateMachine
 
     public void SetUpActionChain(List<AnimationClip> clips)
     {
-        foreach(AnimationClip clip in clips)
-            WeaponComboStates.Add(new ActionState(this ,clip));
+        // WeaponComboStates = clips.Select(clip => new ActionState(this, clip)).ToList();
+        foreach (AnimationClip clip in clips)
+            WeaponComboStates.Add(new ActionState(this, clip));
     }
 
     private ActionState currentActionState;
@@ -115,8 +113,6 @@ public class MeleeWeaponStateMachine : StateMachine
     {
         _currentResetStateTime -= Time.deltaTime;
         
-        
-
         if (currentActionState == null)
             return;
 
@@ -126,7 +122,8 @@ public class MeleeWeaponStateMachine : StateMachine
 
     void PerformAttack()
     {
-        if(!stateHandler.CanAttack)
+        
+        if (!stateHandler.CanAttack)
             return;
 
         _currentResetStateTime = _resetStateBuffer;
@@ -141,7 +138,6 @@ public class MeleeWeaponStateMachine : StateMachine
         currentActionState = WeaponComboStates[currentIndex];
         ChangeState(currentActionState);
         stateHandler.OnMeleePerformed?.Invoke();
-        
     }
 
     public void ResetCombo()

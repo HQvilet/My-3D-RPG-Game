@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Inventory.SaveSystem;
 using ItemSystem.ItemConfiguration;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public interface IInventoryUtilities
 {
@@ -13,42 +12,42 @@ public interface IInventoryUtilities
     // public void ExchangeItem(int itemSlotIndex_1 ,int itemSlotIndex_2);
 }
 
-public class InventoryManager : Singleton<InventoryManager> ,IInventoryUtilities
+public class InventoryManager : Singleton<InventoryManager>, IInventoryUtilities
 {
     public InventoryData inventoryData;
     public InventoryUI inventoryUI;
 
-    public bool TryAddItem(int itemID ,int amount)
+    public bool TryAddItem(string itemID, int amount)
     {
-        
-        foreach(ItemSlotUnit itemSlot in inventoryData.ItemSlots)
+
+        foreach (ItemSlotUnit itemSlot in inventoryData.ItemSlots)
         {
             ItemStack itemStack = itemSlot.itemSlotData;
-            
-            if(itemStack.IsEmpty())
+
+            if (itemStack.IsEmpty())
                 continue;
-                
-            if(itemStack.ItemData.ID == itemID)
+
+            if (itemStack.ItemData.ID == itemID)
             {
-                if(itemStack.IsFull())
+                if (itemStack.IsFull())
                     continue;
                 else
                 {
-                    itemStack.Add(amount ,out int left);
+                    itemStack.Add(amount, out int left);
                     itemSlot.OnAmountChange();
-                    if(left > 0)
-                        TryAddItem(itemStack.ItemData.ID ,left);
+                    if (left > 0)
+                        TryAddItem(itemStack.ItemData.ID, left);
                     return true;
                 }
             }
         }
 
-        foreach(ItemSlotUnit itemSlot in inventoryData.ItemSlots)
+        foreach (ItemSlotUnit itemSlot in inventoryData.ItemSlots)
         {
             ItemStack itemStack = itemSlot.itemSlotData;
-            if(itemStack.IsEmpty())
+            if (itemStack.IsEmpty())
             {
-                itemStack.SetItemData(itemID ,amount);
+                itemStack.SetItemData(itemID, amount);
                 return true;
             }
         }
@@ -56,24 +55,23 @@ public class InventoryManager : Singleton<InventoryManager> ,IInventoryUtilities
         return false;
     }
 
-    public void AddItem(ItemData item ,int amount)
+    public void AddItem(ItemData item, int amount)
     {
-        TryAddItem(item.ID ,amount);
+        TryAddItem(item.ID, amount);
     }
 
     public void AddItem(ArmourItem item)
     {
-        foreach(ArmourSlotUnit itemSlot in inventoryData.ArmourSlots)
-        {    
-            if(itemSlot.armourAsset.IsEmpty())
+        foreach (ArmourSlotUnit itemSlot in inventoryData.ArmourSlots)
+        {
+            if (itemSlot.armourAsset.IsEmpty())
             {
-                // itemSlot.armourAsset.SetItemData(item);
                 break;
             }
         }
     }
 
-    public bool TryAddItem(ItemSlotUnit itemSlot ,ItemData item ,int amount)
+    public bool TryAddItem(ItemSlotUnit itemSlot, ItemData item, int amount)
     {
         // if(itemSlot.itemSlotData.IsEmpty())
         // {
@@ -85,36 +83,29 @@ public class InventoryManager : Singleton<InventoryManager> ,IInventoryUtilities
         //     itemSlot.itemSlotData.Add(amount ,out int left);
         //     return true;
         // }
-        return false;   
+        return false;
     }
 
-    public void AddItemByCategories(ItemData item ,int amount)
+    public void AddItemByCategories(ItemData item, int amount)
     {
-        if(TryAddItem(item.ID, amount))
+        if (TryAddItem(item.ID, amount))
             Bus<OnCollectItemEvent>.Raise(new OnCollectItemEvent(item.ID, amount));
     }
 
     public void AddArmourItem(ArmourReference armour)
     {
-        ArmourReference _obj = null;
-        switch(armour.assetType)
+        if (armour == null)
+            return;
+
+        ArmourReference _obj = ScriptableObject.CreateInstance(armour.GetType()) as ArmourReference;
+        _obj.SetUniqueID(armour.ID);
+        if (_obj == null)
+            return;
+        _obj.Set(armour);
+        
+        foreach (ArmourSlotUnit itemSlot in inventoryData.ArmourSlots)
         {
-            case(ArmourAssetType.TEST_ARMOUR):
-                // _obj = new TArmourRef(armour as TArmourRef);
-                _obj = ScriptableObject.CreateInstance(armour.assetName) as ArmourReference;
-                if (_obj == null)
-                    return;
-                _obj.Set(armour);
-                // ScriptableObject.CreateInstance("TestArmourRef")
-                break;
-
-            default:
-                break;
-        }
-        foreach(ArmourSlotUnit itemSlot in inventoryData.ArmourSlots)
-        {    
-
-            if(itemSlot.armourAsset.IsEmpty())
+            if (itemSlot.armourAsset.IsEmpty())
             {
                 itemSlot.armourAsset.SetArmourRef(_obj);
                 break;
@@ -122,38 +113,23 @@ public class InventoryManager : Singleton<InventoryManager> ,IInventoryUtilities
         }
     }
 
-    // public void RemoveItemInSlot(int itemSlotIndex ,int amount)
-    // {
-    //     inventoryData.itemStacks[itemSlotIndex].Remove(amount);
-    // }
-
-    // public void ExchangeItem(int itemSlotIndex_1 ,int itemSlotIndex_2)
-    // {
-    //     ItemStack i_1 = inventoryData.itemStacks[itemSlotIndex_1];
-    //     ItemStack i_2 = inventoryData.itemStacks[itemSlotIndex_2];
-
-    //     ItemStack temp = i_1.Clone();
-    //     i_1.Copy(i_2);
-    //     i_2.Copy(temp);
-    // }
-
-    public void ExchangeItem(ItemSlotUnit slot_1 ,ItemSlotUnit slot_2)
+    public void ExchangeItem(ItemSlotUnit slot_1, ItemSlotUnit slot_2)
     {
         ItemStack temp = slot_1.itemSlotData;
         slot_1.itemSlotData = slot_2.itemSlotData;
         slot_2.itemSlotData = temp;
     }
 
-    public void ExchangeItem(ArmourSlotUnit slot_1 ,ArmourSlotUnit slot_2)
+    public void ExchangeItem(ArmourSlotUnit slot_1, ArmourSlotUnit slot_2)
     {
         ArmourAsset temp = slot_1.armourAsset;
         slot_1.armourAsset = slot_2.armourAsset;
         slot_2.armourAsset = temp;
     }
 
-    public void EquipItem(ArmourSlotUnit slotUnit ,ArmourSlotEquipment equipmentUnit)
+    public void EquipItem(ArmourSlotUnit slotUnit, ArmourSlotEquipment equipmentUnit)
     {
-        if(equipmentUnit.TryEquipArmour(slotUnit.armourAsset))
+        if (equipmentUnit.TryEquipArmour(slotUnit.armourAsset))
         {
             ArmourAsset temp = slotUnit.armourAsset;
             slotUnit.armourAsset = equipmentUnit.armourAsset;
@@ -161,9 +137,9 @@ public class InventoryManager : Singleton<InventoryManager> ,IInventoryUtilities
         }
     }
 
-    public void RemoveArmour(ArmourSlotUnit slotUnit ,ArmourSlotEquipment equipmentUnit)
+    public void RemoveArmour(ArmourSlotUnit slotUnit, ArmourSlotEquipment equipmentUnit)
     {
-        if(equipmentUnit.TryRemoveArmour(out ArmourAsset removedAsset))
+        if (equipmentUnit.TryRemoveArmour(out ArmourAsset removedAsset))
         {
             ArmourAsset temp = slotUnit.armourAsset;
             slotUnit.armourAsset = removedAsset;
@@ -174,14 +150,22 @@ public class InventoryManager : Singleton<InventoryManager> ,IInventoryUtilities
 
     // public void ExchangeArmourEquip()
 
-    public void RemoveAllItemInSlot(int itemSlotIndex)    
+    public void RemoveAllItemInSlot(int itemSlotIndex)
     {
         inventoryData.ItemSlots[itemSlotIndex].itemSlotData.Amount = 0;
     }
-    
+
     // public bool HasItem(ItemData _item ,out ItemStack itemStack)
     // {
     //     itemStack = inventoryData.itemStacks.Find(item => item.ItemData == _item);
     //     return itemStack != null;
     // }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            InventorySaveSystem.Save();
+        }
+    }
 }

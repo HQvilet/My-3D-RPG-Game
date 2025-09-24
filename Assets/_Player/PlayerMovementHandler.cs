@@ -19,7 +19,7 @@ public class PlayerMovementHandler : MonoBehaviour
     public InputDataHandler Input;
 
 
-    public PlayerStateHandler stateHandler;
+    public CharacterStateHandler stateHandler;
     public PlayerStateMachine StateMachine;
     public MovementUtilities movementUtilities;
 

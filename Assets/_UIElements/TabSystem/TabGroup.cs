@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class TabGroup : MonoBehaviour
 {
     List<MTabButton> tabButtons;
-    [SerializeField] MTabButton isSelectingTab;
+    MTabButton isSelectingTab;
 
     void Awake()
     {
@@ -22,6 +22,7 @@ public class TabGroup : MonoBehaviour
                 isSelectingTab.OnSelect();
             });
         }
+        isSelectingTab = tabButtons[0];
     }
 
 

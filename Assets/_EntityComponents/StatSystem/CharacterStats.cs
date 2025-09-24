@@ -32,6 +32,12 @@ public class CharacterStats : MonoBehaviour
 
     [SerializeField] float _attack;
 
+    HashSet<ModifyStat> modifier = new();
+    void ModifyCharacterStats()
+    {
+        
+    }
+
     void OnStatsDebug()
     {
         _attack = Atk;
@@ -41,5 +47,15 @@ public class CharacterStats : MonoBehaviour
     {
         OnStatsDebug();
     }
+
+}
+
+public class ModifyStat
+{
+
+}
+
+public class RealTimeStat
+{
 
 }

@@ -5,21 +5,23 @@ using UnityEngine;
 public class PlayerAnimationSystem : MonoBehaviour
 {
     // [SerializeField] private PlayerSubSkillAnimation AnimationEvent;
-    [SerializeField] private Animator playerAnimator;
+    [SerializeField] public Animator characterAnimator;
     public Animator rigAnimator;
+    public RuntimeAnimatorController controller;
 
     public AnimationSystem animationSystem;
 
     void Awake()
     {
-        animationSystem = new AnimationSystem(playerAnimator ,playerAnimator.runtimeAnimatorController);
+        // characterAnimator.fireEvents = false;
+        animationSystem = new AnimationSystem(characterAnimator, controller);
         // playerAnimator.CrossFade("Attack_1" ,1f);
     }
 
 
     void OnDestroy()
     {
-        animationSystem.Destroy();        
+        animationSystem.Destroy();
     }
 
 }

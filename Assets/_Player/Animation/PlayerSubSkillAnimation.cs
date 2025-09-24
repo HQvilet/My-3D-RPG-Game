@@ -2,25 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSubSkillAnimation : MonoBehaviour
+public class PlayerSubSkillAnimation : MonoBehaviour, ICommonlyUsedAnimationEvent
 {
-    [SerializeField] private BaseWeaponUtilities CurrentWeaponUtilities;
-    [SerializeField] private PlayerStateHandler stateHandler;
 
-    public void SetUpSkillUtils(BaseWeaponUtilities weaponUtilities)
-    {
-        CurrentWeaponUtilities = weaponUtilities;
-    }
+    [SerializeField] private CharacterStateHandler stateHandler;
 
     public void TriggerAnimationEvent(string eventName)
     {
-        CurrentWeaponUtilities?.RelyActionOnEvent(eventName);
         stateHandler.OnAnimationEvent?.Invoke(eventName);
     }
 
+    public void LockMovement() => stateHandler.CanMove = false;
+
+    public void UnlockMovement() => stateHandler.CanMove = true;
+
 }
 
-public interface ICommonlyUseEvent
+public interface ICommonlyUsedAnimationEvent
 {
-    void Slash();
+    public void LockMovement();
+    public void UnlockMovement();
 }

@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using ItemSystem.ItemConfiguration;
 
+
+// Inventory interface for a slot in inventory
 public interface IInventorySlot
 {
-    // public ItemData ItemData{get; set;}
-    public int Amount{get; set;}
+    public int Amount { get; set; }
 
     public bool IsFull();
     public bool IsEmpty();

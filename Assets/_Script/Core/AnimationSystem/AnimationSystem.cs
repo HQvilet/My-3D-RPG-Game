@@ -134,40 +134,55 @@ public class AnimationSystem {
 
     public Animator m_animator;
 
-    public AnimationSystem(Animator animator, RuntimeAnimatorController animatorController) {
+    private bool interupted;
+
+    public AnimationSystem(Animator animator, RuntimeAnimatorController animatorController)
+    {
         playableGraph = PlayableGraph.Create("AnimationSystem");
 
         m_animator = animator;
-        
+
         AnimationPlayableOutput playableOutput = AnimationPlayableOutput.Create(playableGraph, "Animation", animator);
-        
+
         topLevelMixer = AnimationMixerPlayable.Create(playableGraph, 2);
         playableOutput.SetSourcePlayable(topLevelMixer);
-        
-        locomotionMixer = AnimatorControllerPlayable.Create(playableGraph, animatorController);
 
+        locomotionMixer = AnimatorControllerPlayable.Create(playableGraph, animator.runtimeAnimatorController);
         // oneShotPlayableMixer = AnimationMixerPlayable.Create(playableGraph ,2);///
+        locomotionMixer.SetTime(1.0f);
 
         topLevelMixer.ConnectInput(0, locomotionMixer, 0);
+        // locomotionMixer.SetTime(0.0f);
+        // locomotionMixer.SetTime(0.0f);
         // topLevelMixer.ConnectInput(1 ,oneShotPlayable ,0);///
-
         playableGraph.GetRootPlayable(0).SetInputWeight(0, 1f);
-        
+
         playableGraph.Play();
     }
 
-    public void PlayOneShot(AnimationClip oneShotClip) {
+    float speed = 1f;
+    public void PlayOneShot(AnimationClip oneShotClip)
+    {
+        // playableGraph.Play();
+        // topLevelMixer.SetInputWeight(0, 1f);
+        // I just wanna use playable API for oneshot animation clip 
+        // but it seems to cause some conflict between playable API and Animator that fire an animation event twice
+
         if (oneShotPlayable.IsValid() && oneShotPlayable.GetAnimationClip() == oneShotClip) return;
-        
+
         InterruptOneShot();
+
         oneShotPlayable = AnimationClipPlayable.Create(playableGraph, oneShotClip);
+        oneShotPlayable.SetSpeed(speed);
+
+
         topLevelMixer.ConnectInput(1, oneShotPlayable, 0);
         topLevelMixer.SetInputWeight(1, 1f);
-        
+
         // Calculate blendDuration as 10% of clip length,
         // but ensure that it's not less than 0.1f or more than half the clip length
-        float blendDuration = Mathf.Clamp(oneShotClip.length * 0.1f, 0.1f, oneShotClip.length * 0.5f);
-        
+        float blendDuration = Mathf.Clamp(oneShotClip.length / speed * 0.1f, 0.1f, oneShotClip.length / speed * 0.5f);
+
         BlendIn(blendDuration);
         BlendOut(blendDuration, oneShotClip.length - blendDuration);
 
@@ -191,7 +206,8 @@ public class AnimationSystem {
     // }
 
     void BlendIn(float duration) {
-        blendInHandle = Timing.RunCoroutine(Blend(duration, blendTime => {
+        blendInHandle = Timing.RunCoroutine(Blend(duration, blendTime =>
+        {
             float weight = Mathf.Lerp(1f, 0f, blendTime);
             topLevelMixer.SetInputWeight(0, weight);
             topLevelMixer.SetInputWeight(1, 1f - weight);
@@ -199,7 +215,8 @@ public class AnimationSystem {
     }
     
     void BlendOut(float duration, float delay) {
-        blendOutHandle = Timing.RunCoroutine(Blend(duration, blendTime => {
+        blendOutHandle = Timing.RunCoroutine(Blend(duration, blendTime =>
+        {
             float weight = Mathf.Lerp(0f, 1f, blendTime);
             topLevelMixer.SetInputWeight(0, weight);
             topLevelMixer.SetInputWeight(1, 1f - weight);
@@ -221,23 +238,34 @@ public class AnimationSystem {
         blendCallback(1f);
         
         finishedCallback?.Invoke();
+        // playableGraph.Stop();
     }
 
-    void InterruptOneShot() {
+    void InterruptOneShot()
+    {
         Timing.KillCoroutines(blendInHandle);
         Timing.KillCoroutines(blendOutHandle);
-        
+
         topLevelMixer.SetInputWeight(0, 1f);
         topLevelMixer.SetInputWeight(1, 0f);
 
-        if (oneShotPlayable.IsValid()) {
+        if (oneShotPlayable.IsValid())
+        {
             DisconnectOneShot();
         }
+        
     }
 
-    void DisconnectOneShot() {
+    void DisconnectOneShot()
+    {
         topLevelMixer.DisconnectInput(1);
         playableGraph.DestroyPlayable(oneShotPlayable);
+        topLevelMixer.SetInputWeight(0, 0f);
+
+        // locomotionMixer.SetTime(0.0f);
+        locomotionMixer.SetTime(1.0f);
+
+        // playableGraph.Stop();
     }
 
     public void Destroy() {

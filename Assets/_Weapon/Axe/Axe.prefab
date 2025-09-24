@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3691860711511269938}
   - component: {fileID: 5088059511138447094}
   - component: {fileID: 6472871015938259657}
-  - component: {fileID: 7956334379307304192}
   m_Layer: 0
   m_Name: Axe
   m_TagString: Untagged
@@ -49,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b78e9e5925fb7a44787e5ce623803735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackAnimationClips:
+  attackAnimationClips:
   - {fileID: 7400000, guid: a147960db8722d74fa86e1c482251392, type: 2}
   - {fileID: 7400000, guid: 23b637486a5133e4f9f66357a7b9a584, type: 2}
 --- !u!114 &6472871015938259657
@@ -64,21 +63,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20a25c610b40de54d8b06ca9e030d348, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  authenticatedOwner: {fileID: 0}
   weaponCombo: {fileID: 5088059511138447094}
-  utilities: {fileID: 7956334379307304192}
   model: {fileID: 3083025315902009799}
---- !u!114 &7956334379307304192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1306137733768687446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfa12af01e4d2d8468a33a72376b44a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   hitAndSlashes:
   - slash_vfx: {fileID: 1173243701402730150, guid: 74c549d1b06b6b140a1fd9536eea637f,
       type: 3}
@@ -95,7 +82,7 @@ MonoBehaviour:
     fireDamage: 0.02
     knockBack: 0.15
   _vfx: {fileID: 6798556979679607986}
-  hitbox: {fileID: 6714075958084633891}
+  hitbox: {fileID: 1317956618197121507}
 --- !u!1 &2702670655115702593
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,7 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3654616848270582089}
   - component: {fileID: 2901873070468051140}
-  - component: {fileID: 6714075958084633891}
+  - component: {fileID: 1317956618197121507}
   m_Layer: 0
   m_Name: Hitbox
   m_TagString: Untagged
@@ -150,7 +137,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6714075958084633891
+--- !u!114 &1317956618197121507
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -159,10 +146,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2702670655115702593}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc26069a0c4ab534daefa305d00c83cc, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b0ec0b46e071664b9cdc538cf889379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sourceDamage: {fileID: 0}
   sourceEntity: {fileID: 0}
 --- !u!1 &7251275229497075079
 GameObject:

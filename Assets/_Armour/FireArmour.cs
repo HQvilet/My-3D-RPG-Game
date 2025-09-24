@@ -17,7 +17,6 @@ public class FireArmourRef : ArmourReference
         item = assetFile.item;
 
         utils = new FireArmourUtils();
-
     }
 
     public override ArmourUtils GetArmourUtils() => utils;
@@ -29,9 +28,7 @@ public class FireArmourUtils : ArmourUtils
     public override void OnEquipped(EntityComponent entity)
     {
         entity.stateHandler.OnHitTarget += OnHitEffect;
-    }
-
-    
+    }    
     
     private void OnHitEffect(EntityComponent target)
     {

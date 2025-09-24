@@ -11,19 +11,8 @@ namespace ItemSystem.ItemConfiguration
         // [SerializeField] List<ItemData> RegistryItems;
         [SerializeField] private string ITEMS_DATA_PATH;
 
-        private Dictionary<int ,ItemData> ItemsData = new Dictionary<int ,ItemData>();
-
-        // public void OnValidate()
-        // {
-        //     // Resources.LoadAll<ItemDataSO>("dasd");
-        //     foreach(ItemData item in RegistryItems)
-        //     {
-        //         if(!ItemsData.ContainsKey(item.ID))
-        //             ItemsData.Add(item.ID ,item);
-        //         else
-        //             Debug.Log(item.Name);
-        //     }
-        // }
+        private Dictionary<string, ItemData> ItemsData = new();
+        private Dictionary<string, ArmourReference> ArmourRefs = new();
 
         protected override void Awake()
         {
@@ -31,28 +20,47 @@ namespace ItemSystem.ItemConfiguration
             LoadAll(ITEMS_DATA_PATH);
         }
 
-        public ItemData GetItemByID(int ID)
+        public ItemData GetItemByID(string ID)
         {
-            if(ItemsData.ContainsKey(ID))
+            if (ItemsData.ContainsKey(ID))
                 return ItemsData[ID];
             Debug.Log("Non existing item ID :" + ID);
             return null;
         }
 
-        public bool TryGetItemByID(int _id ,out ItemData item) =>  ItemsData.TryGetValue(_id ,out item);
+        public bool TryGetItemByID(string _id, out ItemData item) => ItemsData.TryGetValue(_id, out item);
 
         private void LoadAll(string DATA_PATH)
         {
-            ItemData[] Items = Resources.LoadAll<ItemData>(DATA_PATH);
-            foreach(ItemData item in Items)
+            ItemData[] _items = Resources.LoadAll<ItemData>(DATA_PATH);
+            foreach (ItemData item in _items)
             {
-                if(!ItemsData.ContainsKey(item.ID))
-                    ItemsData.Add(item.ID ,item);
+                if (!ItemsData.ContainsKey(item.ID))
+                    ItemsData.Add(item.ID, item);
                 else
                 {
                     Debug.Log("Exist 2 item with the same ID :" + item.ID + " - " + item.Name);
                 }
             }
+
+            ArmourReference[] _armours = Resources.LoadAll<ArmourReference>("Armour");
+            foreach (ArmourReference item in _armours)
+            {
+                if (!ItemsData.ContainsKey(item.ID))
+                    ArmourRefs.Add(item.ID, item);
+                else
+                {
+                    Debug.Log("Exist 2 item with the same ID :" + item.ID);
+                }
+            }
+        }
+
+        public ArmourReference GetArmourReferenceByID(string ID)
+        {
+            if (ItemsData.ContainsKey(ID))
+                return ArmourRefs[ID];
+            Debug.Log("Non existing item ID :" + ID);
+            return null;
         }
     }
 }

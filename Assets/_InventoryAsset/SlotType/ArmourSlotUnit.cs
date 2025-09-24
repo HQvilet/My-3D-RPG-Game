@@ -7,9 +7,9 @@ public class ArmourSlotUnit : SlotUnit, IDragHandler
 {
     public ArmourAsset armourAsset;
 
-    public void SetSlotData(ArmourAsset item)
+    public void SetSlotData(ArmourAsset asset)
     {
-        armourAsset = item;
+        armourAsset = asset;
         UpdateSlot();
     }
 
@@ -25,7 +25,6 @@ public class ArmourSlotUnit : SlotUnit, IDragHandler
     }
 
     public void ClearSlot() => armourAsset.Clear();
-
     public bool IsFull() => armourAsset.IsFull();
     public bool IsEmpty() => armourAsset.IsEmpty();
 

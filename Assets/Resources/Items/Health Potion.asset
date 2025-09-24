@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e0a34b56e357774cbe8cfe894f7bed7, type: 3}
   m_Name: Health Potion
   m_EditorClassIdentifier: 
-  ID: -1778995365
+  _id: 7dbfe8bb-ccb2-4c15-9a3a-b40e4deae189
   Name: Health Potion
   Sprite: {fileID: -1360023721, guid: ba00d2cc9cfe3aa4dbabe584112b29a8, type: 3}
   Description: 'Add health '

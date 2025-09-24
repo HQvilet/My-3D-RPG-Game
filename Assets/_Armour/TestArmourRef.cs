@@ -13,7 +13,7 @@ public class TestArmourRef : ArmourReference //,IArmourRef
     
     public override void Set(ArmourReference reference)
     {
-        TestArmourRef assetFile = reference as TestArmourRef;
+        TestArmourRef assetFile = reference as TestArmourRef; 
         item = assetFile.item;
 
         config = assetFile.config;

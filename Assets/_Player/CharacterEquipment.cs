@@ -7,6 +7,7 @@ using UnityEngine;
 public class CharacterEquipment : MonoBehaviour
 {
     HashSet<ArmourUtils> armourUtils = new();
+    [SerializeField] EntityComponent entity;
 
     void Start()
     {

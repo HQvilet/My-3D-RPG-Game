@@ -8,15 +8,17 @@ public class WeaponHandler : MonoBehaviour
     [SerializeField] private WeaponModelConfig modelHandler;
     [SerializeField] private PlayerSubSkillAnimation skillAnimationEvent;
     [SerializeField] private WeaponServiceLocator weaponService;
+    
+    [SerializeField] private EntityComponent ownerEntity;
 
-    Dictionary<int ,BaseWeapon> WeaponSlot = new Dictionary<int, BaseWeapon>()
+    Dictionary<int, BaseWeapon> WeaponSlot = new Dictionary<int, BaseWeapon>()
     {{1 ,null} ,
      {2 ,null} ,
      {3 ,null}};
 
 
-    private BaseWeapon CurrentWeapon;
-    private int CurrentIndexSlot;
+    private BaseWeapon _currentWeapon;
+    private int _currentIndexSlot = 0;
 
     void Start()
     {
@@ -42,15 +44,18 @@ public class WeaponHandler : MonoBehaviour
         if(weaponRef == null) return;
 
         var weapon = Instantiate(weaponRef.WeaponPref).GetComponent<BaseWeapon>();
+        
         // Set up model
+        weapon.SetAuthenticatedOwner(ownerEntity);
         weapon.WeaponRiggingSetup(modelHandler);
         weapon.WeaponServiceSetup(weaponService);
+
         // Set active false
         weapon.gameObject.SetActive(false);
 
         WeaponSlot[slot] = weapon;
 
-        if(CurrentIndexSlot == slot)
+        if(_currentIndexSlot == slot)
             weapon.OnSelected();
     }
 
@@ -66,19 +71,21 @@ public class WeaponHandler : MonoBehaviour
 
     public void SelectWeaponOnIndex(int res)
     {
-        
-            
-        if(CurrentIndexSlot == res) return;
+        if(_currentIndexSlot == res) return;
 
-        CurrentWeapon?.OnDeselected();
+        _currentWeapon?.OnDeselected();
         
         if(WeaponSlot.ContainsKey(res))
         {
-            CurrentIndexSlot = res;
-            CurrentWeapon = WeaponSlot[CurrentIndexSlot];
-            if(CurrentWeapon)
-                skillAnimationEvent.SetUpSkillUtils(CurrentWeapon.GetComponent<BaseWeaponUtilities>());
-            CurrentWeapon?.OnSelected();
+            _currentIndexSlot = res;
+            _currentWeapon = WeaponSlot[_currentIndexSlot];
+            if (_currentWeapon)
+            {
+                // _currentWeapon.SetAuthenticatedOwner(ownerEntity);
+                // skillAnimationEvent.SetUpSkillUtils(_currentWeapon.GetComponent<BaseWeaponUtilities>());
+            }
+                
+            _currentWeapon?.OnSelected();
         }
         else
             Debug.Log("Inventory does not contain this slot");
