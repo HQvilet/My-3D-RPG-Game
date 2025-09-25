@@ -6,15 +6,17 @@ using UnityEngine.InputSystem;
 public class WeaponHandler : MonoBehaviour
 {
     [SerializeField] private WeaponModelConfig modelHandler;
-    [SerializeField] private PlayerSubSkillAnimation skillAnimationEvent;
     [SerializeField] private WeaponServiceLocator weaponService;
     
     [SerializeField] private EntityComponent ownerEntity;
 
     Dictionary<int, BaseWeapon> WeaponSlot = new Dictionary<int, BaseWeapon>()
-    {{1 ,null} ,
-     {2 ,null} ,
-     {3 ,null}};
+    {
+        {1 ,null},
+        {2 ,null},
+        {3 ,null},
+        {4, null}
+    };
 
 
     private BaseWeapon _currentWeapon;

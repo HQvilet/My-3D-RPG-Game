@@ -7,35 +7,34 @@ using UnityEngine;
 public class CharacterEquipment : MonoBehaviour
 {
     HashSet<ArmourUtils> armourUtils = new();
-    [SerializeField] EntityComponent entity;
+    [SerializeField] EntityComponent owner;
 
     void Start()
     {
-        Bus<EquipArmourEvent>.AddRegister(DoEquip);
-        Bus<UnequipArmourEvent>.AddRegister(DoUnequip);
+        // Bus<EquipArmourEvent>.AddRegister(DoEquip);
+        // Bus<UnequipArmourEvent>.AddRegister(DoUnequip);
     }
 
-
-    private void DoEquip(EquipArmourEvent @event)
+    public void DoEquip(ArmourReference armour)
     {
-        if(@event.armourInfo.GetArmourUtils() == null) 
+        if(armour.GetArmourUtils() == null)
             return;
-        armourUtils.Add(@event.armourInfo.GetArmourUtils());
-        @event.armourInfo.GetArmourUtils().OnEquipped(EntityComponentSystem.Instance.GetPlayerComponent());
+        armourUtils.Add(armour.GetArmourUtils());
+        armour.GetArmourUtils().OnEquipped(owner);
     }
 
-    private void DoUnequip(UnequipArmourEvent @event)
+    public void DoUnequip(ArmourReference armour)
     {
-        if(@event.armourInfo.GetArmourUtils() == null) 
+        if(armour.GetArmourUtils() == null) 
             return;
-        armourUtils.Remove(@event.armourInfo.GetArmourUtils());
-        @event.armourInfo.GetArmourUtils().OnUnequipped(EntityComponentSystem.Instance.GetPlayerComponent());
+        armourUtils.Remove(armour.GetArmourUtils());
+        armour.GetArmourUtils().OnUnequipped(owner);
     }
-    
+
     void Update()
     {
-        // foreach(ArmourUtils utils in armourUtils)
-        //     utils.OnEquippedStay();
+        foreach(ArmourUtils utils in armourUtils)
+            utils.OnEquippedStay(owner);
     }
 }
 

@@ -15,17 +15,11 @@ public class CharacterStateHandler : MonoBehaviour
 
     public Action<string> OnAnimationEvent;
 
-    // void Start()
-    // {
-    //     OnAnimationEvent += (e) => { Debug.Log(e); };
-    // }
-
     public Action<EntityComponent> OnHitTarget;
     public Action<EntityComponent> OnGetHit;
 
 
-    // [Header("Abilities")]
-    // Abilities
+
     public bool CanJump;
     public bool CanAttack = true;
     public bool CanDash;
