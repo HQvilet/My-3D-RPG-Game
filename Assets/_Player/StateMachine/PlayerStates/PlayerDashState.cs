@@ -54,56 +54,56 @@ using UnityEngine;
 //     }
 // }
 
-public class PlayerDashState : State
-{
-    protected PlayerStateMachine stateMachine;
-    protected PlayerMovementData data;
-    protected PlayerMovementHandler player;
-    protected Animator animator;
-    public PlayerDashState(PlayerMovementHandler player ,PlayerStateMachine stateMachine)
-    {
-        this.player = player;
-        this.stateMachine = stateMachine;
-        this.data = player.movementData;
-        this.animator = player.playerAnimator;
-    }
-    bool CanUpdateLogic = false;
+// public class PlayerDashState : State
+// {
+//     protected PlayerStateMachine stateMachine;
+//     protected PlayerMovementData data;
+//     protected PlayerMovementHandler player;
+//     protected Animator animator;
+//     public PlayerDashState(PlayerMovementHandler player ,PlayerStateMachine stateMachine)
+//     {
+//         this.player = player;
+//         this.stateMachine = stateMachine;
+//         this.data = player.movementData;
+//         this.animator = player.playerAnimator;
+//     }
+//     bool CanUpdateLogic = false;
 
-    public override void Enter()
-    {
-        base.Enter();
-        player.stateHandler.CanAttack = false;
-        Debug.Log("Player Dashing");
-        CanUpdateLogic = false;
-        // Timing.RunCoroutine(Dash());
-        // player.movementUtilities.DoDash(20f, () => CanUpdateLogic = true);
+//     public override void Enter()
+//     {
+//         base.Enter();
+//         player.stateHandler.CanAttack = false;
+//         Debug.Log("Player Dashing");
+//         CanUpdateLogic = false;
+//         // Timing.RunCoroutine(Dash());
+//         // player.movementUtilities.DoDash(20f, () => CanUpdateLogic = true);
         
-    }
+//     }
 
-    public override void Update()
-    {
-        base.Update();
-    }
+//     public override void Update()
+//     {
+//         base.Update();
+//     }
 
-    public override void UpdateLogic()
-    {
-        if(CanUpdateLogic)
-            DoTransition();
-    }
+//     public override void UpdateLogic()
+//     {
+//         if(CanUpdateLogic)
+//             DoTransition();
+//     }
 
-    private void DoTransition()
-    {
-        if(player.colliderDetection.IsGrounded)
-        {
-            if(!player.Input.HasMotionInput)
-                stateMachine.ChangeState(stateMachine.idlingState);
-            else
-                stateMachine.ChangeState(stateMachine.runningState);
-        }
-    }
+//     private void DoTransition()
+//     {
+//         if(player.colliderDetection.IsGrounded)
+//         {
+//             if(!player.Input.HasMotionInput)
+//                 stateMachine.ChangeState(stateMachine.idlingState);
+//             else
+//                 stateMachine.ChangeState(stateMachine.runningState);
+//         }
+//     }
     
-    public override void Exit()
-    {
-        base.Exit();
-    }
-}
+//     public override void Exit()
+//     {
+//         base.Exit();
+//     }
+// }

@@ -24,9 +24,8 @@ public interface IDamageObject
 public class BaseDamageableObject : MonoBehaviour
 {
 
-    [SerializeField] HealthBar healthBar;
+    [SerializeField] HealthBarMeshRenderer healthBar;
     [SerializeField] CharacterStats _stats;
-    // [Serializable]
 
     [SerializeField] protected BaseEffectModifier effectModifier;
 
@@ -40,7 +39,7 @@ public class BaseDamageableObject : MonoBehaviour
             if (value <= 0)
                 OnDied();
             _currentHealth = Mathf.Clamp(value, 0, MaxHealth);
-            healthBar.SetProgress(_currentHealth / MaxHealth);
+            healthBar?.SetProgress(_currentHealth / MaxHealth);
         }
     }
 
@@ -81,7 +80,7 @@ public class BaseDamageableObject : MonoBehaviour
 
     protected virtual void OnDied()
     {
-        Destroy(gameObject);
+        // Destroy(gameObject);
         // Debug.Log("Enemy died");
     }
 
@@ -117,9 +116,9 @@ public class BaseDamageableObject : MonoBehaviour
 
     private void OnGetKnockBack(float damageFactor)
     {
-        Transform obj = transform;
-        if (obj != null)
-            obj.DOMove(obj.transform.position + obj.forward * -1 * damageFactor, 0.1f).onKill += () => { };
+        // Transform obj = transform;
+        // if (obj != null)
+        //     obj.DOMove(obj.transform.position + obj.forward * -1 * damageFactor, 0.1f).onKill += () => { };
     }
 
     private void OnTakePhysicalDmg(float damageFactor)

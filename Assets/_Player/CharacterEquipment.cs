@@ -9,12 +9,6 @@ public class CharacterEquipment : MonoBehaviour
     HashSet<ArmourUtils> armourUtils = new();
     [SerializeField] EntityComponent owner;
 
-    void Start()
-    {
-        // Bus<EquipArmourEvent>.AddRegister(DoEquip);
-        // Bus<UnequipArmourEvent>.AddRegister(DoUnequip);
-    }
-
     public void DoEquip(ArmourReference armour)
     {
         if(armour.GetArmourUtils() == null)

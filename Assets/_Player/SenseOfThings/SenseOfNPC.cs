@@ -11,7 +11,7 @@ public class SenseOfNPC : MonoBehaviour
 
     void Update()
     {
-        if(InputDataHandler.Instance.PerformedAnInteract)
+        if(InputDataHandler.Instance.PlayerInput.Interact.WasPerformedThisFrame())
         {
             Collider[] colliders = Physics.OverlapSphere(transform.parent.position ,Radius ,layer);
             if(colliders.Count() > 0)

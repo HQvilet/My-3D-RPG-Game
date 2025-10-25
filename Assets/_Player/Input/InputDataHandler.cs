@@ -9,15 +9,8 @@ public class InputDataHandler : Singleton<InputDataHandler>
     [HideInInspector] public PlayerInputAction.PlayerActions PlayerInput;
     [HideInInspector] public PlayerInputAction.UIInteractionActions PlayerUIInteraction;
 
-    public Action OnPerformedAnAttack;
-
-
     private Vector2 _movementInput;
     public bool HasMotionInput { get => PlayerInput.OnMove.ReadValue<Vector2>() != Vector2.zero; }
-    public bool HasJumpInput { get => PlayerInput.Jump.WasPerformedThisFrame(); }
-    public bool PerformedAnInteract {get => PlayerInput.Interact.WasPerformedThisFrame(); }
-    // public bool PerformedAnAttack {get => PlayerInput.Attack.WasPerformedThisFrame(); }
-
 
     protected override void Awake()
     {
@@ -27,7 +20,6 @@ public class InputDataHandler : Singleton<InputDataHandler>
 
 
         PlayerInput = SystemInputManager.Instance.SystemInput.Player;
-
         PlayerUIInteraction = SystemInputManager.Instance.SystemInput.UIInteraction;
 
         EnablePlayerInput();

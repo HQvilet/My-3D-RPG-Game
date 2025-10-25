@@ -7,10 +7,7 @@ using UnityEngine;
 public abstract class BaseWeapon : MonoBehaviour
 {
     [SerializeField] protected EntityComponent authenticatedOwner;
-    public void SetAuthenticatedOwner(EntityComponent entityComponent)
-    {
-        authenticatedOwner = entityComponent;
-    }
+    public virtual void SetAuthenticatedOwner(EntityComponent entityComponent) => authenticatedOwner = entityComponent;
 
     protected bool AllowProcess()
     {
@@ -19,8 +16,11 @@ public abstract class BaseWeapon : MonoBehaviour
 
     protected bool AllowInputProcess()
     {
-        return !authenticatedOwner.TryGetEntityInput().Equals(default(PlayerInputAction.PlayerActions));
+        // return !authenticatedOwner.TryGetEntityInput().Equals(default(PlayerInputAction.PlayerActions));
+        return true;
     }
+
+    public virtual void RegistryForInput(InputDataHandler inputHandler){}
 
     public virtual void GetDestroyed()
     {
@@ -44,17 +44,6 @@ public abstract class BaseWeapon : MonoBehaviour
 
     public virtual void WeaponServiceSetup(WeaponServiceLocator weaponService) { }
 
-    public void RelyActionOnEvent(string eventName)
-    {
-        MethodInfo method = this.GetType().GetMethod(eventName);
-        if (method != null)
-        {
-            method.Invoke(this, null);
-        }
-        else
-        {
-            Debug.Log("No method found " + eventName);
-        }
-    }
+    protected virtual void AnimationEventBinding(string eventName){}
 
 }

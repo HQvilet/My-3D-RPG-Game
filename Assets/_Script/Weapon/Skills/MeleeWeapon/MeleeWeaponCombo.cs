@@ -11,23 +11,16 @@ public class WeaponCombo : MonoBehaviour
 
     void Update()
     {
-        if(weaponStateMachine != null)
-        {
-            weaponStateMachine.Update();
-            weaponStateMachine.LogicUpdate();
-        }
+        if (weaponStateMachine == null)
+            return;
+        
+        weaponStateMachine.Update();
+        weaponStateMachine.LogicUpdate();
+        
     }
 
     public void SetWeaponStateHandler(CharacterStateHandler stateHandler) => weaponStateMachine.stateHandler = stateHandler;
 
-    public void SetStateMachine(PlayerAnimationSystem animator)
-    {
-        weaponStateMachine = new MeleeWeaponStateMachine(this ,animator.animationSystem ,attackAnimationClips);
-    }
-
-    public void SetEntityComponent(EntityComponent entity)
-    {
-        
-    }
+    public void SetStateMachine(Animator animator) => weaponStateMachine = new MeleeWeaponStateMachine(this ,animator ,attackAnimationClips);
     
 }

@@ -4319,6 +4319,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1004114828912499974, guid: 7e57dc8f9b29aa646a7ccfafb656e246,
+        type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2852822066176173784, guid: 7e57dc8f9b29aa646a7ccfafb656e246,
+        type: 3}
+      propertyPath: m_VertexColorAlwaysGammaSpace
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3763741062700744717, guid: 7e57dc8f9b29aa646a7ccfafb656e246,
         type: 3}
       propertyPath: m_Name

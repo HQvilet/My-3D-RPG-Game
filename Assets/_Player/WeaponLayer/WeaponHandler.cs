@@ -7,10 +7,12 @@ public class WeaponHandler : MonoBehaviour
 {
     [SerializeField] private WeaponModelConfig modelHandler;
     [SerializeField] private WeaponServiceLocator weaponService;
-    
-    [SerializeField] private EntityComponent ownerEntity;
+    public bool allowToChange = true;
 
-    Dictionary<int, BaseWeapon> WeaponSlot = new Dictionary<int, BaseWeapon>()
+    [SerializeField] private EntityComponent weaponHolder;
+    [SerializeField] private InputDataHandler inputHandler;
+
+    Dictionary<int, BaseWeapon> weaponSlot = new Dictionary<int, BaseWeapon>()
     {
         {1 ,null},
         {2 ,null},
@@ -20,51 +22,56 @@ public class WeaponHandler : MonoBehaviour
 
 
     private BaseWeapon _currentWeapon;
-    private int _currentIndexSlot = 0;
+    private int _currentIndexSlot = 1;
 
     void Start()
     {
-        InputDataHandler.Instance.PlayerUIInteraction.WeaponIndexSlot.performed += ChangeWeapon;
+        inputHandler.PlayerUIInteraction.WeaponIndexSlot.performed += ChangeWeapon;
         LoadWeapon();
         
     }
 
     void LoadWeapon()
     {
-        InitializeWeapon(1 ,1);
-        InitializeWeapon(2 ,2);
-        InitializeWeapon(3 ,3);
+        InitializeWeapon(1, 4);
+        InitializeWeapon(2, 3);
     }
 
 
     void InitializeWeapon(int slot ,int ID)
     {
         // Init Weapon
-        WeaponSlot[slot]?.GetDestroyed();
-        WeaponSlot[slot] = null;
+        weaponSlot[slot]?.GetDestroyed();
+        weaponSlot[slot] = null;
         WeaponRef weaponRef = WeaponIdManager.Instance.GetWeaponFromId(ID);
         if(weaponRef == null) return;
 
-        var weapon = Instantiate(weaponRef.WeaponPref).GetComponent<BaseWeapon>();
-        
-        // Set up model
-        weapon.SetAuthenticatedOwner(ownerEntity);
+        BaseWeapon weapon = Instantiate(weaponRef.WeaponPref).GetComponent<BaseWeapon>();
+        weapon.GetInitialized();
+
+        weapon.SetAuthenticatedOwner(weaponHolder);
         weapon.WeaponRiggingSetup(modelHandler);
         weapon.WeaponServiceSetup(weaponService);
+        weapon.RegistryForInput(inputHandler);
 
         // Set active false
         weapon.gameObject.SetActive(false);
 
-        WeaponSlot[slot] = weapon;
+        weaponSlot[slot] = weapon;
 
-        if(_currentIndexSlot == slot)
+        if (_currentIndexSlot == slot)
+        {
+            _currentWeapon = weapon;
             weapon.OnSelected();
+        }
+            
     }
 
     //listen to Player input
     void ChangeWeapon(InputAction.CallbackContext context)
     {
-        
+        if (!allowToChange)
+            return;
         if(int.TryParse(context.control.name ,out int res))
             SelectWeaponOnIndex(res);
         else
@@ -77,16 +84,10 @@ public class WeaponHandler : MonoBehaviour
 
         _currentWeapon?.OnDeselected();
         
-        if(WeaponSlot.ContainsKey(res))
+        if(weaponSlot.ContainsKey(res))
         {
             _currentIndexSlot = res;
-            _currentWeapon = WeaponSlot[_currentIndexSlot];
-            if (_currentWeapon)
-            {
-                // _currentWeapon.SetAuthenticatedOwner(ownerEntity);
-                // skillAnimationEvent.SetUpSkillUtils(_currentWeapon.GetComponent<BaseWeaponUtilities>());
-            }
-                
+            _currentWeapon = weaponSlot[_currentIndexSlot];
             _currentWeapon?.OnSelected();
         }
         else

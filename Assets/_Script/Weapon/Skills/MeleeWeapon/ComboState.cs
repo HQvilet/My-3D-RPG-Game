@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 
@@ -13,40 +12,36 @@ public struct ActionStateConfig
     public bool AllowToInterupt;
 }
 
-public class ActionState : State
+public class ActionState
 {
-    private AnimationSystem animationSystem;
-    private Animator animator;
     private MeleeWeaponStateMachine stateMachine;
     AnimationClip stateAnimation;
-    public ActionState(MeleeWeaponStateMachine stateMachine ,AnimationClip anim)
+    public ActionState(MeleeWeaponStateMachine stateMachine, AnimationClip anim)
     {
         this.stateMachine = stateMachine;
         this._duration = anim.length;
-        // this.animationSystem = stateMachine.animator;
+
         this.stateAnimation = anim;
-        this.animationName = Animator.StringToHash(anim.name);
-        // this.animator = stateMachine.animator.m_animator;
+        this.animationHash = Animator.StringToHash(anim.name);
+        
     }
 
-    private int animationName;
+    private int animationHash;
     float _duration;
     float _duration_count;
-    // public float _timeBuffer = 0.6f;
     public bool allowToChange = false;
     bool callbackOnce = true;
 
-    public override void Enter()
+    public void Enter()
     {
         ResetState();
-        stateMachine.animator.PlayOneShot(stateAnimation);
-        // animator.CrossFade(animationName ,0.0f);
+        stateMachine.animator.CrossFade(animationHash, 0.1f);
     }
 
-    public override void Update()
+    public void Update()
     {
         _duration_count -= Time.deltaTime;
-        if(_duration_count <= 0.25f && callbackOnce)
+        if(_duration_count <= _duration * 0.16f && callbackOnce)
         {
             allowToChange = true;
             callbackOnce = false;
@@ -54,7 +49,7 @@ public class ActionState : State
         }
     }
 
-    public override void Exit()
+    public void Exit()
     {
         
     }
@@ -67,32 +62,32 @@ public class ActionState : State
     }
 }
 
-public class MeleeWeaponStateMachine : StateMachine
+public class MeleeWeaponStateMachine
 {    
     List<ActionState> WeaponComboStates = new();
     private int maxCombo;
 
     //Event
     public CharacterStateHandler stateHandler;
-    public AnimationSystem animator;
+    public Animator animator;
 
-    public MeleeWeaponStateMachine(WeaponCombo meleeCombo ,AnimationSystem animationSystem ,List<AnimationClip> clips)
+    public MeleeWeaponStateMachine(WeaponCombo meleeCombo ,Animator animator ,List<AnimationClip> clips)
     {
         maxCombo = clips.Count;
-        animator = animationSystem;
+        this.animator = animator;
         SetUpActionChain(clips);
     }
 
     public void SetUpActionChain(List<AnimationClip> clips)
     {
-        // WeaponComboStates = clips.Select(clip => new ActionState(this, clip)).ToList();
         foreach (AnimationClip clip in clips)
             WeaponComboStates.Add(new ActionState(this, clip));
     }
 
     private ActionState currentActionState;
     private int currentIndex = -1;
-    private float _resetStateBuffer = 4f;
+    
+    private float _resetStateBuffer = 3f;
     private float _currentResetStateTime;
 
     public void TriggerAttack()
@@ -109,14 +104,19 @@ public class MeleeWeaponStateMachine : StateMachine
         }
     }
 
+    public void Update()
+    {
+        currentActionState?.Update();
+    }
+
     public void LogicUpdate()
     {
         _currentResetStateTime -= Time.deltaTime;
-        
+
         if (currentActionState == null)
             return;
 
-        if(_currentResetStateTime <= 0)
+        if (_currentResetStateTime <= 0)
             ResetCombo();
     }
 
@@ -135,9 +135,18 @@ public class MeleeWeaponStateMachine : StateMachine
             PerformAttack();
             return;
         }
-        currentActionState = WeaponComboStates[currentIndex];
-        ChangeState(currentActionState);
+        // currentActionState = WeaponComboStates[currentIndex];
+        ChangeState(WeaponComboStates[currentIndex]);
         stateHandler.OnMeleePerformed?.Invoke();
+    }
+
+    void ChangeState(ActionState state)
+    {
+        if (currentActionState == state)
+            return;
+        currentActionState?.Exit();
+        currentActionState = state;
+        currentActionState.Enter();
     }
 
     public void ResetCombo()

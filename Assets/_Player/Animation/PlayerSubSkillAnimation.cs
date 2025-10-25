@@ -16,6 +16,9 @@ public class PlayerSubSkillAnimation : MonoBehaviour, ICommonlyUsedAnimationEven
 
     public void UnlockMovement() => stateHandler.CanMove = true;
 
+    public void AllowInterupt() => stateHandler.AllowToInterupt = true;
+    public void DenyInterupt() => stateHandler.AllowToInterupt = false;
+
 }
 
 public interface ICommonlyUsedAnimationEvent

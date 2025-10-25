@@ -139,7 +139,7 @@ public class AnimationSystem {
     public AnimationSystem(Animator animator, RuntimeAnimatorController animatorController)
     {
         playableGraph = PlayableGraph.Create("AnimationSystem");
-
+        // playableGraph.SetTimeUpdateMode(DirectorUpdateMode.Manual);
         m_animator = animator;
 
         AnimationPlayableOutput playableOutput = AnimationPlayableOutput.Create(playableGraph, "Animation", animator);
@@ -148,7 +148,6 @@ public class AnimationSystem {
         playableOutput.SetSourcePlayable(topLevelMixer);
 
         locomotionMixer = AnimatorControllerPlayable.Create(playableGraph, animator.runtimeAnimatorController);
-        // oneShotPlayableMixer = AnimationMixerPlayable.Create(playableGraph ,2);///
         locomotionMixer.SetTime(1.0f);
 
         topLevelMixer.ConnectInput(0, locomotionMixer, 0);
@@ -157,7 +156,7 @@ public class AnimationSystem {
         // topLevelMixer.ConnectInput(1 ,oneShotPlayable ,0);///
         playableGraph.GetRootPlayable(0).SetInputWeight(0, 1f);
 
-        playableGraph.Play();
+        // playableGraph.Play();
     }
 
     float speed = 1f;
@@ -171,7 +170,7 @@ public class AnimationSystem {
         if (oneShotPlayable.IsValid() && oneShotPlayable.GetAnimationClip() == oneShotClip) return;
 
         InterruptOneShot();
-
+        // m_animator.updateMode = AnimatorUpdateMode.Normal;
         oneShotPlayable = AnimationClipPlayable.Create(playableGraph, oneShotClip);
         oneShotPlayable.SetSpeed(speed);
 
@@ -253,7 +252,6 @@ public class AnimationSystem {
         {
             DisconnectOneShot();
         }
-        
     }
 
     void DisconnectOneShot()
@@ -263,9 +261,9 @@ public class AnimationSystem {
         topLevelMixer.SetInputWeight(0, 0f);
 
         // locomotionMixer.SetTime(0.0f);
+        // m_animator.updateMode = AnimatorUpdateMode.AnimatePhysics;
         locomotionMixer.SetTime(1.0f);
 
-        // playableGraph.Stop();
     }
 
     public void Destroy() {

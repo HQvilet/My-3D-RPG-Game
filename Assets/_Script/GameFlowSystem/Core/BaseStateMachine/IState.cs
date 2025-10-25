@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public interface IState
+namespace AdvanceFSM
+{
+    public interface IState
     {
-    public void Enter();
+        public void Enter();
 
-    public void Exit();
-        
-    public void Update();
+        public void Exit();
 
-    public void PhysicUpdate();
+        public void Update();
 
-    public void UpdateLogic();
+        public void PhysicUpdate();
+    }
 
 }
+

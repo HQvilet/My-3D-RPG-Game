@@ -34,9 +34,9 @@ MonoBehaviour:
           PublicKeyToken=null
         rect:
           serializedVersion: 2
-          x: 303.2
-          y: 88.8
-          width: 286.40002
+          x: 221.59999
+          y: 19.2
+          width: 286.4
           height: 247.20001
         _name: 
         _content: 
@@ -84,9 +84,9 @@ MonoBehaviour:
           PublicKeyToken=null
         rect:
           serializedVersion: 2
-          x: 1455.2
-          y: 104
-          width: 286.40002
+          x: 1412
+          y: 72
+          width: 286.3999
           height: 247.2
         _name: 
         _content: 

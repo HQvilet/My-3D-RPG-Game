@@ -6,10 +6,10 @@ public class SlashHitBox : DamageHitbox
 {
     void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out BaseDamageableObject damageableObject))
+        if (other.TryGetComponent(out EntityComponent obj))
         {
-            damageableObject.OnGetHit(DamageHandler.Processor(sourceEntity.characterStats, calculatedDamage));
-            sourceEntity.stateHandler.OnHitTarget?.Invoke(damageableObject.GetComponent<EntityComponent>());
+            obj.damageableObject.OnGetHit(DamageHandler.Processor(sourceEntity.characterStats, calculatedDamage));
+            sourceEntity.stateHandler.OnHitTarget?.Invoke(obj);
         }
     }
 

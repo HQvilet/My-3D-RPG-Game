@@ -38,16 +38,6 @@ public class CharacterStats : MonoBehaviour
         
     }
 
-    void OnStatsDebug()
-    {
-        _attack = Atk;
-    }
-
-    void Update()
-    {
-        OnStatsDebug();
-    }
-
 }
 
 public class ModifyStat

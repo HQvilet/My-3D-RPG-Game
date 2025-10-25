@@ -6,22 +6,21 @@ public class PlayerAnimationSystem : MonoBehaviour
 {
     // [SerializeField] private PlayerSubSkillAnimation AnimationEvent;
     [SerializeField] public Animator characterAnimator;
-    public Animator rigAnimator;
-    public RuntimeAnimatorController controller;
+    // public Animator rigAnimator;
+    // public RuntimeAnimatorController controller;
 
-    public AnimationSystem animationSystem;
+    // public AnimationSystem animationSystem;
 
-    void Awake()
-    {
-        // characterAnimator.fireEvents = false;
-        animationSystem = new AnimationSystem(characterAnimator, controller);
-        // playerAnimator.CrossFade("Attack_1" ,1f);
-    }
+    // void Awake()
+    // {
+    //     animationSystem = new AnimationSystem(characterAnimator, controller);
+    // }
 
 
-    void OnDestroy()
-    {
-        animationSystem.Destroy();
-    }
+
+    // void OnDestroy()
+    // {
+    //     animationSystem.Destroy();
+    // }
 
 }

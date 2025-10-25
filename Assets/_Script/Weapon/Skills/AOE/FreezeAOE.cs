@@ -11,7 +11,6 @@ using UnityEngine.InputSystem.iOS;
 public class FreezeAOE : DamageHitbox
 {
 
-    string test = "Test Effect";
     public float liveTime;
     float timeBetween = 0.1f;
 

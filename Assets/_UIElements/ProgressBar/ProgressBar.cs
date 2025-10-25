@@ -20,20 +20,20 @@ public class ProgressBar : MonoBehaviour
         ProgressImage.color = ColorGradient.Evaluate(0f);
     }
 
-    public void SetProgress(float Progress)
+    public void SetProgress(float _progress)
     {
-        if (Progress < 0 || Progress > 1)
+        if (_progress < 0 || _progress > 1)
         {
-            Debug.LogWarning($"Invalid progress passed, expected value is between 0 and 1, got {Progress}. Clamping.");
-            Progress = Mathf.Clamp01(Progress);
+            Debug.LogWarning($"Invalid progress passed, expected value is between 0 and 1, got {_progress}. Clamping.");
+            _progress = Mathf.Clamp01(_progress);
         }
-        if (Progress != ProgressImage.fillAmount)
+        if (_progress != ProgressImage.fillAmount)
         {
             if (AnimationCoroutine != null)
             {
                 StopCoroutine(AnimationCoroutine);
             }
-            AnimationCoroutine = StartCoroutine(AnimateProgress(Progress));
+            AnimationCoroutine = StartCoroutine(AnimateProgress(_progress));
         }
     }
 
