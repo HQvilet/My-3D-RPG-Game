@@ -2,12 +2,9 @@ using System;
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
+using EditorAttributes;
 
-public enum DmgType
-{
-    NONE,
-    FIRE
-}
+
 
 public interface IDamageObject
 {
@@ -19,17 +16,18 @@ public interface IDamageObject
 
     void AddHealth(float healthPoint);
 }
-
+ 
 
 public class BaseDamageableObject : MonoBehaviour
 {
 
-    [SerializeField] HealthBarMeshRenderer healthBar;
     [SerializeField] CharacterStats _stats;
 
     [SerializeField] protected BaseEffectModifier effectModifier;
 
-    [SerializeField] protected float _currentHealth;
+    public event Action<float, float> OnHealthChange = delegate{};
+    public event Action OnEntityDied = delegate{};
+    [ReadOnly] [SerializeField] protected float _currentHealth;
     public float CurrentHealth
     {
         get => _currentHealth;
@@ -39,90 +37,48 @@ public class BaseDamageableObject : MonoBehaviour
             if (value <= 0)
                 OnDied();
             _currentHealth = Mathf.Clamp(value, 0, MaxHealth);
-            healthBar?.SetProgress(_currentHealth / MaxHealth);
+            OnHealthChange?.Invoke(_currentHealth, MaxHealth);
         }
     }
 
-
-    [SerializeField] protected float _maxHealth = 100f;
     public float MaxHealth
     {
         get
         {
             if (_stats != null)
                 return _stats.Health;
-            return _maxHealth;
+            return 100;
         }
     }
-    [SerializeField] protected float _health;
+    
     void Start()
     {
-        InitObject();
+        ResetHealthState();
     }
 
-    void Update()
-    {
-        _health = MaxHealth;
-    }
 
-    protected virtual void InitObject() => CurrentHealth = MaxHealth;
+    public void ResetHealthState() => CurrentHealth = MaxHealth;
 
-    public virtual void OnGetHit(DamageModifier damageVerifier)
-    {
-        effectModifier.SerilizeEffectSource(damageVerifier);
-    }
 
     public virtual void OnTakeDamage(float damage, DmgType type = 0)
     {
         CurrentHealth -= damage;
-        DamageSpawner.Instance.VisualizeDamage(transform.position + Vector3.up * 0.1f + MyUtils.RandomizeVector3() * 1.9f, damage);
+        GameUIManager.Instance.damageVisualization.CreateVisualizeDamage(transform.position + Vector3.up * 1.1f, damage, type);
+    }
+
+    public virtual void OnGetHeal(float healAmount)
+    {
+        CurrentHealth += healAmount;
+        GameUIManager.Instance.damageVisualization.CreateVisualizeDamage(transform.position + Vector3.up * 1.1f, healAmount, DmgType.HEAL);
     }
 
     protected virtual void OnDied()
     {
-        // Destroy(gameObject);
-        // Debug.Log("Enemy died");
+        OnEntityDied?.Invoke();
     }
 
     void OnDestroy()
     {
         transform.DOKill();
-    }
-
-    void OnEnable()
-    {
-        effectModifier.OnTakePhysicDamage += OnTakePhysicalDmg;
-        effectModifier.OnTakeFireDamage += OnTakeFireDamage;
-        effectModifier.OnGetKnockBack += OnGetKnockBack;
-    }
-
-    private void OnTakeFireDamage(float damageFactor, float time)
-    {
-        // if(!effectModifier.isOnFire)
-        StartCoroutine(GetBurn(damageFactor, time));
-    }
-    IEnumerator GetBurn(float dmg, float time)
-    {
-        // float time = 2.1f;
-        effectModifier.isOnFire = true;
-        while (time > 0)
-        {
-            time -= 0.2f;
-            OnTakeDamage(dmg);
-            yield return new WaitForSeconds(0.1f);
-        }
-        effectModifier.isOnFire = false;
-    }
-
-    private void OnGetKnockBack(float damageFactor)
-    {
-        // Transform obj = transform;
-        // if (obj != null)
-        //     obj.DOMove(obj.transform.position + obj.forward * -1 * damageFactor, 0.1f).onKill += () => { };
-    }
-
-    private void OnTakePhysicalDmg(float damageFactor)
-    {
-        OnTakeDamage(damageFactor);
     }
 }

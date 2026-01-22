@@ -11,18 +11,15 @@ public class CharacterStateHandler : MonoBehaviour
     public Action OnMeleeFinishedCombo;
     public Action OnMeleeCompletedState;
 
-    public Action OnAiming;
-
     public Action<string> OnAnimationEvent;
 
     public Action<EntityComponent> OnHitTarget;
-    public Action<EntityComponent> OnGetHit;
 
-
-
-    public bool CanJump = true;
-    public bool CanAttack = true;
-    public bool CanDash = true;
     public bool CanMove = true;
+    public bool CanRoll = true;
     public bool AllowToInterupt = true;
+    public bool IsAttacking = false;
+
+    //handle animation interupt
+    public float animationResistance = 0f;
 }

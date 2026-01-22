@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   authenticatedOwner: {fileID: 0}
-  weaponPrefs:
-  - {fileID: 6472871015938259657, guid: 0b5abe4607acf4148b589289e4904f6f, type: 3}
-  - {fileID: 2365803999437445606, guid: 7b6429a6508609046aa76715e1951b91, type: 3}
+  weaponRefData: {fileID: 0}
+  weaponRefs:
+  - {fileID: 11400000, guid: 5be0f0d189b46dd4c8f982a0de51fd9d, type: 2}
+  - {fileID: 11400000, guid: c00fcdb3a64a8d34681d64a6800a08bc, type: 2}
   weaponSet: []

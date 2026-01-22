@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class HealthBar : MonoBehaviour
 {
-
+    [SerializeField] EntityComponent healthObject;
     [SerializeField] private ProgressBar _healthBar;
 
     void Start()
     {
-        // SetUpHealthBar();
+        healthObject.damageableObject.OnHealthChange += (currentHealth, maxHealth) =>
+        {
+            SetProgress(currentHealth/ maxHealth);  
+        };
     }
-
-    private void Update()
-    {
-        transform.LookAt(CameraCaching.mainCamera.transform ,Vector3.up);
-    }
-
 
     private void SetUpHealthBar()
     {

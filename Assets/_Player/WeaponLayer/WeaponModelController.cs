@@ -21,28 +21,44 @@ public class WeaponModelConfig : MonoBehaviour
         weapon.localEulerAngles = Vector3.zero;
     }
 
-    public void SetLeftHandedWeapon(Transform weaponModel, Vector3 offset = default(Vector3))
+    public void SetLeftHandedWeapon(Transform weaponModel, bool useLocalTransform = true)
     {
+        weaponModel.GetLocalPositionAndRotation(out Vector3 localPosition, out Quaternion localRotation);
         weaponModel.SetParent(leftHandWeapon);
-        // weaponModel.localPosition = offset;
-        weaponModel.localPosition = Vector3.zero;
-        weaponModel.localEulerAngles = Vector3.zero;
+        if(useLocalTransform)
+        {
+            weaponModel.localPosition = localPosition;
+            weaponModel.localRotation = localRotation;            
+        }
+        else
+        {
+            
+        }
+        
     }
 
-    public void SetRightHandedWeapon(Transform weaponModel ,Vector3 offset = default(Vector3))
+    public void SetRightHandedWeapon(Transform weaponModel, bool useLocalTransform = true)
     {
+        weaponModel.GetLocalPositionAndRotation(out Vector3 localPosition, out Quaternion localRotation);
         weaponModel.SetParent(rightHandWeapon);
-        // weaponModel.localPosition = offset;
-        weaponModel.localPosition = Vector3.zero;
-        weaponModel.localEulerAngles = Vector3.zero;
+        if(useLocalTransform)
+        {
+            weaponModel.localPosition = localPosition;
+            weaponModel.localRotation = localRotation;            
+        }
+        else
+        {
+            weaponModel.localPosition = Vector3.zero;
+            weaponModel.localRotation = Quaternion.identity;            
+        }
     }
 
     public void SetShield(Transform weaponModel)
     {
+        weaponModel.GetLocalPositionAndRotation(out Vector3 localPosition, out Quaternion localRotation);
         weaponModel.SetParent(shieldWeapon);
-        // weaponModel.localPosition = offset;
-        weaponModel.localPosition = Vector3.zero;
-        weaponModel.localEulerAngles = Vector3.zero;
+        weaponModel.localPosition = localPosition;
+        weaponModel.localRotation = localRotation;
     }
 
     public void AddHitBoxCollider(Transform collider) // upper collider pool

@@ -5,6 +5,7 @@ using UnityEngine.Playables;
 
 public class DialogueClip : PlayableAsset
 {
+    public string actorName;
     public string context;
     public override Playable CreatePlayable(PlayableGraph graph, GameObject owner)
     {
@@ -12,6 +13,7 @@ public class DialogueClip : PlayableAsset
 
         DialogueBehaviour dialogueBehaviour = playable.GetBehaviour();
         dialogueBehaviour.context = context;
+        dialogueBehaviour.actor = actorName;
 
         return playable; 
     }

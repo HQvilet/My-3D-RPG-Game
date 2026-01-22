@@ -49,7 +49,6 @@ public class StatMediator : MonoBehaviour
     public void CalculateStats()
     {
         ResetStats();
-        Debug.Log("Do stats calculate ...");
         foreach(BasicStatsConfig stat in modifiers)
         {
             _stats[StatType.Flat_Health] += stat.flat_health;

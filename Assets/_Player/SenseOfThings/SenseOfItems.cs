@@ -3,62 +3,52 @@ using System.Collections;
 using System.Collections.Generic;
 using ItemSystem.ItemConfiguration;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class SenseOfItems : MonoBehaviour
+public class SenseOfInteractable : MonoBehaviour
 {
-    [SerializeField] private float Radius = 10f;
+    [SerializeField] private float radius = 1f;
     [SerializeField] private LayerMask layer;
+    [SerializeField] InputAction interactAction;
 
-    void Awake()
+    void Start()
     {
-        Bus<OnCollectEvent>.AddRegister(RES);
-    }
-
-    private void RES(OnCollectEvent @event)
-    {
-        Debug.Log(@event.item);
+        interactAction.Enable();
     }
 
     void Update()
     {
-        if (InputDataHandler.Instance.PlayerInput.Interact.WasPerformedThisFrame())
+        Collider[] colliders = Physics.OverlapSphere(transform.parent.position ,radius ,layer);
+        foreach(Collider collideInfo in colliders)
         {
-            Collider[] colliders = Physics.OverlapSphere(transform.parent.position ,Radius ,layer);
+            if(collideInfo.TryGetComponent(out BasicItem item))
+            {
+                if(InventoryManager.Instance.TryAddItemByCategories(item._itemData ,1))
+                    Destroy(item.gameObject);
+            }
+        }
+        if(interactAction.WasPerformedThisFrame())
+        {
             foreach(Collider collideInfo in colliders)
             {
-                if(collideInfo.TryGetComponent(out BasicItem item))
+                if(collideInfo.TryGetComponent(out IInteractable i))
                 {
-                    //Send Data to UI
-                    OnPickUpItem(item);
+                    i.Interact();
                     break;
-                    
-                }else if(collideInfo.TryGetComponent(out CustomItem c_item))
-                {
-                    OnPickUpArmourItem(c_item);
-                    break;
-                    
                 }
-                
             }
         }
         
     }
 
-    void OnPickUpItem(BasicItem item)
+    void OnPickUpItem(ItemData item)
     {
-        InventoryManager.Instance.AddItemByCategories(item.ItemData ,1);
-        Debug.Log("Add Item " + item.ItemData.Name);
-        Destroy(item.gameObject);
-    }
-
-    void OnPickUpArmourItem(CustomItem item)
-    {
-        InventoryManager.Instance.AddArmourItem(item.armourRef);
-        Destroy(item.gameObject);
+        InventoryManager.Instance.TryAddItemByCategories(item ,1);
     }
 
     void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.parent.position ,Radius);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.parent.position ,radius);
     }
 }

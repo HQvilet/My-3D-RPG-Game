@@ -6,25 +6,36 @@ using UnityEditor.Rendering;
 using UnityEngine;
 
 
-// Handle all character's effects
-// Caculate damage
-// classify damage
 
-public enum EffectType
-{
-    BURN, SLOW, POISON, FREEZE
-}
 
 public class BaseEffectModifier : MonoBehaviour
 {
-    // Debuff state handler
-    public bool isOnFire;
-    public bool isStunning;
-    public bool isGetKnockback;
 
     [SerializeField] BaseDamageableObject damageableObject;
 
-    public HashSet<string> effects = new(); // Handle object effects status more effective than hard-coded boolen check
+    // Handle object effects status more effective than hard-coded boolen check
+    public HashSet<string> effects = new();
+    
+    public bool isInvincible;
+    public bool canDamage = true;
+    public float invincibleTime;
+    public void SetInvincibleTime(float time)
+    {
+        isInvincible = true;
+        invincibleTime = Mathf.Max(invincibleTime, time);
+    }
+
+    void Update()
+    {
+        if(invincibleTime > 0)
+        {
+            invincibleTime -= Time.deltaTime;
+            if(invincibleTime <= 0)
+                isInvincible = false;                
+        }
+        
+    }
+
     public void AddEffect(string effect)
     {
         if (!effects.Add(effect))
@@ -35,64 +46,52 @@ public class BaseEffectModifier : MonoBehaviour
 
     public void RemoveEffect(string effect)
     {
-        if (effects.Remove(effect))
+        if (!effects.Remove(effect))
         {
             Debug.Log("No effect name " + effect + " found.");
         }
     }
 
-    // On efffect target callbacks
-
-    public Action<float> OnTakePhysicDamage;
-    public Action<float, float> OnTakeFireDamage;
-    public Action<float> OnGetKnockBack;
-
-    public Action<float> OnGetDoTDamage; //time between
-
-
-    //mixed damage 
-    public void SerilizeEffectSource(DamageModifier damage)
+    // On efffect target callbacks 
+    public bool AllowDamage(float dmg, EntityComponent sourceDamage, DmgType type = DmgType.NONE)
     {
-        if (damage.physicalDamage > 0) OnTakePhysicDamage?.Invoke(damage.physicalDamage);
+        if(effects.Contains("Parrying"))
+        {
+            if(Vector3.Dot((sourceDamage.transform.position - transform.position).normalized, transform.forward) > 0.25f)
+            {
+                return false;
+            }            
+        }
 
-        if (damage.fireDamage > 0) OnTakeFireDamage?.Invoke(damage.fireDamage, 2);
+        if(isInvincible)
+            return false;
 
-        if (damage.knockBack > 0) OnGetKnockBack?.Invoke(damage.knockBack);
+        if(!canDamage)
+            return false;
+
+        return true;
     }
 
-    public void GetDamage(float dmg, string type = "")
+    public Action<float, EntityComponent, DmgType> OnTakeDamage;
+    public Action<float, EntityComponent, DmgType> OnGetHit;
+
+    public void GetDamage(float dmg, EntityComponent sourceDamage, DmgType type = DmgType.NONE)
     {
-        damageableObject.OnTakeDamage(dmg, DmgType.NONE);
+        if(AllowDamage(dmg, sourceDamage, type))
+        {
+            damageableObject.OnTakeDamage(dmg, type);
+            OnTakeDamage?.Invoke(dmg, sourceDamage, type);            
+        }
+        OnGetHit?.Invoke(dmg, sourceDamage, type);
+
     }
 
-    public void GetDamage(DamageModifier damageModifier)
+    public void GetDamage(List<DamageVerifier> damages)
     {
-
+        damages.ForEach(dmg =>
+        {
+           damageableObject.OnTakeDamage(dmg.amount, dmg.type); 
+        });
     }
 
-    // public void GetDoT(float dmg, string type, float timeBetween)
-    // {
-    //     if(!currentDoTEffeects.ContainsKey(type))
-    //         currentDoTEffeects.Add(type, Timing.RunCoroutine(DoTEnumerator(dmg, timeBetween)));
-    // }
-
-    // IEnumerator<float> DoTEnumerator(float dmg, float timeBetween)
-    // {
-    //     float time = 100f; // effect max live time 
-    //     while (time >= 0f)
-    //     {
-    //         time -= Time.deltaTime;
-    //         damageableObject.OnTakeDamage(dmg);
-    //         yield return Timing.WaitForSeconds(timeBetween);
-    //     }
-    // }
-
-    // public void StopDoT(string type)
-    // {
-    //     if (currentDoTEffeects.TryGetValue(type, out CoroutineHandle coroutine))
-    //     {
-    //         Timing.KillCoroutines(coroutine);
-    //         currentDoTEffeects.Remove(type);
-    //     }
-    // }
 }

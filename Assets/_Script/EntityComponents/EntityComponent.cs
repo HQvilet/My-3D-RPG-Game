@@ -1,22 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 // Entity meta data
 public class EntityComponent : MonoBehaviour
 {
+    public int groupType;
     // World interaction data
     public CharacterStats characterStats;
     public CharacterStateHandler stateHandler;
     public BaseDamageableObject damageableObject;
     public BaseEffectModifier effectModifier;
-
-    // World physic interaction data
-    [SerializeField] private InputDataHandler input;
-    public PlayerInputAction.PlayerActions TryGetEntityInput() => input.PlayerInput;
-    
-    [SerializeField] private PlayerAnimationSystem _entityAnimatorModifier;
-    public PlayerAnimationSystem GetModifiableAnimator() => _entityAnimatorModifier;
 
 }

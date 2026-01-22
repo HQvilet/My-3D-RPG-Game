@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.Experimental.GraphView;
 
 namespace AdvanceFSM
 {
@@ -9,8 +8,10 @@ namespace AdvanceFSM
     {
         protected StateNode current;
         protected HashSet<ITransition> anyTransitions = new();
-
+        
         Dictionary<Type, StateNode> nodes = new();
+
+        public bool Locked{get; set;}
         protected StateNode GetNode(IState state)
         {
             if (!nodes.ContainsKey(state.GetType()))
@@ -20,6 +21,8 @@ namespace AdvanceFSM
             }
             return nodes[state.GetType()];   
         }
+
+        public IState GetCurrentStateForDebugging() => current?.state;
 
         public void SetState(IState state)
         {
@@ -39,6 +42,9 @@ namespace AdvanceFSM
 
         ITransition GetValidTransition()
         {
+            if(Locked)
+                return null;
+                
             foreach (ITransition transition in anyTransitions)
                 if (transition.Condition.Evaluate())
                     return transition;

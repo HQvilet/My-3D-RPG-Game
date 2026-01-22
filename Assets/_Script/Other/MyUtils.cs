@@ -1,7 +1,10 @@
-// using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using MEC;
 using UnityEngine;
+
 public static class MyUtils
 {
     static System.Random rnd = new();
@@ -37,20 +40,56 @@ public static class MyUtils
         return new Vector3(x ?? vector.x, y ?? vector.y, z ?? vector.z);
     }
 
+    public static float ClampAngle(float lfAngle, float lfMin, float lfMax)
+    {
+        if (lfAngle < -360f) lfAngle += 360f;
+        if (lfAngle > 360f) lfAngle -= 360f;
+        return Mathf.Clamp(lfAngle, lfMin, lfMax);
+    }
+
+    public static float GetDistance(Vector3 from, Vector3 to)
+    {
+        return (from - to).magnitude;
+    }
+
+    public static float GetDistance(Transform from, Transform to)
+    {
+        return (from.position - to.position).magnitude;
+    }
+
+    public static Vector3 GetPlanePosition(Vector3 vector) => new Vector3(vector.x, 0, vector.z);
+
+    public static Vector3 GetPlaneDirection(Vector3 from, Vector3 to) => new Vector3(to.x - from.x, 0, to.z - from.z);
+
+    public static void SmoothLerp()
+    {
+        float time = 3f;
+        float t = 0f;
+        t += Time.deltaTime;
+        Vector3.Lerp(Vector3.zero, Vector3.one, t/time);
+    }
+
+    public static IEnumerator<float> WaitToAction(float duration, System.Action action)
+    {
+        yield return Timing.WaitForSeconds(duration);
+        action.Invoke();
+    }
+
+    public static IEnumerator<float> ProgressTickToAction(float duration, System.Action<float> action, System.Action onFinish = null)
+    {
+        float t = 0f;
+        while(t <= duration)
+        {
+            t += Time.deltaTime;
+            action.Invoke(t/duration);
+            yield return 0; 
+        }
+        onFinish?.Invoke();
+    }
+
+    public static T ListRandChoice<T>(List<T> list)
+    {
+        return list[Random.Range(0, list.Count)];
+    }
+
 }
-
-// public class MyCustomLerp : MonoBehaviour
-// {
-//     public float time;
-//     public float TimeValue(Func<float ,float> myFunc)
-//     {
-//         return myFunc(time);
-//     }
-
-//     public async Task StartTimer()
-//     {
-//         time = 0;
-//         while(time < 3)
-//             time += Time.deltaTime;
-//     }
-// }

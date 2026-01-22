@@ -6,13 +6,13 @@ using UnityEngine.UI;
 
 public class TabGroup : MonoBehaviour
 {
-    List<MTabButton> tabButtons;
-    MTabButton isSelectingTab;
+    List<TabBinder> tabButtons;
+    TabBinder isSelectingTab;
 
     void Awake()
     {
-        tabButtons = GetComponentsInChildren<MTabButton>().ToList();
-        foreach (MTabButton tab in tabButtons)
+        tabButtons = GetComponentsInChildren<TabBinder>().ToList();
+        foreach (TabBinder tab in tabButtons)
         {
             var tabButt = tab.GetComponent<Button>();
             tabButt.onClick.AddListener(() =>

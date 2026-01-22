@@ -16,7 +16,7 @@ public class MovementUtilities
 
     public void DoMove(Vector3 move_direction, float speed, bool rotate_on_move = true)
     {
-        Vector3 look_direction = transform.position - CameraCaching.mainCamera.transform.position;
+        Vector3 look_direction = transform.position - CameraCaching.Instance.mainCamera.transform.position;
         look_direction = MyUtils.ModifyVector(look_direction, y : 0);
         Quaternion t = Quaternion.LookRotation(look_direction);
 
@@ -53,6 +53,6 @@ public class MovementUtilities
 
     public void Gravity(float gravity)
     {
-            controller.Move(Vector3.down * gravity * Time.fixedDeltaTime);
+        controller.Move(Vector3.down * gravity * Time.fixedDeltaTime);
     }
 }

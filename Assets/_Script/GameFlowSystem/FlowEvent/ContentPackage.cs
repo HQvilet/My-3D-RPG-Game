@@ -19,7 +19,7 @@ public class QuestPackage : ScriptableObject, IContentPackage
 
     public void AddPackageToScene()
     {
-        QuestSystemManager.Instance.AddQuest(quest);
+        // QuestSystemManager.Instance.AddQuest(quest);
     }
 }
 
@@ -40,9 +40,9 @@ public class DialoguePackage : ScriptableObject, IContentPackage
     public void AddPackageToScene()
     {
         // MetaData.FindNPCWithName<T>("")
-        var t = NPCManager.Instance.GetNPCWithName(targetName).GetInteractAction() as DialogueTriggerInteract;
-        if (t == null)
-            return;
-        t.SetDialogueAsset(asset);
+        // var t = NPCManager.Instance.GetNPCWithName(targetName).GetInteractAction() as DialogueTriggerInteract;
+        // if (t == null)
+        //     return;
+        // t.SetDialogueAsset(asset);
     }
 }

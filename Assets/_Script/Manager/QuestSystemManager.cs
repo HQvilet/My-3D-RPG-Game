@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace QuestSystem
 {
-    public class QuestSystemManager : Singleton<QuestSystemManager>
+    public class QuestSystemManager : MonoBehaviour
     {
         public List<BaseQuest> quests;
         public QuestSystemUI questUI;

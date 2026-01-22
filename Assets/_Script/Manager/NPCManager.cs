@@ -1,20 +1,19 @@
 using System;
 using System.Collections.Generic;
-using AYellowpaper.SerializedCollections.Editor.Search;
 using UnityEngine;
 
 namespace NPCSystem
 {
-    public class NPCManager : Singleton<NPCManager>
+    public class NPCManager : MonoBehaviour
     {
-        Dictionary<string, InteractableNPC> myDict_NPCs = new();
+        Dictionary<string, InteractableEventEmitter> myDict_NPCs = new();
 
-        public void AddWorldDataNPC(InteractableNPC npc)
+        public void AddWorldDataNPC(InteractableEventEmitter npc)
         {
-            myDict_NPCs.TryAdd(npc.Data.name, npc);
+            // myDict_NPCs.TryAdd(npc.Data.name, npc);
         }
 
-        public InteractableNPC GetNPCWithName(string name)
+        public InteractableEventEmitter GetNPCWithName(string name)
         {
             return myDict_NPCs.GetValueOrDefault(name);
         }

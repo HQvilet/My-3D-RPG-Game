@@ -21,6 +21,7 @@ public class AgentRootMovement : MonoBehaviour
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         animator.applyRootMotion = true;
         agent.speed = 0;
     }
@@ -39,12 +40,8 @@ public class AgentRootMovement : MonoBehaviour
         Vector3 deltaPos = animator.deltaPosition;
         Vector3 predictPos = agent.steeringTarget;
         
-        if (!(predictPos - transform.position).Equals(Vector3.zero) && RotateTowardMovement)
+        if ((predictPos - transform.position).magnitude > 0.05f && RotateTowardMovement)
             agent.transform.DOLookAt(MyUtils.ModifyVector(predictPos, y:transform.position.y), 0.4f);
-
-        // Debug.DrawLine(agent.nextPosition,agent.nextPosition + Vector3.up * 10f, Color.red);
-        // Debug.DrawLine(agent.steeringTarget,agent.steeringTarget +  Vector3.up * 10f, Color.yellow);
-
 
         if ((agent.destination - transform.position).magnitude < 0.4f)
         {
@@ -58,10 +55,16 @@ public class AgentRootMovement : MonoBehaviour
         {
             once = true;
         }
-
         controller.Move(deltaPos);
-        
     }
+
+    public Vector3 GetLookDirection()
+    {
+        return (agent.steeringTarget - transform.position).normalized;
+    }
+
+    public void IgnoreAgent() => agent.enabled = false;
+    public void UseAgent() => agent.enabled = true;
     
     // private void SynchronizeAnimatorAndAgent()
     // {

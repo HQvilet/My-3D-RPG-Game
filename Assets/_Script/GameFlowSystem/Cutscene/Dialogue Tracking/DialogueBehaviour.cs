@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class DialogueBehaviour : PlayableBehaviour
 {
+    public string actor;
     public string context;
     public override void ProcessFrame(Playable playable, FrameData info, object playerData)
     {
@@ -35,6 +36,7 @@ public class DialogueTrackMixer : PlayableBehaviour
                 DialogueBehaviour input = inputPlayable.GetBehaviour();
 
                 currentWeight = inputWeight;
+                dialogueBox.SetSpeaker(input.actor);
                 dialogueBox.SetText(input.context);
             }
         }

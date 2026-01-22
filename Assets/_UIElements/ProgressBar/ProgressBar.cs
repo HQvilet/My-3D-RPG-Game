@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MEC;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,7 @@ public class ProgressBar : MonoBehaviour
     [SerializeField] private float Speed;
 
     [SerializeField] private Gradient ColorGradient;
-    private Coroutine AnimationCoroutine;
+    private CoroutineHandle AnimationCoroutine;
     
     private event Action<float> OnProgress;
     private event Action OnProgressCompleted;
@@ -31,13 +32,14 @@ public class ProgressBar : MonoBehaviour
         {
             if (AnimationCoroutine != null)
             {
-                StopCoroutine(AnimationCoroutine);
+                Timing.PauseCoroutines(AnimationCoroutine);
             }
-            AnimationCoroutine = StartCoroutine(AnimateProgress(_progress));
+            
+            AnimationCoroutine = Timing.RunCoroutine(AnimateProgress(_progress).CancelWith(gameObject));
         }
     }
 
-    private IEnumerator AnimateProgress(float Progress)
+    private IEnumerator<float> AnimateProgress(float Progress)
     {
         float time = 0f;
         float initialProgress = ProgressImage.fillAmount;
@@ -50,7 +52,7 @@ public class ProgressBar : MonoBehaviour
             ProgressImage.color = ColorGradient.Evaluate(1 - ProgressImage.fillAmount);
 
             OnProgress?.Invoke(ProgressImage.fillAmount);
-            yield return null;
+            yield return 0;
         }
 
         ProgressImage.fillAmount = Progress;

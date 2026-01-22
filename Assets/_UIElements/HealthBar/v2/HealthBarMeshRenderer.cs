@@ -5,7 +5,17 @@ using UnityEngine;
 public class HealthBarMeshRenderer : MonoBehaviour
 {
 
+    [SerializeField] BaseDamageableObject healthObject;
+
     [SerializeField] ProgressMeshRenderer progressMesh;
+
+    void Start()
+    {
+        healthObject.OnHealthChange += (currentHealth, maxHealth) =>
+        {
+            SetProgress(currentHealth/ maxHealth);  
+        };
+    }
 
     public void SetProgress(float progress)
     {
@@ -14,6 +24,6 @@ public class HealthBarMeshRenderer : MonoBehaviour
 
     private void Update()
     {
-        transform.LookAt(CameraCaching.mainCamera.transform ,Vector3.up);
+        transform.LookAt(CameraCaching.Instance.mainCamera.transform ,Vector3.up);
     }
 }

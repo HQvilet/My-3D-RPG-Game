@@ -5,14 +5,14 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public class ContentManager : Singleton<ContentManager>
+public class ContentManager : MonoBehaviour
 {
 
     // Dictionary<string, ICotent
 
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
+        // base.Awake();
         Bus<IContentPackageRequest>.AddRegister(OnContentRequested);
         // Path = path;
     }

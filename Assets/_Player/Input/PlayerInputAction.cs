@@ -82,15 +82,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""OnCursorMove"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""376caa93-02f4-4fb3-b86c-189b2d85d055"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Dash"",
                     ""type"": ""Button"",
                     ""id"": ""4269ec3d-c8eb-4f15-b28a-85a807725556"",
@@ -100,18 +91,18 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Parry"",
+                    ""name"": ""AbilitySwap"",
                     ""type"": ""Button"",
-                    ""id"": ""816c9efc-4672-4ee7-b5e3-c43c59b3b9bc"",
+                    ""id"": ""7c8fb094-d24e-4636-870e-4543b882f974"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Cast"",
+                    ""name"": ""WeaponSwap"",
                     ""type"": ""Button"",
-                    ""id"": ""ebb3f12a-0dd9-430a-9bcb-3d9f9944ddcb"",
+                    ""id"": ""2433c24b-8637-40a4-bd04-4e0a5c4f5d66"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -198,17 +189,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""0f71589c-a314-41ed-9a3e-776d67b2549d"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""OnCursorMove"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""dd4d282f-73fd-40ad-88fe-38b29457ce7f"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
@@ -242,17 +222,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""d8245655-2ed7-4596-9345-e099f5919e17"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Interact"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""589719d6-b7a3-43f4-934d-9bf7a3921e6f"",
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
@@ -264,23 +233,23 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""228acbb8-86cb-468c-a29b-bea7c62262e7"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""id"": ""c84a2d17-e5a3-4332-99bb-811c627fe6c2"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Parry"",
+                    ""action"": ""AbilitySwap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""cc38b832-9e75-4a4d-a841-4aace6464a45"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""id"": ""a16cb839-1658-4fbc-992a-099641763e00"",
+                    ""path"": ""<Keyboard>/tab"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Cast"",
+                    ""action"": ""WeaponSwap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -294,6 +263,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""name"": ""WeaponIndexSlot"",
                     ""type"": ""Button"",
                     ""id"": ""0f0730e3-c19f-4d5c-afc3-1d01634db55c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChangeAbility"",
+                    ""type"": ""Button"",
+                    ""id"": ""0a17e19b-35e6-4678-9c8f-ba12d5c43b08"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -344,6 +322,17 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""WeaponIndexSlot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0a3a65a1-7bb2-4e9b-aada-6fdeb76551a9"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeAbility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -358,13 +347,13 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
-        m_Player_OnCursorMove = m_Player.FindAction("OnCursorMove", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
-        m_Player_Parry = m_Player.FindAction("Parry", throwIfNotFound: true);
-        m_Player_Cast = m_Player.FindAction("Cast", throwIfNotFound: true);
+        m_Player_AbilitySwap = m_Player.FindAction("AbilitySwap", throwIfNotFound: true);
+        m_Player_WeaponSwap = m_Player.FindAction("WeaponSwap", throwIfNotFound: true);
         // UIInteraction
         m_UIInteraction = asset.FindActionMap("UIInteraction", throwIfNotFound: true);
         m_UIInteraction_WeaponIndexSlot = m_UIInteraction.FindAction("WeaponIndexSlot", throwIfNotFound: true);
+        m_UIInteraction_ChangeAbility = m_UIInteraction.FindAction("ChangeAbility", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -432,10 +421,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Attack;
-    private readonly InputAction m_Player_OnCursorMove;
     private readonly InputAction m_Player_Dash;
-    private readonly InputAction m_Player_Parry;
-    private readonly InputAction m_Player_Cast;
+    private readonly InputAction m_Player_AbilitySwap;
+    private readonly InputAction m_Player_WeaponSwap;
     public struct PlayerActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -446,10 +434,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
-        public InputAction @OnCursorMove => m_Wrapper.m_Player_OnCursorMove;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
-        public InputAction @Parry => m_Wrapper.m_Player_Parry;
-        public InputAction @Cast => m_Wrapper.m_Player_Cast;
+        public InputAction @AbilitySwap => m_Wrapper.m_Player_AbilitySwap;
+        public InputAction @WeaponSwap => m_Wrapper.m_Player_WeaponSwap;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -477,18 +464,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
-            @OnCursorMove.started += instance.OnOnCursorMove;
-            @OnCursorMove.performed += instance.OnOnCursorMove;
-            @OnCursorMove.canceled += instance.OnOnCursorMove;
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
-            @Parry.started += instance.OnParry;
-            @Parry.performed += instance.OnParry;
-            @Parry.canceled += instance.OnParry;
-            @Cast.started += instance.OnCast;
-            @Cast.performed += instance.OnCast;
-            @Cast.canceled += instance.OnCast;
+            @AbilitySwap.started += instance.OnAbilitySwap;
+            @AbilitySwap.performed += instance.OnAbilitySwap;
+            @AbilitySwap.canceled += instance.OnAbilitySwap;
+            @WeaponSwap.started += instance.OnWeaponSwap;
+            @WeaponSwap.performed += instance.OnWeaponSwap;
+            @WeaponSwap.canceled += instance.OnWeaponSwap;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -511,18 +495,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
-            @OnCursorMove.started -= instance.OnOnCursorMove;
-            @OnCursorMove.performed -= instance.OnOnCursorMove;
-            @OnCursorMove.canceled -= instance.OnOnCursorMove;
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
-            @Parry.started -= instance.OnParry;
-            @Parry.performed -= instance.OnParry;
-            @Parry.canceled -= instance.OnParry;
-            @Cast.started -= instance.OnCast;
-            @Cast.performed -= instance.OnCast;
-            @Cast.canceled -= instance.OnCast;
+            @AbilitySwap.started -= instance.OnAbilitySwap;
+            @AbilitySwap.performed -= instance.OnAbilitySwap;
+            @AbilitySwap.canceled -= instance.OnAbilitySwap;
+            @WeaponSwap.started -= instance.OnWeaponSwap;
+            @WeaponSwap.performed -= instance.OnWeaponSwap;
+            @WeaponSwap.canceled -= instance.OnWeaponSwap;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -545,11 +526,13 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_UIInteraction;
     private List<IUIInteractionActions> m_UIInteractionActionsCallbackInterfaces = new List<IUIInteractionActions>();
     private readonly InputAction m_UIInteraction_WeaponIndexSlot;
+    private readonly InputAction m_UIInteraction_ChangeAbility;
     public struct UIInteractionActions
     {
         private @PlayerInputAction m_Wrapper;
         public UIInteractionActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
         public InputAction @WeaponIndexSlot => m_Wrapper.m_UIInteraction_WeaponIndexSlot;
+        public InputAction @ChangeAbility => m_Wrapper.m_UIInteraction_ChangeAbility;
         public InputActionMap Get() { return m_Wrapper.m_UIInteraction; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -562,6 +545,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @WeaponIndexSlot.started += instance.OnWeaponIndexSlot;
             @WeaponIndexSlot.performed += instance.OnWeaponIndexSlot;
             @WeaponIndexSlot.canceled += instance.OnWeaponIndexSlot;
+            @ChangeAbility.started += instance.OnChangeAbility;
+            @ChangeAbility.performed += instance.OnChangeAbility;
+            @ChangeAbility.canceled += instance.OnChangeAbility;
         }
 
         private void UnregisterCallbacks(IUIInteractionActions instance)
@@ -569,6 +555,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @WeaponIndexSlot.started -= instance.OnWeaponIndexSlot;
             @WeaponIndexSlot.performed -= instance.OnWeaponIndexSlot;
             @WeaponIndexSlot.canceled -= instance.OnWeaponIndexSlot;
+            @ChangeAbility.started -= instance.OnChangeAbility;
+            @ChangeAbility.performed -= instance.OnChangeAbility;
+            @ChangeAbility.canceled -= instance.OnChangeAbility;
         }
 
         public void RemoveCallbacks(IUIInteractionActions instance)
@@ -594,13 +583,13 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
-        void OnOnCursorMove(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
-        void OnParry(InputAction.CallbackContext context);
-        void OnCast(InputAction.CallbackContext context);
+        void OnAbilitySwap(InputAction.CallbackContext context);
+        void OnWeaponSwap(InputAction.CallbackContext context);
     }
     public interface IUIInteractionActions
     {
         void OnWeaponIndexSlot(InputAction.CallbackContext context);
+        void OnChangeAbility(InputAction.CallbackContext context);
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MEC;
 using UnityEngine;
 
 
@@ -20,7 +21,7 @@ public class ProgressMeshRenderer : MonoBehaviour
 
     [SerializeField] float _speed;
 
-    private Coroutine AnimationCoroutine;
+    private CoroutineHandle AnimationCoroutine;
     
     private event Action<float> OnProgress;
     private event Action OnProgressCompleted;
@@ -42,13 +43,14 @@ public class ProgressMeshRenderer : MonoBehaviour
         {
             if (AnimationCoroutine != null)
             {
-                StopCoroutine(AnimationCoroutine);
+                Timing.PauseCoroutines(AnimationCoroutine);
             }
-            AnimationCoroutine = StartCoroutine(AnimateProgress(_progress));
+            if(gameObject.activeInHierarchy)
+                AnimationCoroutine = Timing.RunCoroutine(AnimateProgress(_progress).CancelWith(gameObject));
         }
     }
 
-    private IEnumerator AnimateProgress(float Progress)
+    private IEnumerator<float> AnimateProgress(float Progress)
     {
         float time = 0f;
         float initialProgress = fillAmount;
@@ -61,7 +63,7 @@ public class ProgressMeshRenderer : MonoBehaviour
             // ProgressImage.color = ColorGradient.Evaluate(1 - ProgressImage.fillAmount);
 
             OnProgress?.Invoke(fillAmount);
-            yield return null;
+            yield return 0;
         }
 
         fillAmount = Progress;
@@ -70,4 +72,5 @@ public class ProgressMeshRenderer : MonoBehaviour
         OnProgress?.Invoke(Progress);
         OnProgressCompleted?.Invoke();
     }
+
 }

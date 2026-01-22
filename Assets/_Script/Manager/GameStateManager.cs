@@ -1,27 +1,72 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using EditorAttributes;
+using GameSaveLoadSystem;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 
-public class GameStateManager : Singleton<GameStateManager>
+public class GameManager : Singleton<GameManager>
 {
+
     public Action OnGamePaused;
     public Action OnGameResumed;
-    public UnityAction<float> ltest;
-    public UnityEvent<GameObject> ltest1;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        // LoadGame();
+        DontDestroyOnLoad(gameObject);
+    }
+
+    public void EnterMainGamePlay()
+    {
+        SceneManager.LoadSceneAsync(1);
+        Time.timeScale = 1f;
+    }
+
+
+    public void BackToMainMenu()
+    {
+        SceneManager.LoadSceneAsync(0);
+        Time.timeScale = 1f;
+    }
+
     public void Pause()
     {
         Time.timeScale = 0f;
         OnGamePaused?.Invoke();
-        Debug.Log("paused");
     }
 
     public void Resume()
     {
         Time.timeScale = 1f;
         OnGameResumed?.Invoke();
-        Debug.Log("resume");
+    }
+
+    [Button("Load")]
+    public void LoadGame()
+    {
+        GameDataManager.Load();
+    }
+
+    [Button("Save")]
+    public void SaveGame()
+    {
+        GameDataManager.Save();
+    }
+
+    [Button("Quit")]
+    void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    void OnApplicationQuit()
+    {
+        SaveGame();
     }
 }
